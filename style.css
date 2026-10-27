@@ -55,3 +55,17 @@
 @media(prefers-reduced-motion:reduce){.die.proc-active,.god-card.proc-active{animation:none}.score-fly{display:none}}
 
 .collection-tabs{gap:10px;flex-wrap:wrap}
+
+/* Color provenance stays inspectable without adding a row to the SE table. */
+.palette-status{border:1px solid #ffffff30;background:#101c1b55;color:#f2e6c9;border-radius:7px;padding:6px 8px;cursor:pointer;text-align:right;max-width:180px;flex-shrink:0;font:inherit}.palette-status strong{display:block;font-size:10px;font-weight:500;line-height:1.3}.palette-counts{display:flex;justify-content:flex-end;gap:7px;font-size:10px;margin-top:4px}.palette-counts>span{display:inline-flex;align-items:center;gap:3px}.palette-counts i{display:inline-block;width:7px;height:7px;border-radius:50%;border:1px solid #ffffff55}.palette-status:focus-visible{outline:2px solid #e7bd6c;outline-offset:3px}
+@media (max-width:700px) and (orientation:landscape){.palette-status{padding:3px 5px;max-width:155px}.palette-status strong{font-size:8px}.palette-counts{font-size:8px;gap:4px;margin-top:2px}.palette-counts i{width:5px;height:5px}}
+@media (max-width:360px) and (orientation:portrait){.palette-status{max-width:128px;padding:4px}.palette-status strong{font-size:8px}.palette-counts{gap:4px;font-size:9px}}
+
+@media(orientation:landscape) and (max-height:500px) and (max-width:1000px){
+ body[data-phase=play] .felt-head{display:flex;align-items:center;justify-content:space-between;gap:5px;overflow:visible}
+ body[data-phase=play] .palette-status{display:flex;align-items:center;gap:5px;padding:0;border:0;background:transparent;max-width:75%;min-height:0;line-height:1}
+ body[data-phase=play] .palette-status strong{font-size:6px;line-height:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+ body[data-phase=play] .palette-counts{margin:0;font-size:6px;gap:3px;flex-shrink:0}
+ body[data-phase=play] .palette-counts i{width:4px;height:4px}
+}
+@media(orientation:landscape) and (max-height:290px) and (max-width:1000px){body[data-phase=play] .felt{grid-template-rows:10px minmax(24px,1fr) 22px 28px 12px 28px 14px}}

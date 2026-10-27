@@ -1,6 +1,6 @@
 export const GODS=[
  {id:'echo',name:'The Echo',symbol:'Ⅱ',color:'violet',price:8,text:'Scoring Pair grows this God’s +Mult by 1; Two Pair grows it by 2. Growth resets when sold.'},
- {id:'scarlet',name:'The Red Queen',symbol:'♛',color:'red',price:12,rarity:'rare',text:'All dice count as red while this God is equipped. Original colors return when sold.'},
+ {id:'scarlet',name:'The Red Queen',symbol:'♛',color:'red',price:12,rarity:'rare',text:'All dice count as red while this God is equipped. Original colors return when sold. One color-changing God at a time.'},
  {id:'ladder',name:'The Wayfarer',symbol:'↗',color:'teal',price:7,text:'Runs gain +2 Mult for every die in the Run.'},
  {id:'trinity',name:'Three Fates',symbol:'Ⅲ',color:'violet',price:8,text:'Triplets score ×3 Mult.'},
  {id:'twins',name:'The Twins',symbol:'Ⅱ',color:'gold',price:7,text:'Pair and Two Pair hands score ×2 Mult.'},
@@ -12,7 +12,7 @@ export const GODS=[
  {id:'finger',name:'The Sixth Finger',symbol:'✋',color:'teal',price:16,weight:.35,rarity:'legendary',text:'Rare: adds one extra die to your tray while equipped. Takes a God slot.'},
  {id:'bounty',name:'The Wanderer',symbol:'⌁',color:'red',price:6,text:'Earn $3 every time you score a Run.'},
  {id:'moon',name:'Blood Moon',symbol:'◉',color:'red',price:8,text:'Hands with all dice the same color score ×1.5 Mult, on top of the color bonus.'},
- {id:'inkking',name:'The Ink King',symbol:'♚',color:'teal',price:12,rarity:'rare',text:'All dice count as black. Cannot be equipped with The Red Queen.'},
+ {id:'inkking',name:'The Ink King',symbol:'♚',color:'teal',price:12,rarity:'rare',text:'All dice count as black while equipped. Original colors return when sold. One color-changing God at a time.'},
  {id:'smallfortune',name:'Small Mercies',symbol:'Ⅰ',color:'gold',price:6,text:'Each scored 1 or 2 adds +2 Mult.'},
  {id:'giant',name:'The Colossus',symbol:'Ⅵ',color:'violet',price:7,text:'Each scored 6 adds +18 Chips.'},
  {id:'odd',name:'The Odd Saint',symbol:'Ⅲ',color:'red',price:7,text:'Each odd-valued scoring die adds +5 Chips and +1 Mult.'},
@@ -30,6 +30,10 @@ export const GODS=[
  {id:'scavenger',name:'The Scavenger',symbol:'♧',color:'gold',price:5,text:'Earn $1 whenever you burn a hand.'},
  {id:'undertow',name:'The Undertow',symbol:'≈',color:'teal',price:7,text:'Each reroll used this round adds +2 Mult to your scoring hands. Free rerolls count.'},
  {id:'tide',name:'The Tide',symbol:'≋',color:'teal',price:7,text:'Every blue die in your scored hand adds +8 Chips.'},
+ {id:'sapphire',name:'The Blue Regent',symbol:'♜',color:'teal',price:12,rarity:'rare',text:'All dice count as blue while equipped. Original colors return when sold. One color-changing God at a time.'},
+ {id:'aurum',name:'The Golden Sovereign',symbol:'♛',color:'gold',price:12,rarity:'rare',text:'All dice count as gold while equipped. Original colors return when sold. One color-changing God at a time.'},
+ {id:'divide',name:'The Divide',symbol:'◐',color:'red',price:9,rarity:'uncommon',text:'Restrict the tray to red and black: gold → red, blue → black. One color-changing God at a time. Original colors return when sold.'},
+ {id:'kaleidoscope',name:'The Kaleidoscope',symbol:'❖',color:'violet',price:8,rarity:'uncommon',text:'Each distinct effective color in your scoring hand adds +2 Mult. Four different colors add +8 Mult.'},
  {id:'crown',name:'The Crown',symbol:'♕',color:'gold',price:7,text:'Every gold die in your scored hand adds +1 Mult.'}
 ];
 export const ACTIONS=[
@@ -44,6 +48,12 @@ export const ACTIONS=[
  {id:'copy',name:'Carbon Copy',symbol:'❖',color:'violet',price:4,rarity:'uncommon',text:'Select two dice in order. Copy the first die’s value onto the second for this roll.'},
  {id:'red',name:'Red Seal',symbol:'●',color:'red',price:3,text:'Permanently make one selected die’s original color red.'},
  {id:'black',name:'Black Seal',symbol:'●',color:'teal',price:3,text:'Permanently make one selected die’s original color black.'},
+ {id:'blue',name:'Blue Seal',symbol:'●',color:'teal',price:3,text:'Permanently make one selected die’s original color blue. Temporary paint and color-changing Gods can still mask it.'},
+ {id:'gold',name:'Gold Seal',symbol:'●',color:'gold',price:3,text:'Permanently make one selected die’s original color gold. Temporary paint and color-changing Gods can still mask it.'},
+ {id:'veil-red',name:'Red Wash',symbol:'◌',color:'red',price:2,text:'Make one selected die count as red until the round ends, including rerolls and later hands. Overrides Gods and palette vouchers. Original color stays intact.'},
+ {id:'veil-black',name:'Black Wash',symbol:'◌',color:'violet',price:2,text:'Make one selected die count as black until the round ends, including rerolls and later hands. Overrides Gods and palette vouchers. Original color stays intact.'},
+ {id:'veil-blue',name:'Blue Wash',symbol:'◌',color:'teal',price:2,text:'Make one selected die count as blue until the round ends, including rerolls and later hands. Overrides Gods and palette vouchers. Original color stays intact.'},
+ {id:'veil-gold',name:'Gold Wash',symbol:'◌',color:'gold',price:2,text:'Make one selected die count as gold until the round ends, including rerolls and later hands. Overrides Gods and palette vouchers. Original color stays intact.'},
  {id:'rally',name:'Extra Breath',symbol:'↻',color:'teal',price:4,text:'Gain one normal reroll this round. Cannot be used while rerolls are locked.'},
  {id:'hand',name:'Last Chance',symbol:'＋',color:'red',price:5,rarity:'rare',text:'Gain one scoring hand for this round.'},
  {id:'surge',name:'Overcharge',symbol:'ϟ',color:'gold',price:4,text:'Your next scoring hand gains +30 Chips. Persists through burns until scored.'},
@@ -62,6 +72,9 @@ export const VOUCHERS=[
  {id:'actions',name:'Hidden Sleeve',symbol:'▣',color:'violet',price:12,max:1,rarity:'uncommon',text:'Unlock a fourth action-card slot.'},
  {id:'foresight',name:'Foresight',symbol:'◉',color:'violet',price:11,max:1,rarity:'uncommon',text:'Each future market refresh offers one additional Dice God.'},
  {id:'salvage',name:'Better Bargain',symbol:'↔',color:'gold',price:10,max:1,text:'Sell equipped Gods for 65% of their listed price, rounded down.'},
+ {id:'dichrome',name:'Blood & Ink License',symbol:'◐',color:'red',price:10,max:1,rarity:'uncommon',text:'For this run, gold counts as red and blue counts as black. Restricts natural colors to red/black. Mutually exclusive with Ocean & Ore. Gods and round Washes override it.'},
+ {id:'oceanore',name:'Ocean & Ore License',symbol:'◐',color:'teal',price:10,max:1,rarity:'uncommon',text:'For this run, red counts as gold and black counts as blue. Restricts natural colors to blue/gold. Mutually exclusive with Blood & Ink License. Gods and round Washes override it.'},
+ {id:'spectrum',name:'Spectrum Grant',symbol:'❖',color:'violet',price:11,max:1,rarity:'uncommon',text:'Each distinct effective color in your scored hand adds +1 Mult. Rewards keeping a varied palette.'},
  {id:'polish',name:'Polishing Cloth',symbol:'✦',color:'teal',price:10,max:1,text:'At each new Ante, permanently add +1 scoring Chip to every die currently in your tray.'}
 ];
 export function rarityOf(item){return item.rarity||'common';}

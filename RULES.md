@@ -42,7 +42,7 @@ A normal shop has **five offers**: two Gods, one Study, one action, and one vouc
 
 Clearing pays a $6/$7/$8 base reward, $2 per unused hand, and $1 interest per $5 held up to $5. Vouchers can improve payouts, interest limits, prices, action capacity, God selection, resale, or permanent chip polishing. Refreshing costs $2 initially and rises by $1 each time, resetting next round.
 
-The collection has **32 Dice Gods, 12 vouchers, and 15 action cards**. Open Rules → Card collection to inspect them. Gods use slots and work while equipped. Selling The Echo resets all its accumulated Mult; rebuying starts at zero. Selling The Sixth Finger removes its granted die, including modifications on that die.
+The collection has **36 Dice Gods, 15 vouchers, and 21 action cards**. Open Rules → Card collection to inspect them. Gods use slots and work while equipped. Selling The Echo resets all its accumulated Mult; rebuying starts at zero. Selling The Sixth Finger removes its granted die, including modifications on that die.
 
 Extra-die God/voucher offers are legendary and unavailable until Ante 2. The Sixth Finger lists at $16; A Bigger Fist starts at $18 and costs $8 more each repeat. Discounts may lower these prices. New runs can reach eight dice through four rare die vouchers and The Sixth Finger, but extra dice do not raise the hand limit.
 
@@ -50,9 +50,19 @@ Extra-die God/voucher offers are legendary and unavailable until Ante 2. The Six
 
 Each action is consumed on successful use. Most target one selected die. Carbon Copy needs two selected in order: source, then destination. Second Wind, Extra Breath, Last Chance, Overcharge, and Fortune’s Favor need no target.
 
-Blood & Ink cycles original colors red → black → blue → gold. Red Seal and Black Seal set an original color. Gold Leaf adds permanent scoring Chips; Loaded biases rolls upward, capped at six and at +2 load per die. Overcharge and Fortune’s Favor affect the next scored hand and survive burns. Extra Breath and Last Chance add temporary resources for the current round. “Permanent” means for this run.
+Blood & Ink cycles original colors red → black → blue → gold. Red, Black, Blue, and Gold Seals permanently set one selected die’s original color. The four Wash cards temporarily set a selected die’s effective color until the round ends, surviving rerolls, scoring hands, and reloads. A later Wash replaces the earlier one; permanent Seals still repaint the original underneath it. Gold Leaf adds permanent scoring Chips; Loaded biases rolls upward, capped at six and at +2 load per die. Overcharge and Fortune’s Favor affect the next scored hand and survive burns. Extra Breath and Last Chance add temporary resources for the current round. “Permanent” means for this run.
 
-Color-changing Gods override effective colors while equipped without deleting the original colors. They can enable Color Pacts.
+### Your palette and color builds
+
+Dice keep their original colors between rolls. A three-die start draws three distinct colors from red, black, blue, and gold; it cannot display all four at once. Older saved trays retain their original paint. Tap the color summary beside the round heading for visible counts, active effects, and the original/effective color of each die.
+
+Color priority is **round Wash → color-changing God → palette license → original paint**. This same effective color controls the die’s appearance, Color Pacts, same-color bonuses, color Gods, and color-fog bosses. Washes expire on entering the next round. Permanent Seals change original paint even when a God or Wash masks it.
+
+Only one color-changing God can be equipped: **Red Queen** (all red), **Ink King** (all black), **Blue Regent** (all blue), **Golden Sovereign** (all gold), or **The Divide** (gold → red, blue → black). Selling it restores the underlying colors and any palette-license effect. The Hush can silence a color God if it is your first scoring God.
+
+Choose at most one permanent palette license per run: **Blood & Ink License** maps gold → red and blue → black; **Ocean & Ore License** maps red → gold and black → blue. Licenses affect future extra dice too without deleting original colors. Gods override a license; a Wash can break its restriction for one die until the next round.
+
+For varied builds, **The Kaleidoscope** adds +2 Mult per distinct effective scoring color, and **Spectrum Grant** adds +1 per distinct effective scoring color. They stack before ×Mult effects. The Tide rewards blue dice and The Crown rewards gold dice, complementing The Ember and The Night.
 
 ## Run modes
 

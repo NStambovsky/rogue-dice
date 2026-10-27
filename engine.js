@@ -1,8 +1,8 @@
-import {BOSSES,BOSS_ROUNDS,bossFor,drawBoss} from './bosses.js?v=5';
-export {BOSSES,BOSS_ROUNDS,bossFor} from './bosses.js?v=5';
-import {GODS,ACTIONS,VOUCHERS,weightedPick} from './catalog.js?v=5';
-export {GODS,ACTIONS,VOUCHERS} from './catalog.js?v=5';
-export const VERSION=5;
+import {BOSSES,BOSS_ROUNDS,bossFor,drawBoss} from './bosses.js?v=6';
+export {BOSSES,BOSS_ROUNDS,bossFor} from './bosses.js?v=6';
+import {GODS,ACTIONS,VOUCHERS,weightedPick} from './catalog.js?v=6';
+export {GODS,ACTIONS,VOUCHERS} from './catalog.js?v=6';
+export const VERSION=6;
 export const COLORS=['red','black','blue','gold'];
 export const HANDS={
  high:{name:'Highest Die',chips:0,mult:1,minDice:1,chipStep:2,multStep:.25},
@@ -26,7 +26,23 @@ const scoringHas=(s,id)=>has(s,id)&&!(activeBoss(s)?.id==='silence'&&s.gods.find
 const pairUnits=kind=>kind==='twopair'?2:kind==='pair'?1:0;
 
 
-export function effectiveColor(s,d){return scoringHas(s,'inkking')?'black':scoringHas(s,'scarlet')?'red':d.color;}
+export const COLOR_GODS=['scarlet','inkking','sapphire','aurum','divide'];
+const MONO_COLORS={scarlet:'red',inkking:'black',sapphire:'blue',aurum:'gold'};
+const warm=color=>({blue:'black',gold:'red'})[color]||color;
+const cool=color=>({red:'gold',black:'blue'})[color]||color;
+export function colorDetails(s,d){
+ if(d.roundColor)return {color:d.roundColor,source:'Round Wash',temporary:true};
+ const god=COLOR_GODS.find(id=>scoringHas(s,id));
+ if(god)return {color:god==='divide'?warm(d.color):MONO_COLORS[god],source:GODS.find(g=>g.id===god).name,temporary:false};
+ if(s.vouchers.dichrome)return {color:warm(d.color),source:'Blood & Ink License',temporary:false};
+ if(s.vouchers.oceanore)return {color:cool(d.color),source:'Ocean & Ore License',temporary:false};
+ return {color:d.color,source:'Original color',temporary:false};
+}
+export const effectiveColor=(s,d)=>colorDetails(s,d).color;
+export function paletteRule(s){
+ const god=COLOR_GODS.find(id=>scoringHas(s,id));
+ return god?GODS.find(g=>g.id===god).name:s.vouchers.dichrome?'Blood & Ink License':s.vouchers.oceanore?'Ocean & Ore License':'Natural colors';
+}
 export function rollValue(d,r=Math.random){return Math.min(6,1+Math.floor(r()*6)+d.load);}
 function makeDie(s,r,source='base',color=COLORS[Math.floor(r()*COLORS.length)]){const d={id:s.nextId++,color,value:1,bonus:0,load:0,source};d.value=rollValue(d,r);return d;}
 export function newRun(r=Math.random,mode='hard'){
@@ -56,7 +72,9 @@ function calculateHand(s,dice,kind){
  if((boss?.id==='pairs'&&['pair','twopair'].includes(kind))||(boss?.id==='runs'&&kind==='run')||(boss?.id==='pacts'&&kind==='pact')||(boss?.id==='matches'&&['triplet','quad'].includes(kind)))chips=Math.floor(chips/2);
  step(`${HANDS[kind].name} Lv.${level}: base ${chips} Chips × ${mult} Mult`);
  for(const die of dice){const color=effectiveColor(s,die),blocked=(boss?.id===color+'fog')||(boss?.id==='lowfog'&&die.value<=2)||(boss?.id==='highfog'&&die.value>=5);const amount=(blocked?0:die.value)+die.bonus;chips+=amount;step(`Die ${die.value}${blocked?' · pips blocked':''}${die.bonus?' + '+die.bonus+' bonus':''}: +${amount} Chips`,'die',die.id);}
- if(scoringHas(s,'scarlet'))step('The Red Queen: scoring dice count as red','god','scarlet');if(scoringHas(s,'inkking'))step('The Ink King: scoring dice count as black','god','inkking');
+ for(const id of COLOR_GODS)if(scoringHas(s,id))step(`${GODS.find(g=>g.id===id).name}: ${id==='divide'?'red/black palette':'dice count as '+MONO_COLORS[id]} (round Washes take priority)`,'god',id);
+ if(s.vouchers.dichrome||s.vouchers.oceanore)step(`${s.vouchers.dichrome?'Blood & Ink License':'Ocean & Ore License'}: palette applied beneath Gods and Washes`,'voucher');
+ for(const die of dice)if(die.roundColor)step(`Round Wash: die ${die.id} counts as ${die.roundColor}`,'action');
  if(sameColor){if(activeBoss(s)?.id==='pale')step('The Pale House: color +2 Mult blocked','boss');else{mult+=2;step('Same color: +2 Mult','color');}}
  if(s.roundEffects.nextChips){chips+=s.roundEffects.nextChips;step(`Overcharge: +${s.roundEffects.nextChips} Chips`,'action','surge');}
  if(s.roundEffects.nextMult){mult+=s.roundEffects.nextMult;step(`Fortune’s Favor: +${s.roundEffects.nextMult} Mult`,'action','blessing');}
@@ -75,6 +93,9 @@ function calculateHand(s,dice,kind){
  if(scoringHas(s,'balance')&&!sameColor)addGod('balance',0,4);
  if(scoringHas(s,'banker'))addGod('banker',0,Math.min(8,Math.floor(s.money/5)));
  if(scoringHas(s,'prism')&&sameColor)addGod('prism',dice.length*10);
+ const distinctColors=new Set(dice.map(d=>effectiveColor(s,d))).size;
+ if(scoringHas(s,'kaleidoscope'))addGod('kaleidoscope',0,distinctColors*2);
+ if(s.vouchers.spectrum){mult+=distinctColors;step(`Spectrum Grant: ${distinctColors} colors, +${distinctColors} Mult`,'voucher','spectrum');}
  if(scoringHas(s,'undertow'))addGod('undertow',0,s.rerollsThisRound*2);
  for(const [id,when,factor] of [
   ['twins',pairUnits(kind)>0,2],['trinity',kind==='triplet',3],['fortune',s.scoredThisRound===0,2],['moon',sameColor,1.5],
@@ -100,13 +121,13 @@ function fresh(items,recent,count=1){const filtered=items.filter(item=>!recent.i
 function recordOffers(s,offers){const groups={god:'gods',upgrade:'studies',action:'actions',voucher:'vouchers'};for(const [type,key]of Object.entries(groups)){s.shopHistory[key]=[...s.shopHistory[key],...offers.filter(o=>o.type===type).map(o=>o.key)].slice(-(type==='god'?4:2));}}
 export function shopOffers(s,r=Math.random){
  const list=[],history=s.shopHistory||emptyHistory();
- const allGods=GODS.filter(g=>!has(s,g.id)&&!(g.id==='finger'&&(s.round<3||s.dice.length>=8))&&!(g.id==='scarlet'&&has(s,'inkking'))&&!(g.id==='inkking'&&has(s,'scarlet')));
+ const allGods=GODS.filter(g=>!has(s,g.id)&&!(g.id==='finger'&&(s.round<3||s.dice.length>=8))&&!(COLOR_GODS.includes(g.id)&&s.gods.some(id=>COLOR_GODS.includes(id))));
  const available=fresh(allGods,history.gods,2+s.vouchers.foresight);
  for(let i=0;i<2+s.vouchers.foresight&&available.length;i++){const g=weightedPick(available,r);available.splice(available.indexOf(g),1);list.push(offer(s,'god',g.id,g.price));}
  const studies=Object.entries(HANDS).filter(([,h])=>h.minDice<=Math.min(s.dice.length,s.maxHandSize)).map(([id])=>({id}));
  if(studies.length){const study=weightedPick(fresh(studies,history.studies),r);list.push(offer(s,'upgrade',study.id,4+Math.floor((s.levels[study.id]-1)/2)));}
  const action=weightedPick(fresh([...ACTIONS],history.actions),r);list.push(offer(s,'action',action.id,action.price));
- const vouchers=VOUCHERS.filter(v=>s.vouchers[v.id]<v.max&&!(v.id==='dice'&&(s.round<3||s.dice.length>=8)));
+ const vouchers=VOUCHERS.filter(v=>s.vouchers[v.id]<v.max&&!(v.id==='dichrome'&&s.vouchers.oceanore)&&!(v.id==='oceanore'&&s.vouchers.dichrome)&&!(v.id==='dice'&&(s.round<3||s.dice.length>=8)));
  if(vouchers.length){const v=weightedPick(fresh(vouchers,history.vouchers),r);list.push(offer(s,'voucher',v.id,v.price+(v.id==='dice'?s.vouchers.dice*8:0)));}return list;
 }
 export function scoreHand(s,ids,r=Math.random){
@@ -120,6 +141,7 @@ export function scoreHand(s,ids,r=Math.random){
 }
 export function advanceRound(s,r=Math.random){
  if(s.phase!=='shop')throw new Error('Visit the shop between rounds.');const n=copy(s);n.round++;n.phase='play';n.score=0;n.hands=n.maxHands;n.rerolls=n.maxRerolls;n.rerollsThisRound=0;n.scoredThisRound=0;n.roundEffects=emptyEffects();n.lastScore=null;n.receipt=null;n.offers=[];
+ for(const die of n.dice)delete die.roundColor;
  if(n.round%3===0&&n.vouchers.polish)for(const d of n.dice)d.bonus+=n.vouchers.polish;
  if(n.mode==='hard'&&BOSS_ROUNDS.includes(n.round)){if(!n.bossChoices[n.round])n.bossChoices[n.round]=drawBoss(n.bossChoices,n.round,r);n.bossRevealPending=true;const boss=activeBoss(n);if(boss.id==='short')n.hands=Math.max(1,n.hands-1);if(boss.id==='thin')n.rerolls=Math.max(0,n.rerolls-2);}
  for(const d of n.dice)d.value=rollValue(d,r);return n;
@@ -128,13 +150,14 @@ export function buy(s,id,r=Math.random){
  if(s.phase!=='shop')throw new Error('The shop opens between rounds.');const n=copy(s),item=n.offers.find(o=>o.id===id);if(!item||item.bought)throw new Error('That item is no longer available.');if(n.money<item.price)throw new Error('Not enough money.');
  if(item.type==='god'){
   if(n.gods.length>=4+n.vouchers.slots)throw new Error('Your Dice God slots are full. Sell one first.');if(has(n,item.key))throw new Error('You already have that God.');
-  if((item.key==='scarlet'&&has(n,'inkking'))||(item.key==='inkking'&&has(n,'scarlet')))throw new Error('Sell the other color-changing God first.');
+  if(COLOR_GODS.includes(item.key)&&n.gods.some(id=>COLOR_GODS.includes(id)))throw new Error('Sell the other color-changing God first.');
   if(item.key==='finger'&&n.dice.length>=8)throw new Error('The tray is full.');
   n.gods.push(item.key);if(item.key==='finger')n.dice.push(makeDie(n,r,'finger'));if(item.key==='echo')n.pairGrowth=0;
  }else if(item.type==='upgrade')n.levels[item.key]++;
  else if(item.type==='action'){if(n.actions.length>=actionSlots(n))throw new Error('Action slots are full. Use or discard a card first.');n.actions.push({id:n.nextId++,key:item.key});}
  else if(item.type==='voucher'){
   const v=VOUCHERS.find(v=>v.id===item.key);if(!v)throw new Error('Unknown voucher.');if(n.vouchers[v.id]>=v.max)throw new Error('That voucher is maxed out.');if(v.id==='dice'&&n.dice.length>=8)throw new Error('The tray is full.');
+  if((v.id==='dichrome'&&n.vouchers.oceanore)||(v.id==='oceanore'&&n.vouchers.dichrome))throw new Error('Choose only one palette license per run.');
   n.vouchers[v.id]++;if(v.id==='dice')n.dice.push(makeDie(n,r,'voucher'));if(v.id==='hands')n.maxHands++;if(v.id==='rerolls')n.maxRerolls++;
  }
  if(item.type==='voucher'&&['discount','study'].includes(item.key))for(const other of n.offers)if(other.id!==item.id&&!other.bought&&(item.key==='discount'||other.type==='upgrade'))other.price=Math.max(1,other.price-1);
@@ -151,7 +174,7 @@ export function useAction(s,id,selected=[],held=[],r=Math.random){
  if(card.key==='reroll')n=reroll(n,held,r,true);
  if(card.key==='six')d.value=6;if(card.key==='one')d.value=1;if(card.key==='nudge')d.value=Math.min(6,d.value+1);if(card.key==='invert')d.value=7-d.value;
  if(card.key==='copy')n.dice.find(d=>d.id===selected[1]).value=d.value;
- if(card.key==='dye')d.color=COLORS[(COLORS.indexOf(d.color)+1)%COLORS.length];if(card.key==='red')d.color='red';if(card.key==='black')d.color='black';if(card.key==='gild')d.bonus+=6;
+ if(card.key==='dye')d.color=COLORS[(COLORS.indexOf(d.color)+1)%COLORS.length];if(card.key==='red')d.color='red';if(card.key==='black')d.color='black';if(card.key==='blue')d.color='blue';if(card.key==='gold')d.color='gold';if(card.key.startsWith('veil-'))d.roundColor=card.key.slice(5);if(card.key==='gild')d.bonus+=6;
  if(card.key==='load'){if(d.load>=2)throw new Error('That die is already fully loaded.');d.load++;d.value=Math.min(6,d.value+1);}
  if(card.key==='rally'){if(activeBoss(n)?.id==='lock')throw new Error('The boss locks normal rerolls. Save Extra Breath for another round.');n.rerolls++;n.roundEffects.rerolls++;}
  if(card.key==='hand'){n.hands++;n.roundEffects.hands++;}
@@ -165,9 +188,10 @@ export function validSave(s){
  if(!s.bossChoices||typeof s.bossChoices!=='object'||Array.isArray(s.bossChoices)||!Object.entries(s.bossChoices).every(([round,id])=>BOSS_ROUNDS.includes(Number(round))&&BOSSES.some(b=>b.id===id))||typeof s.bossRevealPending!=='boolean')return false;
  if(!s.shopHistory||!['gods','studies','actions','vouchers'].every(k=>Array.isArray(s.shopHistory[k])&&s.shopHistory[k].every(id=>typeof id==='string')))return false;
  if(!s.vouchers||!VOUCHERS.every(v=>Number.isInteger(s.vouchers[v.id])&&s.vouchers[v.id]>=0&&s.vouchers[v.id]<=v.max))return false;
- if(!Array.isArray(s.gods)||s.gods.length>4+s.vouchers.slots||new Set(s.gods).size!==s.gods.length||s.gods.some(id=>!GODS.some(g=>g.id===id))||(has(s,'scarlet')&&has(s,'inkking')))return false;
+ if(s.vouchers.dichrome&&s.vouchers.oceanore)return false;
+ if(!Array.isArray(s.gods)||s.gods.length>4+s.vouchers.slots||new Set(s.gods).size!==s.gods.length||s.gods.some(id=>!GODS.some(g=>g.id===id))||s.gods.filter(id=>COLOR_GODS.includes(id)).length>1)return false;
  if(!Array.isArray(s.dice)||s.dice.length!==s.baseDice+s.vouchers.dice+(has(s,'finger')?1:0)||s.dice.length>8||new Set(s.dice.map(d=>d.id)).size!==s.dice.length)return false;
- if(!s.dice.every(d=>Number.isInteger(d.id)&&d.id>0&&COLORS.includes(d.color)&&Number.isInteger(d.value)&&d.value>=1&&d.value<=6&&Number.isInteger(d.load)&&d.load>=0&&d.load<=2&&Number.isInteger(d.bonus)&&d.bonus>=0&&['base','voucher','finger'].includes(d.source)))return false;
+ if(!s.dice.every(d=>Number.isInteger(d.id)&&d.id>0&&COLORS.includes(d.color)&&(d.roundColor===undefined||COLORS.includes(d.roundColor))&&Number.isInteger(d.value)&&d.value>=1&&d.value<=6&&Number.isInteger(d.load)&&d.load>=0&&d.load<=2&&Number.isInteger(d.bonus)&&d.bonus>=0&&['base','voucher','finger'].includes(d.source)))return false;
  if(!s.roundEffects||!['hands','rerolls','nextChips','nextMult'].every(k=>Number.isInteger(s.roundEffects[k])&&s.roundEffects[k]>=0))return false;
  if(s.maxHands!==3+s.vouchers.hands||s.maxRerolls!==3+s.vouchers.rerolls||!Number.isInteger(s.hands)||s.hands<0||s.hands>s.maxHands+s.roundEffects.hands||!Number.isInteger(s.rerolls)||s.rerolls<0||s.rerolls>s.maxRerolls+s.roundEffects.rerolls)return false;
  if(!s.levels||!Object.keys(HANDS).every(k=>Number.isInteger(s.levels[k])&&s.levels[k]>=1))return false;
@@ -186,6 +210,7 @@ export function migrateSave(raw){
   if(s.phase==='shop'&&Array.isArray(s.offers)&&s.levels){s.offers=shopOffers(s,()=>.37);recordOffers(s,s.offers);}
   if(!s.gods?.includes('echo'))s.pairGrowth=0;
  }if(previousVersion>=1&&previousVersion<=4){s.version=VERSION;s.bossChoices={};s.bossRevealPending=false;if(s.mode==='hard')for(const round of BOSS_ROUNDS)if(round<=s.round)s.bossChoices[round]=round===8?'pale':'lock';}
+ if(previousVersion>=1&&previousVersion<=5){s.version=VERSION;s.vouchers={...voucherDefaults(),...s.vouchers};}
  return validSave(s)?s:null;
 }
 

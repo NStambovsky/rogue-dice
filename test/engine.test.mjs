@@ -1,5 +1,5 @@
 import test from 'node:test';import assert from 'node:assert/strict';
-import {newRun,classify,preview,bestHand,reroll,scoreHand,advanceRound,buy,refreshShop,sellGod,useAction,discardAction,burnHand,validSave,targetFor,GODS,ACTIONS,bossFor,stakesFor,migrateSave,shopOffers,VOUCHERS,actionSlots,godSellPrice,COLORS,classifyAll,BOSSES,activeBoss,handLimit,acknowledgeBoss} from '../engine.js';
+import {newRun,classify,preview,bestHand,reroll,scoreHand,advanceRound,buy,refreshShop,sellGod,useAction,discardAction,burnHand,validSave,targetFor,effectiveColor,colorDetails,paletteRule,GODS,ACTIONS,bossFor,stakesFor,migrateSave,shopOffers,VOUCHERS,actionSlots,godSellPrice,COLORS,classifyAll,BOSSES,activeBoss,handLimit,acknowledgeBoss} from '../engine.js';
 const rng=()=>0.4;
 function values(vals,colors=['red','black','red','black']){const s=newRun(rng);while(s.dice.length<vals.length){const source=s.vouchers.dice<4?'voucher':'finger';s.dice.push({id:s.nextId++,value:1,color:'black',bonus:0,load:0,source});if(source==='voucher')s.vouchers.dice++;else s.gods.push('finger');}vals.forEach((v,i)=>{s.dice[i].value=v;s.dice[i].color=colors[i]||COLORS[i%COLORS.length];});return s;}
 function legacyState(){const s=values([3,3,3,3]);s.baseDice=4;s.vouchers.dice=0;s.dice.forEach(d=>d.source='base');return s;}
@@ -43,16 +43,16 @@ test('bosses occur only on the final rounds of Antes 3 and 6',()=>{assert.equal(
 test('Pale House removes only the +2 color bonus and ends after its round',()=>{const s=values([2,2,5,5],['red','red','red','red']);const normal=preview(s,[1,2,3,4]);s.round=8;const boss=preview(s,[1,2,3,4]);assert.equal(boss.mult,normal.mult-2);assert.ok(boss.effects.some(e=>e.includes('blocked')));s.gods=['moon','midas'];assert.equal(preview(s,[1,2,3,4]).mult,4.5);assert.equal(preview(s,[1,2,3,4]).money,2);s.round=9;assert.equal(preview(s,[1,2,3,4]).mult,7.5);});
 test('Iron Hand blocks paid rerolls without spending resources but permits Second Wind',()=>{const s=values([1,2,3,4]);s.round=17;assert.throws(()=>reroll(s,[],rng),/locks/);assert.equal(s.rerolls,3);const id=action(s,'reroll');const n=useAction(s,id,[],[1],()=>.99);assert.deepEqual(n.dice.map(d=>d.value),[1,6,6,6]);assert.equal(n.rerolls,3);assert.equal(n.actions.length,0);n.round=18;assert.equal(reroll(n,[],rng).rerolls,2);});
 test('stakes metadata exposes prior target, growth, boss, and next target',()=>{const st=stakesFor(1);assert.equal(st.previous,100);assert.equal(st.target,130);assert.equal(st.increase,30);assert.equal(st.next,165);assert.equal(stakesFor(8).label,'BOSS');assert.equal(stakesFor(23).next,null);});
-test('old saves migrate without losing current dice, money, upgrades, or progress',()=>{const s=legacyState();s.version=1;delete s.levels.twopair;s.round=7;s.money=47;s.levels.pair=5;const n=migrateSave(s);assert.ok(validSave(n));assert.equal(n.version,5);assert.equal(n.levels.twopair,1);assert.equal(n.round,7);assert.equal(n.money,47);assert.equal(n.levels.pair,5);assert.deepEqual(n.dice,s.dice);assert.equal(s.version,1);});
+test('old saves migrate without losing current dice, money, upgrades, or progress',()=>{const s=legacyState();s.version=1;delete s.levels.twopair;s.round=7;s.money=47;s.levels.pair=5;const n=migrateSave(s);assert.ok(validSave(n));assert.equal(n.version,6);assert.equal(n.levels.twopair,1);assert.equal(n.round,7);assert.equal(n.money,47);assert.equal(n.levels.pair,5);assert.deepEqual(n.dice,s.dice);assert.equal(s.version,1);});
 test('old shop saves receive the smaller market once and migration remains idempotent',()=>{const s=legacyState();s.phase='shop';s.offers=[];s.version=1;delete s.levels.twopair;const n=migrateSave(s);assert.equal(n.offers.length,5);assert.equal(n.offers.filter(o=>o.type==='upgrade').length,1);assert.deepEqual(migrateSave(n),n);assert.equal(migrateSave({version:1}),null);});
 
 test('Casual targets increase linearly by 100 and never schedule a boss',()=>{for(let round=0;round<24;round++){assert.equal(targetFor(round,'casual'),100+round*100);assert.equal(bossFor(round,'casual'),null);assert.equal(stakesFor(round,'casual').scale,1);}assert.equal(targetFor(23,'casual'),2400);});
 test('Hard targets jump after both bosses and compound the stakes scale',()=>{assert.equal(targetFor(8,'hard'),1170);assert.equal(targetFor(9,'hard'),3200);assert.equal(targetFor(17,'hard'),36000);assert.equal(targetFor(18,'hard'),100000);assert.equal(targetFor(23,'hard'),396000);assert.equal(stakesFor(9,'hard').scale,2);assert.equal(stakesFor(18,'hard').scale,4);});
 test('Casual mode retains color bonuses and paid rerolls at boss checkpoints',()=>{const s=values([2,2,5,5],['red','red','red','red']);s.mode='casual';s.round=8;assert.equal(preview(s,[1,2,3,4]).mult,5);s.round=17;assert.equal(reroll(s,[],rng).rerolls,2);});
 test('scoring uses the selected mode target and preserves that mode through shops',()=>{const s=values([2,2,5,5]);s.round=9;s.mode='casual';s.score=950;const n=scoreHand(s,[1,2,3,4],rng);assert.equal(n.phase,'shop');assert.equal(advanceRound(n,rng).mode,'casual');s.mode='hard';assert.equal(scoreHand(s,[1,2,3,4],rng).phase,'play');});
-test('old modes migrate to Hard and invalid or missing modern modes are rejected',()=>{const s=legacyState();s.version=2;delete s.mode;assert.equal(migrateSave(s).mode,'hard');assert.equal(migrateSave(s).version,5);const n=newRun(rng,'casual');assert.ok(validSave(n));n.mode='unknown';assert.equal(validSave(n),false);assert.throws(()=>newRun(rng,'unknown'));});
+test('old modes migrate to Hard and invalid or missing modern modes are rejected',()=>{const s=legacyState();s.version=2;delete s.mode;assert.equal(migrateSave(s).mode,'hard');assert.equal(migrateSave(s).version,6);const n=newRun(rng,'casual');assert.ok(validSave(n));n.mode='unknown';assert.equal(validSave(n),false);assert.throws(()=>newRun(rng,'unknown'));});
 
-test('new runs start with exactly three dice and the expanded catalog has 32/12/15 entries',()=>{assert.equal(newRun(rng).dice.length,3);assert.equal(GODS.length,32);assert.equal(VOUCHERS.length,12);assert.equal(ACTIONS.length,15);assert.ok(validSave(newRun(rng)));});
+test('new runs start with exactly three dice and the expanded catalog has 36/15/21 entries',()=>{assert.equal(newRun(rng).dice.length,3);assert.equal(GODS.length,36);assert.equal(VOUCHERS.length,15);assert.equal(ACTIONS.length,21);assert.ok(validSave(newRun(rng)));});
 test('selling and rebuying Echo resets accumulated Mult',()=>{let s=values([2,2,3]);s.gods=['echo'];s.pairGrowth=12;s.phase='shop';s.money=100;s=sellGod(s,'echo');assert.equal(s.pairGrowth,0);s=buy(offering(s,'god','echo',8),'echo');assert.equal(s.pairGrowth,0);assert.equal(preview(s,[1,2]).mult,3);});
 test('legacy saves retain their four dice and owned Echo but discard ghost growth if sold',()=>{let s=legacyState();s.version=3;s.gods=['echo'];s.pairGrowth=9;let n=migrateSave(s);assert.equal(n.baseDice,4);assert.equal(n.dice.length,4);assert.equal(n.pairGrowth,9);assert.ok(validSave(n));s.gods=[];n=migrateSave(s);assert.equal(n.pairGrowth,0);assert.ok(validSave(n));});
 test('scoring trace finishes at exactly the committed score and lists individual dice before Gods',()=>{const s=values([2,2,5,5],['red','red','red','red']);s.gods=['echo','twins','moon'];s.pairGrowth=3;const p=preview(s,[1,2,3,4]);assert.equal(p.steps.filter(t=>t.source==='die').length,4);assert.ok(p.steps.findIndex(t=>t.source==='god')>p.steps.findLastIndex(t=>t.source==='die'));assert.equal(p.steps.at(-1).points,p.points);assert.equal(p.steps.at(-1).mult,p.mult);const n=scoreHand(s,[1,2,3,4],rng);assert.equal(n.score,p.points);assert.equal(n.totalScored,1);assert.equal(s.pairGrowth,3);});
@@ -103,4 +103,56 @@ test('Taxman suppresses scoring and burning God income but not round rewards',()
 test('resource bosses apply once on entry and acknowledge does not apply them again',()=>{for(const [id,hands,rerolls]of[['short',2,3],['thin',3,1]]){const s=shop();s.round=7;s.bossChoices={8:id};const n=advanceRound(s,rng);assert.equal(n.hands,hands);assert.equal(n.rerolls,rerolls);const acknowledged=acknowledgeBoss(n);assert.equal(acknowledged.hands,hands);assert.equal(acknowledged.rerolls,rerolls);}});
 test('Three’s Company lowers the scoring cap without removing tray dice',()=>{const s=values([4,4,4,4]);handicap(s,'three');assert.equal(handLimit(s),3);assert.equal(s.dice.length,4);assert.equal(preview(s,[1,2,3,4]),null);assert.ok(bestHand(s).ids.length<=3);s.phase='shop';assert.equal(handLimit(s),4);});
 test('Mounting Pressure scales final Mult and ends with the boss round',()=>{const s=values([2,2,5]);handicap(s,'pressure');s.scoredThisRound=3;assert.equal(preview(s,[1,2]).mult,1.4);s.scoredThisRound=10;assert.equal(preview(s,[1,2]).mult,1);s.round=9;assert.equal(preview(s,[1,2]).mult,2);});
-test('version-four migration preserves the tray and current legacy boss without rerolling it',()=>{const s=values([2,2,5]);s.version=4;s.round=17;s.money=81;delete s.bossChoices;delete s.bossRevealPending;const n=migrateSave(s);assert.equal(n.version,5);assert.equal(n.bossChoices[17],'lock');assert.equal(n.bossChoices[8],'pale');assert.equal(n.money,81);assert.equal(n.dice.length,3);assert.ok(validSave(n));});
+test('version-four migration preserves the tray and current legacy boss without rerolling it',()=>{const s=values([2,2,5]);s.version=4;s.round=17;s.money=81;delete s.bossChoices;delete s.bossRevealPending;const n=migrateSave(s);assert.equal(n.version,6);assert.equal(n.bossChoices[17],'lock');assert.equal(n.bossChoices[8],'pale');assert.equal(n.money,81);assert.equal(n.dice.length,3);assert.ok(validSave(n));});
+
+
+test('original four-color dice never disappear after rerolls, hands, or rounds',()=>{
+ let s=values([2,2,5,6],COLORS);const originals=s.dice.map(d=>d.color);
+ s=reroll(s,[],()=>.2);assert.deepEqual(s.dice.map(d=>effectiveColor(s,d)),originals);
+ s=scoreHand(s,[1,2],()=>.3);assert.deepEqual(s.dice.map(d=>d.color),originals);
+ s.phase='shop';s=advanceRound(s,rng);assert.deepEqual(s.dice.map(d=>effectiveColor(s,d)),originals);
+});
+test('all monochrome Gods are reversible and mutually exclusive in purchase, offers, and saves',()=>{
+ for(const [id,color]of[['scarlet','red'],['inkking','black'],['sapphire','blue'],['aurum','gold']]){
+  let s=values([2,2,5,6],COLORS);s.gods=[id];assert.ok(s.dice.every(d=>effectiveColor(s,d)===color));assert.equal(preview(s,[1,2]).sameColor,true);
+  assert.ok(preview(s,[1,2]).steps.some(step=>step.id===id));s.phase='shop';s.money=100;
+  assert.ok(!shopOffers(s,rng).some(o=>o.type==='god'&&['scarlet','inkking','sapphire','aurum','divide'].includes(o.key)));
+  const other=id==='scarlet'?'sapphire':'scarlet';assert.throws(()=>buy(offering(s,'god',other),other),/color-changing/);
+  s=sellGod(s,id);assert.deepEqual(s.dice.map(d=>effectiveColor(s,d)),COLORS);assert.ok(validSave(s));
+ }
+ const bad=newRun(rng);bad.gods=['sapphire','divide'];assert.equal(validSave(bad),false);
+});
+test('Divide restricts all four colors to red and black without destroying original paint',()=>{
+ const s=values([2,2,5,6],COLORS);s.gods=['divide'];assert.deepEqual(s.dice.map(d=>effectiveColor(s,d)),['red','black','black','red']);assert.deepEqual(s.dice.map(d=>d.color),COLORS);
+ s.round=8;s.bossChoices={8:'silence'};assert.deepEqual(s.dice.map(d=>effectiveColor(s,d)),COLORS);
+});
+test('palette licenses restrict future and existing dice, reject each other, and yield to Gods',()=>{
+ for(const [id,expected]of[['dichrome',['red','black','black','red']],['oceanore',['gold','blue','blue','gold']]]){
+  let s=values([2,2,5,6],COLORS);s.phase='shop';s.money=100;s=buy(offering(s,'voucher',id),id);
+  assert.deepEqual(s.dice.map(d=>effectiveColor(s,d)),expected);assert.deepEqual(s.dice.map(d=>d.color),COLORS);
+  const other=id==='dichrome'?'oceanore':'dichrome';assert.throws(()=>buy(offering(s,'voucher',other),other),/one palette/);
+  assert.ok(!shopOffers(s,rng).some(o=>o.key===other));s=buy(offering(s,'voucher','dice'),'dice',()=>.6);assert.ok(expected.includes(effectiveColor(s,s.dice.at(-1))));
+  s.gods=['sapphire'];assert.ok(s.dice.every(d=>effectiveColor(s,d)==='blue'));assert.equal(paletteRule(s),'The Blue Regent');assert.ok(validSave(s));
+ }
+});
+test('four round Washes override Gods and licenses, survive rerolls, scoring, reload, then expire',()=>{
+ for(const c of COLORS){let s=values([2,2,5]);s.gods=['scarlet'];s.vouchers.oceanore=1;s=useAction(s,action(s,'veil-'+c),[1]);assert.equal(effectiveColor(s,s.dice[0]),c);assert.equal(s.dice[0].color,'red');assert.equal(colorDetails(s,s.dice[0]).temporary,true);
+ s=reroll(s,[1,2],rng);assert.equal(effectiveColor(s,s.dice[0]),c);s=scoreHand(s,[1,2],rng);assert.equal(s.dice[0].roundColor,c);s=migrateSave(s);assert.ok(validSave(s));assert.equal(s.dice[0].roundColor,c);
+ s.phase='shop';s=advanceRound(s,rng);assert.equal(s.dice[0].roundColor,undefined);assert.equal(effectiveColor(s,s.dice[0]),'red');}
+});
+test('all four permanent seals survive rounds and preserve paint underneath temporary overrides',()=>{
+ let s=values([2,2,5,6]);for(let i=0;i<COLORS.length;i++)s=useAction(s,action(s,COLORS[i]),[i+1]);assert.deepEqual(s.dice.map(d=>d.color),COLORS);
+ s=useAction(s,action(s,'veil-gold'),[1]);s=useAction(s,action(s,'blue'),[1]);assert.equal(s.dice[0].color,'blue');assert.equal(effectiveColor(s,s.dice[0]),'gold');
+ s.phase='shop';s=advanceRound(s,rng);assert.equal(effectiveColor(s,s.dice[0]),'blue');assert.ok(validSave(s));
+});
+test('color rewards and fogs use final effective colors with an exact scoring trace',()=>{
+ let s=values([2,2,5],['blue','gold','black']);s.gods=['sapphire','tide','kaleidoscope'];s.vouchers.spectrum=1;
+ let p=preview(s,[1,2]);assert.equal(p.chips,32);assert.equal(p.mult,7);assert.equal(p.points,224);
+ s=useAction(s,action(s,'veil-gold'),[2]);p=preview(s,[1,2]);assert.equal(p.chips,24);assert.equal(p.mult,8);assert.equal(p.points,192);assert.equal(p.steps.at(-1).points,p.points);
+ s.round=8;s.bossChoices={8:'bluefog'};assert.equal(preview(s,[1,2]).chips,22);
+});
+test('version-five saves gain new voucher fields without losing original paint or progress',()=>{
+ const s=values([2,2,5],['red','black','blue']);s.version=5;s.money=71;s.gods=['echo'];s.pairGrowth=9;delete s.vouchers.dichrome;delete s.vouchers.oceanore;delete s.vouchers.spectrum;
+ const n=migrateSave(s);assert.equal(n.version,6);assert.equal(n.vouchers.spectrum,0);assert.deepEqual(n.dice,s.dice);assert.equal(n.money,71);assert.equal(n.pairGrowth,9);assert.ok(validSave(n));assert.deepEqual(migrateSave(n),n);
+ n.dice[0].roundColor='purple';assert.equal(validSave(n),false);
+});
