@@ -1,13 +1,13 @@
 # Rogue Dice — rules & tutorial
 
-Start with **three six-sided dice** drawn from four original colors: **red, black, blue, and gold**. Your tray may eventually grow to eight dice, but you may submit **at most four dice per scoring hand**. Extra dice improve your choices, not the submission limit.
+Start with **four six-sided dice** drawn from four original colors: **red, black, blue, and gold**. Your tray may eventually grow to eight dice, but you may submit **at most four dice per scoring hand**. Extra dice improve your choices, not the submission limit.
 
 ## Scoring hands
 
 | Hand | Requirement | Base Chips | Base Mult |
 |---|---|---:|---:|
 | Highest Die | Fallback only when the tray has no other legal hand | 0 | 1 |
-| Pair | Two equal values | 12 | 2 |
+| Pair | Two equal values | 8 | 2 |
 | Two Pair | Four dice: two different pairs | 24 | 3 |
 | Triplet | Three equal values | 24 | 3 |
 | Quads | Four equal values | 48 | 5 |
@@ -16,11 +16,13 @@ Start with **three six-sided dice** drawn from four original colors: **red, blac
 
 A four-die Run adds +12 base Chips and +1 Mult. Runs cannot wrap from 6 to 1. Quints and higher groups cannot be submitted under the four-die limit. A larger tray can still provide a four-die Quad subset.
 
-Selected dice add their pip values and permanent chip bonuses. All-one-color hands of at least two dice add +2 Mult. Gods and one-shot boosts then apply; all additive bonuses are counted before Mult multipliers. The final score is floored once.
+Selected dice add their pip values and permanent chip bonuses. A same-color Pair adds +1 Mult; other all-one-color hands of at least two dice add +2 Mult. Gods and one-shot boosts then apply; all additive bonuses are counted before Mult multipliers. The final score is floored once.
 
 When a selection qualifies as both a numerical hand and Color Pact, the preview uses whichever scores higher with your current levels, Gods, and boss. Find Best Hand checks all legal subsets up to four dice.
 
-**Highest Die** automatically uses the tray’s highest face only if there is no regular hand anywhere in the tray. Its initial score is just that face value ×1, with no single-die color bonus. Ordinary Studies add +12 Chips and +1 Mult; Highest Die Study adds only +2 Chips and +0.25 Mult. It takes many levels to become strong.
+**Highest Die** automatically uses the tray’s highest face only if there is no regular hand anywhere in the tray. Its initial score is just that face value ×1, with no single-die color bonus. Pair Studies add +6 Chips and +0.5 Mult. Other ordinary Studies add +12 Chips and +1 Mult; Highest Die Study adds only +2 Chips and +0.25 Mult. It takes many levels to become strong.
+
+Pair is the dependable low-reward hand: **8 Chips ×2 Mult**, **+6 Chips / +0.5 Mult** per Study, and **+1 Mult** for matching colors. The Twins gives Pair ×1.5 (Two Pair still ×2); The Looking Glass gives same-color Pair ×1.25 (Two Pair still ×1.5). The Echo grows by +0.5 per Pair and +1 per Two Pair. The Hermit now works with four or fewer tray dice at ×1.5 Mult.
 
 ## Combo bonuses
 
@@ -56,7 +58,7 @@ Clearing pays a $6/$7/$8 base reward, $2 per unused hand, and $1 interest per $5
 
 The collection has **36 Dice Gods, 15 vouchers, and 21 action cards**. Open Rules → Card collection to inspect them. Gods use slots and work while equipped. Selling The Echo resets all its accumulated Mult; rebuying starts at zero. Selling The Sixth Finger removes its granted die, including modifications on that die.
 
-Extra-die God/voucher offers are legendary and unavailable until Ante 2. The Sixth Finger lists at $16; A Bigger Fist starts at $18 and costs $8 more each repeat. Discounts may lower these prices. New runs can reach eight dice through four rare die vouchers and The Sixth Finger, but extra dice do not raise the hand limit.
+Extra-die God/voucher offers are legendary and unavailable until Ante 2. The Sixth Finger lists at $16; A Bigger Fist starts at $18 and costs $8 more each repeat. Discounts may lower these prices. New runs can reach eight dice through rare die vouchers and/or The Sixth Finger, but extra dice do not raise the hand limit.
 
 ## Actions
 
@@ -66,7 +68,7 @@ Blood & Ink cycles original colors red → black → blue → gold. Red, Black, 
 
 ### Your palette and color builds
 
-Dice keep their original colors between rolls. A three-die start draws three distinct colors from red, black, blue, and gold; it cannot display all four at once. Older saved trays retain their original paint. Tap the color summary beside the round heading for visible counts, active effects, and the original/effective color of each die.
+Dice keep their original colors between rolls. A four-die start includes one die in each of red, black, blue, and gold. Older saved trays retain their original paint. Tap the color summary beside the round heading for visible counts, active effects, and the original/effective color of each die.
 
 Color priority is **round Wash → color-changing God → palette license → original paint**. This same effective color controls the die’s appearance, Color Pacts, same-color bonuses, color Gods, and color-fog bosses. Washes expire on entering the next round. Permanent Seals change original paint even when a God or Wash masks it.
 
@@ -85,14 +87,14 @@ A d20 roll selects one of twenty handicaps on boss entry. The result is saved im
 ## First-run tutorial
 
 1. Start Casual and look at the 100-point target.
-2. Tap Find Best Hand. If you roll red 4, black 4, and blue 2, the Pair scores (12 + 4 + 4) ×2 = 40.
-3. Hold the fours and reroll the other die to chase a Triplet. Or score the Pair and use the next free tray to keep building toward the target.
+2. Tap Find Best Hand. If you roll red 4, black 4, blue 2, and gold 6, the Pair scores (8 + 4 + 4) ×2 = 32.
+3. Hold the fours and reroll the other two dice to chase a Triplet. Or score the Pair and use the next free tray to keep building toward the target.
 4. If no regular group exists, Score Highest Die gives a small fallback instead of forcing a zero-point burn.
 5. Buy from the available market. Build around the Gods and Studies you actually see rather than assuming Pair Study will return.
 6. A Color Pact of blue 1, 3, and 6 scores (16 + 10) ×4 = 104 before upgrades. Quads of mixed-color fours score (48 + 16) ×5 = 320.
 7. Choose Full speed and enable Sound to feel each contribution, or select Instant once you know your build. In landscape, tap God/action names and Score breakdown for details without leaving the compact table.
 
-Existing saves retain their tray, money, mode, and owned upgrades. New hand levels and voucher fields are added automatically. Existing original dice colors are preserved; start a new run to get the three-die start drawn from the full four-color palette. Gods that force a color still display that effective color.
+Existing saves retain their tray, money, mode, and owned upgrades. New hand levels and voucher fields are added automatically. Existing original dice colors are preserved; start a new run to get the four-die start drawn from the full four-color palette. Gods that force a color still display that effective color.
 
 ## Target map
 
@@ -109,7 +111,7 @@ Existing saves retain their tray, money, mode, and owned upgrades. New hand leve
 
 ## The twenty boss handicaps
 
-1. The Pale House — no matching-color +2 Mult.
+1. The Pale House — no matching-color Mult bonus (Pair +1, other hands +2).
 2. The Iron Hand — normal rerolls locked; Second Wind works.
 3. Crimson Fog — red pips add no Chips.
 4. Blackout — black pips add no Chips.

@@ -1,6 +1,6 @@
 export const BOSS_ROUNDS=[8,17];
 export const BOSSES=[
- {id:'pale',name:'The Pale House',text:'The matching-color +2 Mult bonus is disabled.'},
+ {id:'pale',name:'The Pale House',text:'Matching-color Mult is disabled: Pair loses +1; other hands lose +2.'},
  {id:'lock',name:'The Iron Hand',text:'Normal rerolls are locked. Second Wind still works.'},
  {id:'redfog',name:'Crimson Fog',text:'Red dice contribute no pip Chips. Permanent Chip bonuses and Gods still work.'},
  {id:'blackfog',name:'Blackout',text:'Black dice contribute no pip Chips. Permanent Chip bonuses and Gods still work.'},

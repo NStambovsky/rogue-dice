@@ -1,5 +1,5 @@
-import {createPresenter,resolvePreferences,timingFor} from './presentation.js?v=7';
-import {GODS,ACTIONS,HANDS,newRun,targetFor,effectiveColor,colorDetails,paletteRule,preview,bestHand,reroll,scoreHand,advanceRound,buy,refreshShop,sellGod,useAction,discardAction,burnHand,validSave,migrateSave,bossFor,stakesFor,VOUCHERS,actionSlots,godSellPrice,COLORS,COMBOS,BOSSES,acknowledgeBoss,handLimit} from './engine.js?v=7';
+import {createPresenter,resolvePreferences,timingFor} from './presentation.js?v=8';
+import {GODS,ACTIONS,HANDS,newRun,targetFor,effectiveColor,colorDetails,paletteRule,preview,bestHand,reroll,scoreHand,advanceRound,buy,refreshShop,sellGod,useAction,discardAction,burnHand,validSave,migrateSave,bossFor,stakesFor,VOUCHERS,actionSlots,godSellPrice,COLORS,COMBOS,BOSSES,acknowledgeBoss,handLimit} from './engine.js?v=8';
 const $=id=>document.getElementById(id),KEY='rogue-dice-run-v1';
 const random=()=>{const a=new Uint32Array(1);crypto.getRandomValues(a);return a[0]/4294967296;};
 const fmt=n=>Number(n).toLocaleString('en-US',{maximumFractionDigits:6});
@@ -56,7 +56,7 @@ function renderDice(){
  $('last-score').textContent=state.lastScore?`Last hand: ${state.lastScore.comboName||state.lastScore.name} · ${fmt(state.lastScore.chips)} × ${fmt(state.lastScore.mult)} = ${fmt(state.lastScore.points)}${state.lastScore.money?` · +$${state.lastScore.money}`:''}`:'';
 }
 $('palette-status').addEventListener('click',()=>showDetails('YOUR COLOR PALETTE',paletteRule(state),[
- 'Dice keep their original colors when rolled. New runs start with three distinct colors drawn from red, black, blue, and gold. Older saved trays keep their original colors.',
+ 'Dice keep their original colors when rolled. New runs start with four dice: one red, one black, one blue, and one gold. Older saved trays keep their original colors.',
  'Priority: a die’s round Wash → equipped color-changing God → palette license → original color. Washes last through rerolls and scoring hands until the next round. Selling a color God reveals the underlying colors. Permanent Seals repaint the original color, even while masked.',
  ...state.dice.map(d=>`Die ${d.id} (${d.value}): original ${d.color} → ${effectiveColor(state,d)} · ${colorDetails(state,d).source}`),
  ...VOUCHERS.filter(v=>state.vouchers[v.id]&&['dichrome','oceanore','spectrum'].includes(v.id)).map(v=>`${v.name}: ${v.text}`)
@@ -94,7 +94,7 @@ function render(){
  if(state.bossRevealPending&&!$('boss-roll').open)queueMicrotask(showBossRoll);
  if(focus)document.querySelector(`[data-die="${Number(focus)}"]`)?.focus({preventScroll:true});
 }
-function openGod(id){if(busy)return;inspected=id;const g=GODS.find(g=>g.id===id);$('god-detail-body').replaceChildren(node('div','god-symbol',g.symbol),node('h2','',g.name),node('p','',g.text));if(id==='echo')$('god-detail-body').append(node('p','',`Current growth: +${state.pairGrowth} Mult. Score another Pair to grow it.`));if(id==='relic')$('god-detail-body').append(node('p','',`Next scoring hand: +${(state.totalScored+1)*5} Chips.`));$('sell-god').hidden=state.phase!=='shop';$('sell-god').textContent=`Sell for $${godSellPrice(state,id)}${id==='finger'?' · removes its extra die':''}`;$('god-detail').showModal();}
+function openGod(id){if(busy)return;inspected=id;const g=GODS.find(g=>g.id===id);$('god-detail-body').replaceChildren(node('div','god-symbol',g.symbol),node('h2','',g.name),node('p','',g.text));if(id==='echo')$('god-detail-body').append(node('p','',`Current growth: +${state.pairGrowth} Mult. Score Pair for +0.5 growth or Two Pair for +1 growth.`));if(id==='relic')$('god-detail-body').append(node('p','',`Next scoring hand: +${(state.totalScored+1)*5} Chips.`));$('sell-god').hidden=state.phase!=='shop';$('sell-god').textContent=`Sell for $${godSellPrice(state,id)}${id==='finger'?' · removes its extra die':''}`;$('god-detail').showModal();}
 $('close-god').addEventListener('click',()=>$('god-detail').close());$('sell-god').addEventListener('click',()=>{commit(()=>sellGod(state,inspected),{reset:true,notice:'God sold.'});$('god-detail').close();});
 function startScoring(){
  if(busy){presenter.skip();return;}const result=preview(state,selected);if(!result)return;
