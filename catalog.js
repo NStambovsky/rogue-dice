@@ -33,7 +33,7 @@ export const GODS=[
  {id:'sapphire',name:'The Blue Regent',symbol:'♜',color:'teal',price:12,rarity:'rare',text:'All dice count as blue while equipped. Original colors return when sold. One color-changing God at a time.'},
  {id:'aurum',name:'The Golden Sovereign',symbol:'♛',color:'gold',price:12,rarity:'rare',text:'All dice count as gold while equipped. Original colors return when sold. One color-changing God at a time.'},
  {id:'divide',name:'The Divide',symbol:'◐',color:'red',price:9,rarity:'uncommon',text:'Restrict the tray to red and black: gold → red, blue → black. One color-changing God at a time. Original colors return when sold.'},
- {id:'kaleidoscope',name:'The Kaleidoscope',symbol:'❖',color:'violet',price:8,rarity:'uncommon',text:'Each distinct effective color in your scoring hand adds +2 Mult. Four different colors add +8 Mult.'},
+ {id:'kaleidoscope',name:'The Kaleidoscope',symbol:'❖',color:'violet',price:8,rarity:'uncommon',text:'Each distinct effective color in your scoring hand adds +1 Mult. Four different colors add +4 Mult.'},
  {id:'crown',name:'The Crown',symbol:'♕',color:'gold',price:7,text:'Every gold die in your scored hand adds +1 Mult.'}
 ];
 export const ACTIONS=[
@@ -74,7 +74,7 @@ export const VOUCHERS=[
  {id:'salvage',name:'Better Bargain',symbol:'↔',color:'gold',price:10,max:1,text:'Sell equipped Gods for 65% of their listed price, rounded down.'},
  {id:'dichrome',name:'Blood & Ink License',symbol:'◐',color:'red',price:10,max:1,rarity:'uncommon',text:'For this run, gold counts as red and blue counts as black. Restricts natural colors to red/black. Mutually exclusive with Ocean & Ore. Gods and round Washes override it.'},
  {id:'oceanore',name:'Ocean & Ore License',symbol:'◐',color:'teal',price:10,max:1,rarity:'uncommon',text:'For this run, red counts as gold and black counts as blue. Restricts natural colors to blue/gold. Mutually exclusive with Blood & Ink License. Gods and round Washes override it.'},
- {id:'spectrum',name:'Spectrum Grant',symbol:'❖',color:'violet',price:11,max:1,rarity:'uncommon',text:'Each distinct effective color in your scored hand adds +1 Mult. Rewards keeping a varied palette.'},
+ {id:'spectrum',name:'Spectrum Grant',symbol:'❖',color:'violet',price:11,max:1,rarity:'uncommon',text:'Each distinct effective color in your scored hand adds +0.5 Mult. Rewards keeping a varied palette.'},
  {id:'polish',name:'Polishing Cloth',symbol:'✦',color:'teal',price:10,max:1,text:'At each new Ante, permanently add +1 scoring Chip to every die currently in your tray.'}
 ];
 export function rarityOf(item){return item.rarity||'common';}

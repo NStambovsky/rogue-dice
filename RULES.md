@@ -8,21 +8,25 @@ Start with **four six-sided dice** drawn from four original colors: **red, black
 |---|---|---:|---:|
 | Highest Die | Fallback only when the tray has no other legal hand | 0 | 1 |
 | Pair | Two equal values | 8 | 2 |
-| Two Pair | Four dice: two different pairs | 24 | 3 |
-| Triplet | Three equal values | 24 | 3 |
-| Quads | Four equal values | 48 | 5 |
-| Run | Three or four distinct consecutive values | 18 | 3 |
-| Color Pact | Three or four dice of one effective color, any values | 16 | 2 |
+| Two Pair | Four dice: two different pairs | 20 | 3 |
+| Triplet | Three equal values | 18 | 3 |
+| Quads | Four equal values | 72 | 5 |
+| Run | Three or four distinct consecutive values | 6 | 3 |
+| Color Pact | Three or four dice of one effective color, any values | 8 | 1.5 |
 
-A four-die Run adds +12 base Chips and +1 Mult. Runs cannot wrap from 6 to 1. Quints and higher groups cannot be submitted under the four-die limit. A larger tray can still provide a four-die Quad subset.
+A four-die Run adds +4 base Chips. Runs cannot wrap from 6 to 1. Quints and higher groups cannot be submitted under the four-die limit. A larger tray can still provide a four-die Quad subset.
 
 Selected dice add their pip values and permanent chip bonuses. A same-color Pair adds +1 Mult; other all-one-color hands of at least two dice add +2 Mult. Gods and one-shot boosts then apply; all additive bonuses are counted before Mult multipliers. The final score is floored once.
 
 When a selection qualifies as both a numerical hand and Color Pact, the preview uses whichever scores higher with your current levels, Gods, and boss. Find Best Hand checks all legal subsets up to four dice.
 
-**Highest Die** automatically uses the tray’s highest face only if there is no regular hand anywhere in the tray. Its initial score is just that face value ×1, with no single-die color bonus. Pair Studies add +6 Chips and +0.5 Mult. Other ordinary Studies add +12 Chips and +1 Mult; Highest Die Study adds only +2 Chips and +0.25 Mult. It takes many levels to become strong.
+**Highest Die** automatically uses the tray’s highest face only if there is no regular hand anywhere in the tray. Its initial score is just that face value ×1, with no single-die color bonus. Study gains are calibrated too: Pair +6 Chips/+0.5 Mult; Run +8/+0.5; Triplet +12/+1; Two Pair +14/+1; Quads +20/+1.5; Color Pact +6/+0.5; Highest Die +2/+0.25. It takes many levels to become strong.
 
 Pair is the dependable low-reward hand: **8 Chips ×2 Mult**, **+6 Chips / +0.5 Mult** per Study, and **+1 Mult** for matching colors. The Twins gives Pair ×1.5 (Two Pair still ×2); The Looking Glass gives same-color Pair ×1.25 (Two Pair still ×1.5). The Echo grows by +0.5 per Pair and +1 per Two Pair. The Hermit now works with four or fewer tray dice at ×1.5 Mult.
+
+## Probability-based rewards
+
+Base rewards use exact four-die odds and optimal hold/reroll calculations, with a modest rarity premium rather than inverse-probability jackpots. See [BALANCE.md](BALANCE.md) for the method, all odds, and before/after scores. Three rerolls are shared across the round. Colors are fixed; a Color Pact is a setup investment, not a rare roll. Bigger trays, paint, loaded dice, upgrades, and Gods can change your build’s odds and payoff. Rewards stay fixed rather than shrinking when your build improves.
 
 ## Combo bonuses
 
@@ -30,11 +34,11 @@ Combos reward the colors inside a numerical hand. They keep the original hand’
 
 | Combo | Requirement | Extra score effects |
 |---|---|---|
-| Pure Run | Run of 3–4 dice, all one effective color | +12 Chips, then ×1.5 Mult |
-| Prism Run | Run of four dice in four different effective colors | +16 Chips and +3 Mult |
-| Twin Pacts | Two Pair with each equal-value pair matching in color | +12 Chips and +2 Mult |
+| Pure Run | Run of 3–4 dice, all one effective color | +6 Chips, then ×1.25 Mult |
+| Prism Run | Run of four dice in four different effective colors | +4 Chips and +1 Mult |
+| Twin Pacts | Two Pair with each equal-value pair matching in color | +8 Chips and +1 Mult |
 
-Twin Pacts allows the two pairs to use different colors; all-four-one-color also qualifies and keeps its ordinary +2 Mult. Pure Run’s multiplier follows God multipliers; all combo additions precede them. Glass Ceiling weakens combo multipliers too (Pure Run becomes ×1.25). Other boss rules apply to the underlying hand normally. Temporary Washes and color-changing Gods affect eligibility. Full House still needs five dice and does not fit the four-die cap.
+Twin Pacts allows the two pairs to use different colors; all-four-one-color also qualifies and keeps its ordinary +2 Mult. Pure Run’s multiplier follows God multipliers; all combo additions precede them. Glass Ceiling weakens combo multipliers too (Pure Run becomes ×1.125). Other boss rules apply to the underlying hand normally. Temporary Washes and color-changing Gods affect eligibility. Full House still needs five dice and does not fit the four-die cap.
 
 ## Play a round
 
@@ -76,7 +80,7 @@ Only one color-changing God can be equipped: **Red Queen** (all red), **Ink King
 
 Choose at most one permanent palette license per run: **Blood & Ink License** maps gold → red and blue → black; **Ocean & Ore License** maps red → gold and black → blue. Licenses affect future extra dice too without deleting original colors. Gods override a license; a Wash can break its restriction for one die until the next round.
 
-For varied builds, **The Kaleidoscope** adds +2 Mult per distinct effective scoring color, and **Spectrum Grant** adds +1 per distinct effective scoring color. They stack before ×Mult effects. The Tide rewards blue dice and The Crown rewards gold dice, complementing The Ember and The Night.
+For varied builds, **The Kaleidoscope** adds +1 Mult per distinct effective scoring color, and **Spectrum Grant** adds +0.5 per distinct effective scoring color. They stack before ×Mult effects. The Tide rewards blue dice and The Crown rewards gold dice, complementing The Ember and The Night.
 
 ## Run modes
 
@@ -91,7 +95,7 @@ A d20 roll selects one of twenty handicaps on boss entry. The result is saved im
 3. Hold the fours and reroll the other two dice to chase a Triplet. Or score the Pair and use the next free tray to keep building toward the target.
 4. If no regular group exists, Score Highest Die gives a small fallback instead of forcing a zero-point burn.
 5. Buy from the available market. Build around the Gods and Studies you actually see rather than assuming Pair Study will return.
-6. A Color Pact of blue 1, 3, and 6 scores (16 + 10) ×4 = 104 before upgrades. Quads of mixed-color fours score (48 + 16) ×5 = 320.
+6. A Color Pact of blue 1, 3, and 6 scores (8 + 10) ×3.5 = 63 before upgrades. Quads of mixed-color fours score (72 + 16) ×5 = 440.
 7. Choose Full speed and enable Sound to feel each contribution, or select Instant once you know your build. In landscape, tap God/action names and Score breakdown for details without leaving the compact table.
 
 Existing saves retain their tray, money, mode, and owned upgrades. New hand levels and voucher fields are added automatically. Existing original dice colors are preserved; start a new run to get the four-die start drawn from the full four-color palette. Gods that force a color still display that effective color.

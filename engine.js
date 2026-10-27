@@ -1,14 +1,14 @@
-import {BOSSES,BOSS_ROUNDS,bossFor,drawBoss} from './bosses.js?v=8';
-export {BOSSES,BOSS_ROUNDS,bossFor} from './bosses.js?v=8';
-import {GODS,ACTIONS,VOUCHERS,weightedPick} from './catalog.js?v=8';
-export {GODS,ACTIONS,VOUCHERS} from './catalog.js?v=8';
+import {BOSSES,BOSS_ROUNDS,bossFor,drawBoss} from './bosses.js?v=9';
+export {BOSSES,BOSS_ROUNDS,bossFor} from './bosses.js?v=9';
+import {GODS,ACTIONS,VOUCHERS,weightedPick} from './catalog.js?v=9';
+export {GODS,ACTIONS,VOUCHERS} from './catalog.js?v=9';
 export const VERSION=6;
 export const COLORS=['red','black','blue','gold'];
 export const HANDS={
  high:{name:'Highest Die',chips:0,mult:1,minDice:1,chipStep:2,multStep:.25},
- pair:{name:'Pair',chips:8,mult:2,minDice:2,chipStep:6,multStep:.5},twopair:{name:'Two Pair',chips:24,mult:3,minDice:4},triplet:{name:'Triplet',chips:24,mult:3,minDice:3},
- quad:{name:'Quads',chips:48,mult:5,minDice:4},quint:{name:'Quints',chips:80,mult:8,minDice:5},sextet:{name:'Six of a Kind',chips:120,mult:12,minDice:6},septet:{name:'Seven of a Kind',chips:170,mult:17,minDice:7},octet:{name:'Eight of a Kind',chips:230,mult:23,minDice:8},
- run:{name:'Run',chips:18,mult:3,minDice:3},pact:{name:'Color Pact',chips:16,mult:2,minDice:3}
+ pair:{name:'Pair',chips:8,mult:2,minDice:2,chipStep:6,multStep:.5},twopair:{name:'Two Pair',chips:20,mult:3,minDice:4,chipStep:14,multStep:1},triplet:{name:'Triplet',chips:18,mult:3,minDice:3},
+ quad:{name:'Quads',chips:72,mult:5,minDice:4,chipStep:20,multStep:1.5},quint:{name:'Quints',chips:80,mult:8,minDice:5},sextet:{name:'Six of a Kind',chips:120,mult:12,minDice:6},septet:{name:'Seven of a Kind',chips:170,mult:17,minDice:7},octet:{name:'Eight of a Kind',chips:230,mult:23,minDice:8},
+ run:{name:'Run',chips:6,mult:3,minDice:3,chipStep:8,multStep:.5,extraChips:4,extraMult:0},pact:{name:'Color Pact',chips:8,mult:1.5,minDice:3,chipStep:6,multStep:.5}
 };
 const copy=s=>structuredClone(s);
 const has=(s,id)=>s.gods.includes(id);
@@ -57,9 +57,9 @@ function numericKind(dice){
  if(dice.length>=3&&dice.length<=6){const v=dice.map(d=>d.value).sort((a,b)=>a-b);if(v.every((n,i)=>i===0||n===v[i-1]+1))return 'run';}return null;
 }
 export const COMBOS=[
- {id:'pure-run',name:'Pure Run',text:'A Run of 3–4 dice, all the same color: +12 Chips and ×1.5 Mult.',chips:12,mult:0,factor:1.5},
- {id:'prism-run',name:'Prism Run',text:'A Run of four dice in four different colors: +16 Chips and +3 Mult.',chips:16,mult:3},
- {id:'twin-pacts',name:'Twin Pacts',text:'Two Pair with each pair matching in color: +12 Chips and +2 Mult. The two pairs may have different colors.',chips:12,mult:2}
+ {id:'pure-run',name:'Pure Run',text:'A Run of 3–4 dice, all the same color: +6 Chips and ×1.25 Mult.',chips:6,mult:0,factor:1.25},
+ {id:'prism-run',name:'Prism Run',text:'A Run of four dice in four different colors: +4 Chips and +1 Mult.',chips:4,mult:1},
+ {id:'twin-pacts',name:'Twin Pacts',text:'Two Pair with each pair matching in color: +8 Chips and +1 Mult. The two pairs may have different colors.',chips:8,mult:1}
 ];
 export function comboFor(dice,kind,colorFor=d=>d.color){
  let id=null;
@@ -78,8 +78,8 @@ export function preview(s,ids,allowFallback=true){
 function calculateHand(s,dice,kind){
  const boss=activeBoss(s),level=s.levels[kind],sameColor=dice.length>=2&&dice.every(d=>effectiveColor(s,d)===effectiveColor(s,dice[0]));
  const combo=comboFor(dice,kind,d=>effectiveColor(s,d));
- let chips=HANDS[kind].chips+(level-1)*(HANDS[kind].chipStep||12)+(kind==='run'?Math.max(0,dice.length-3)*12:0);
- let mult=HANDS[kind].mult+(level-1)*(HANDS[kind].multStep||1)*(boss?.id==='study'?0.5:1)+(kind==='run'?Math.max(0,dice.length-3):0),money=0;
+ let chips=HANDS[kind].chips+(level-1)*(HANDS[kind].chipStep||12)+(kind==='run'?Math.max(0,dice.length-3)*HANDS.run.extraChips:0);
+ let mult=HANDS[kind].mult+(level-1)*(HANDS[kind].multStep||1)*(boss?.id==='study'?0.5:1)+(kind==='run'?Math.max(0,dice.length-3)*HANDS.run.extraMult:0),money=0;
  const steps=[],effects=[];
  function step(label,source='hand',id=null){steps.push({label,source,id,chips,mult,money,points:Math.floor(chips*mult)});effects.push(label);}
  function addGod(id,c=0,m=0){if(c||m){chips+=c;mult+=m;step(`${GODS.find(g=>g.id===id).name}: ${[c?'+'+c+' Chips':null,m?'+'+m+' Mult':null].filter(Boolean).join(', ')}`,'god',id);}}
@@ -109,8 +109,8 @@ function calculateHand(s,dice,kind){
  if(scoringHas(s,'banker'))addGod('banker',0,Math.min(8,Math.floor(s.money/5)));
  if(scoringHas(s,'prism')&&sameColor)addGod('prism',dice.length*10);
  const distinctColors=new Set(dice.map(d=>effectiveColor(s,d))).size;
- if(scoringHas(s,'kaleidoscope'))addGod('kaleidoscope',0,distinctColors*2);
- if(s.vouchers.spectrum){mult+=distinctColors;step(`Spectrum Grant: ${distinctColors} colors, +${distinctColors} Mult`,'voucher','spectrum');}
+ if(scoringHas(s,'kaleidoscope'))addGod('kaleidoscope',0,distinctColors);
+ if(s.vouchers.spectrum){mult+=distinctColors*.5;step(`Spectrum Grant: ${distinctColors} colors, +${distinctColors*.5} Mult`,'voucher','spectrum');}
  if(scoringHas(s,'undertow'))addGod('undertow',0,s.rerollsThisRound*2);
  for(const [id,when,factor] of [
   ['twins',pairUnits(kind)>0,kind==='pair'?1.5:2],['trinity',kind==='triplet',3],['fortune',s.scoredThisRound===0,2],['moon',sameColor,1.5],

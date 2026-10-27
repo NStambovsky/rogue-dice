@@ -1,0 +1,410 @@
+{
+  "baselineCommit": "ba6539e",
+  "method": "Conditional means choose the highest-scoring qualifying subset for that named hand, including pips and natural starting-color combos. Chances overlap. Round odds are exact optimal play for THREE hands sharing 0/1/2/3 rerolls, with free fresh rolls after scoring; default resources, no purchases, no boss. Gods that grow or depend on resources are excluded from this round model.",
+  "editions": {
+    "before": {
+      "profiles": {
+        "bare": {
+          "meanBestScore": 75.25,
+          "hands": {
+            "pair": {
+              "chance": 0.7222222222222222,
+              "meanScore": 30.44871794871795
+            },
+            "triplet": {
+              "chance": 0.09722222222222222,
+              "meanScore": 103.5
+            },
+            "quad": {
+              "chance": 0.004629629629629629,
+              "meanScore": 310
+            },
+            "twopair": {
+              "chance": 0.06944444444444445,
+              "meanScore": 114
+            },
+            "run3": {
+              "chance": 0.2777777777777778,
+              "meanScore": 86.4
+            },
+            "run4": {
+              "chance": 0.05555555555555555,
+              "meanScore": 420
+            }
+          }
+        },
+        "pairGods": {
+          "meanBestScore": 245.37037037037038,
+          "hands": {
+            "pair": {
+              "chance": 0.7222222222222222,
+              "meanScore": 171.02884615384616
+            },
+            "triplet": {
+              "chance": 0.09722222222222222,
+              "meanScore": 276
+            },
+            "quad": {
+              "chance": 0.004629629629629629,
+              "meanScore": 620
+            },
+            "twopair": {
+              "chance": 0.06944444444444445,
+              "meanScore": 684
+            },
+            "run3": {
+              "chance": 0.2777777777777778,
+              "meanScore": 230.4
+            },
+            "run4": {
+              "chance": 0.05555555555555555,
+              "meanScore": 720
+            }
+          }
+        },
+        "runGod": {
+          "meanBestScore": 139.91666666666666,
+          "hands": {
+            "pair": {
+              "chance": 0.7222222222222222,
+              "meanScore": 30.44871794871795
+            },
+            "triplet": {
+              "chance": 0.09722222222222222,
+              "meanScore": 103.5
+            },
+            "quad": {
+              "chance": 0.004629629629629629,
+              "meanScore": 310
+            },
+            "twopair": {
+              "chance": 0.06944444444444445,
+              "meanScore": 114
+            },
+            "run3": {
+              "chance": 0.2777777777777778,
+              "meanScore": 259.2
+            },
+            "run4": {
+              "chance": 0.05555555555555555,
+              "meanScore": 900
+            }
+          }
+        },
+        "tripletGod": {
+          "meanBestScore": 94.44212962962963,
+          "hands": {
+            "pair": {
+              "chance": 0.7222222222222222,
+              "meanScore": 30.44871794871795
+            },
+            "triplet": {
+              "chance": 0.09722222222222222,
+              "meanScore": 310.5
+            },
+            "quad": {
+              "chance": 0.004629629629629629,
+              "meanScore": 310
+            },
+            "twopair": {
+              "chance": 0.06944444444444445,
+              "meanScore": 114
+            },
+            "run3": {
+              "chance": 0.2777777777777778,
+              "meanScore": 86.4
+            },
+            "run4": {
+              "chance": 0.05555555555555555,
+              "meanScore": 420
+            }
+          }
+        },
+        "fourColors": {
+          "meanBestScore": 210.4537037037037,
+          "hands": {
+            "pair": {
+              "chance": 0.7222222222222222,
+              "meanScore": 91.34615384615384
+            },
+            "triplet": {
+              "chance": 0.09722222222222222,
+              "meanScore": 310.5
+            },
+            "quad": {
+              "chance": 0.004629629629629629,
+              "meanScore": 806
+            },
+            "twopair": {
+              "chance": 0.06944444444444445,
+              "meanScore": 418
+            },
+            "run3": {
+              "chance": 0.2777777777777778,
+              "meanScore": 259.2
+            },
+            "run4": {
+              "chance": 0.05555555555555555,
+              "meanScore": 900
+            }
+          }
+        },
+        "monochrome": {
+          "meanBestScore": 204.39814814814815,
+          "hands": {
+            "pair": {
+              "chance": 0.7222222222222222,
+              "meanScore": 45.67307692307692
+            },
+            "triplet": {
+              "chance": 0.09722222222222222,
+              "meanScore": 172.5
+            },
+            "quad": {
+              "chance": 0.004629629629629629,
+              "meanScore": 434
+            },
+            "pact": {
+              "chance": 0.9953703703703703,
+              "meanScore": 118.67906976744186
+            },
+            "twopair": {
+              "chance": 0.06944444444444445,
+              "meanScore": 350
+            },
+            "run3": {
+              "chance": 0.2777777777777778,
+              "meanScore": 305.73333333333335
+            },
+            "run4": {
+              "chance": 0.05555555555555555,
+              "meanScore": 504
+            }
+          }
+        }
+      },
+      "openingRoundClear": {
+        "100": [
+          0.8438873329776972,
+          0.9505156035959319,
+          0.9849327463181582,
+          0.9955960792342191
+        ],
+        "130": [
+          0.733694685769446,
+          0.9025341933764113,
+          0.965846321799794,
+          0.9882719746611432
+        ],
+        "165": [
+          0.5414360584006511,
+          0.7696945771042658,
+          0.8948868379979539,
+          0.9551664438105067
+        ]
+      }
+    },
+    "after": {
+      "profiles": {
+        "bare": {
+          "meanBestScore": 48.19444444444444,
+          "hands": {
+            "pair": {
+              "chance": 0.7222222222222222,
+              "meanScore": 30.44871794871795
+            },
+            "triplet": {
+              "chance": 0.09722222222222222,
+              "meanScore": 85.5
+            },
+            "quad": {
+              "chance": 0.004629629629629629,
+              "meanScore": 430
+            },
+            "twopair": {
+              "chance": 0.06944444444444445,
+              "meanScore": 102
+            },
+            "run3": {
+              "chance": 0.2777777777777778,
+              "meanScore": 50.4
+            },
+            "run4": {
+              "chance": 0.05555555555555555,
+              "meanScore": 112
+            }
+          }
+        },
+        "pairGods": {
+          "meanBestScore": 193.75925925925927,
+          "hands": {
+            "pair": {
+              "chance": 0.7222222222222222,
+              "meanScore": 171.02884615384616
+            },
+            "triplet": {
+              "chance": 0.09722222222222222,
+              "meanScore": 228
+            },
+            "quad": {
+              "chance": 0.004629629629629629,
+              "meanScore": 860
+            },
+            "twopair": {
+              "chance": 0.06944444444444445,
+              "meanScore": 612
+            },
+            "run3": {
+              "chance": 0.2777777777777778,
+              "meanScore": 134.4
+            },
+            "run4": {
+              "chance": 0.05555555555555555,
+              "meanScore": 252
+            }
+          }
+        },
+        "runGod": {
+          "meanBestScore": 82.63888888888889,
+          "hands": {
+            "pair": {
+              "chance": 0.7222222222222222,
+              "meanScore": 30.44871794871795
+            },
+            "triplet": {
+              "chance": 0.09722222222222222,
+              "meanScore": 85.5
+            },
+            "quad": {
+              "chance": 0.004629629629629629,
+              "meanScore": 430
+            },
+            "twopair": {
+              "chance": 0.06944444444444445,
+              "meanScore": 102
+            },
+            "run3": {
+              "chance": 0.2777777777777778,
+              "meanScore": 151.2
+            },
+            "run4": {
+              "chance": 0.05555555555555555,
+              "meanScore": 336
+            }
+          }
+        },
+        "tripletGod": {
+          "meanBestScore": 64.02777777777777,
+          "hands": {
+            "pair": {
+              "chance": 0.7222222222222222,
+              "meanScore": 30.44871794871795
+            },
+            "triplet": {
+              "chance": 0.09722222222222222,
+              "meanScore": 256.5
+            },
+            "quad": {
+              "chance": 0.004629629629629629,
+              "meanScore": 430
+            },
+            "twopair": {
+              "chance": 0.06944444444444445,
+              "meanScore": 102
+            },
+            "run3": {
+              "chance": 0.2777777777777778,
+              "meanScore": 50.4
+            },
+            "run4": {
+              "chance": 0.05555555555555555,
+              "meanScore": 112
+            }
+          }
+        },
+        "fourColors": {
+          "meanBestScore": 98.35185185185185,
+          "hands": {
+            "pair": {
+              "chance": 0.7222222222222222,
+              "meanScore": 60.8974358974359
+            },
+            "triplet": {
+              "chance": 0.09722222222222222,
+              "meanScore": 171
+            },
+            "quad": {
+              "chance": 0.004629629629629629,
+              "meanScore": 774
+            },
+            "twopair": {
+              "chance": 0.06944444444444445,
+              "meanScore": 238
+            },
+            "run3": {
+              "chance": 0.2777777777777778,
+              "meanScore": 100.8
+            },
+            "run4": {
+              "chance": 0.05555555555555555,
+              "meanScore": 224
+            }
+          }
+        },
+        "monochrome": {
+          "meanBestScore": 117.6574074074074,
+          "hands": {
+            "pair": {
+              "chance": 0.7222222222222222,
+              "meanScore": 45.67307692307692
+            },
+            "triplet": {
+              "chance": 0.09722222222222222,
+              "meanScore": 142.5
+            },
+            "quad": {
+              "chance": 0.004629629629629629,
+              "meanScore": 602
+            },
+            "pact": {
+              "chance": 0.9953703703703703,
+              "meanScore": 75.56279069767442
+            },
+            "twopair": {
+              "chance": 0.06944444444444445,
+              "meanScore": 252
+            },
+            "run3": {
+              "chance": 0.2777777777777778,
+              "meanScore": 142.1
+            },
+            "run4": {
+              "chance": 0.05555555555555555,
+              "meanScore": 187
+            }
+          }
+        }
+      },
+      "openingRoundClear": {
+        "100": [
+          0.7436525174008036,
+          0.9121414443524787,
+          0.9727230835421832,
+          0.9921227631568631
+        ],
+        "130": [
+          0.5340617537976936,
+          0.7539563412635931,
+          0.8799170131661884,
+          0.9446435511464041
+        ],
+        "165": [
+          0.3170670491879627,
+          0.548503374110437,
+          0.7254665689480861,
+          0.8430397777233942
+        ]
+      }
+    }
+  }
+}

@@ -17,6 +17,7 @@ See [RULES.md](RULES.md) for the complete rulebook, examples, tutorial, and Casu
 - 36 Dice Gods, 15 functional vouchers, and 21 functional action cards.
 - Smaller five-offer markets with one randomized Study and recent-offer cooldowns. Foresight can add one God option.
 - Weighted legendary extra-die offers, first available after Ante 1, with higher and escalating costs.
+- Exact numerical odds for trays of 4–8, optimal-hold odds for 0–3 dedicated rerolls, fixed-color combo odds, and exact three-hand shared-reroll opening-round checks underpin scores. See [BALANCE.md](BALANCE.md); reproduce with `npm run balance`.
 - Pair has 8 base Chips ×2 Mult, +6 Chips / +0.5 Mult Studies, +1 same-color Mult, smaller Pair multipliers, and slower Echo growth. The Hermit supports a four-die tray.
 - Echo growth resets on sale and on rebuy.
 - On-table scoring driven by exact engine steps: lifting dice, glowing Gods, distinct +Mult/×Mult effects, rising optional native audio, round-score transfer, target break, and payout count. Full/Instant speed and separate sound preferences persist. A hand commits once before the visual sequence; skipping, fast-forwarding, hiding the tab, and reloading cannot score twice.
@@ -44,4 +45,4 @@ Push source to GitHub first. Copy these eight public files to `rogue-dice/` in t
 
 ## Presentation and boss QA
 
-104 automated checks cover rules, all boss-effect families, saved draws, preference migration and timing presets. Browser QA verifies on-table step order, clear/payout events, sound controls, slower Full/Instant behavior, mid-sequence reload/fast-forward single-commit safety, persistent d20 reveal, and SE viewports down to 568×232. Native Web Audio starts only on a user gesture when sound is enabled. No audio files or copied game assets are used. Reduced-motion preferences suppress flying/shaking effects.
+110 automated checks cover rules, all boss-effect families, saved draws, preference migration and timing presets. Browser QA verifies on-table step order, clear/payout events, sound controls, slower Full/Instant behavior, mid-sequence reload/fast-forward single-commit safety, persistent d20 reveal, and SE viewports down to 568×232. Native Web Audio starts only on a user gesture when sound is enabled. No audio files or copied game assets are used. Reduced-motion preferences suppress flying/shaking effects.
