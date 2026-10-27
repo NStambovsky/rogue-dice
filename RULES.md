@@ -28,9 +28,13 @@ Each round starts with three scoring hands and three shared rerolls unless upgra
 
 Reroll changes unheld dice and spends a reroll. Scoring spends a hand and gives the whole tray a fresh roll for free if the target remains unmet. Holds clear; rerolls do not replenish until the next round. Burn a hand for a fresh tray without points if desired. Reaching the target immediately clears the round; running out of hands below target ends the run.
 
-## Score FX
+## Scoring presentation and speed
 
-Toggle **Score FX** beside the hold/best-hand controls. When on, a skippable walkthrough counts the base hand, each scoring die, color bonus, actions, God additions, multipliers, and final points. The exact same calculation supplies the preview and committed score. The preference saves on this device; off scores immediately.
+Scoring happens on the table. Each die lifts and contributes Chips, Gods light up in the engine’s scoring order, +Mult adds to the counter, and ×Mult effects land with a stronger pulse. The chain builds in intensity, then points move into the round score. Clearing breaks the target and counts the payout into your wallet.
+
+Choose **Full**, **Quick**, **Turbo**, or **Instant** beside the dice controls. Full gives every effect room to land; Quick is the default for new players; Turbo flies through the chain; Instant skips presentation. Tap **Skip scoring** or change to Instant during a sequence to finish immediately. **Sound** is optional and saved separately. Previously saved Score FX on/off preferences migrate to Full/Instant respectively.
+
+Your hand commits exactly once when you press Score, before presentation. Reloading, skipping, or switching away from the page cannot duplicate its points or payout. Scoring details remain available through Score breakdown. Reduced-motion preferences suppress flying and shaking.
 
 ## Build from what the market offers
 
@@ -54,7 +58,7 @@ Color-changing Gods override effective colors while equipped without deleting th
 
 **Casual** starts at 100 and adds 100 to every next target, with no bosses. **Hard** has escalating targets. The third rounds of Antes 3 and 6 add a boss handicap; the target scale doubles afterward (×2 from Ante 4, ×4 from Ante 7).
 
-The Pale House blocks the base matching-color +2 Mult bonus. The Iron Hand locks normal rerolls; Second Wind still works. Handicaps end after the boss round. Open Stakes Map for all targets and check the shop’s next-round preview before advancing. Beat all 24 rounds across eight Antes to win.
+A d20 roll selects one of twenty handicaps on boss entry. The result is saved immediately, does not change on reload, and avoids previously drawn bosses. Confirm Face the boss after reading its rule. The handicap ends after that boss round. Future boss names remain unknown until drawn. Existing saves keep their current legacy boss if already inside one. Open Stakes Map for all targets and check the shop’s next-round preview before advancing. Beat all 24 rounds across eight Antes to win.
 
 ## First-run tutorial
 
@@ -64,7 +68,7 @@ The Pale House blocks the base matching-color +2 Mult bonus. The Iron Hand locks
 4. If no regular group exists, Score Highest Die gives a small fallback instead of forcing a zero-point burn.
 5. Buy from the available market. Build around the Gods and Studies you actually see rather than assuming Pair Study will return.
 6. A Color Pact of blue 1, 3, and 6 scores (16 + 10) ×4 = 104 before upgrades. Quads of mixed-color fours score (48 + 16) ×5 = 320.
-7. Turn Score FX on to inspect each contribution. In landscape, tap God/action names and Score breakdown for details without leaving the compact table.
+7. Choose Full speed and enable Sound to feel each contribution, or select Turbo/Instant once you know your build. In landscape, tap God/action names and Score breakdown for details without leaving the compact table.
 
 Existing saves retain their tray, money, mode, and owned upgrades. New hand levels and voucher fields are added automatically. Existing original dice colors are preserved; start a new run to get the three-die start drawn from the full four-color palette. Gods that force a color still display that effective color.
 
@@ -80,3 +84,28 @@ Existing saves retain their tray, money, mode, and owned upgrades. New hand leve
 | 6 | 1,600 / 1,700 / 1,800 | 20,000 / 26,000 / 36,000 **boss** |
 | 7 | 1,900 / 2,000 / 2,100 | 100,000 / 130,000 / 165,000 |
 | 8 | 2,200 / 2,300 / 2,400 | 240,000 / 312,000 / 396,000 |
+
+## The twenty boss handicaps
+
+1. The Pale House — no matching-color +2 Mult.
+2. The Iron Hand — normal rerolls locked; Second Wind works.
+3. Crimson Fog — red pips add no Chips.
+4. Blackout — black pips add no Chips.
+5. Deep Water — blue pips add no Chips.
+6. Fool’s Gold — gold pips add no Chips.
+7. Small Print — ones and twos add no pip Chips.
+8. Tall Poppies — fives and sixes add no pip Chips.
+9. Split Decision — Pair/Two Pair base Chips, including Studies, halved.
+10. Roadblock — Run base Chips, including Studies, halved.
+11. Broken Covenant — Color Pact base Chips, including Studies, halved.
+12. Crowded House — Triplet/Quads base Chips, including Studies, halved.
+13. The Hush — first equipped scoring God silenced; extra-die/burn-income Gods unaffected.
+14. Glass Ceiling — God multiplier bonuses weakened: ×2 becomes ×1.5, ×3 becomes ×2.
+15. Closed Book — Study Mult gains halved.
+16. The Taxman — no God cash rewards; ordinary round payout remains.
+17. Short Notice — one fewer starting scoring hand, minimum one.
+18. Thin Air — two fewer starting normal rerolls, minimum zero.
+19. Three’s Company — three-dice scoring cap this round; tray unchanged.
+20. Mounting Pressure — each prior scored hand reduces final Mult by 10%, down to 50%.
+
+Pip-suppression bosses retain permanent die Chip bonuses and God effects. Other modifiers explicitly name what they suppress. Bosses and their saved choices are also visible in Rules → Card collection → 20 Bosses.
