@@ -13,7 +13,7 @@ export const BOSSES=[
  {id:'pacts',name:'Broken Covenant',text:'Color Pact base Chips, including Study gains, are halved.'},
  {id:'matches',name:'Crowded House',text:'Triplet and Quads base Chips, including Study gains, are halved.'},
  {id:'silence',name:'The Hush',text:'Your first equipped scoring God is silenced. Extra-die and burn-income Gods are unaffected.'},
- {id:'glass',name:'Glass Ceiling',text:'God ×Mult bonuses are reduced: ×2 becomes ×1.5, ×3 becomes ×2.'},
+ {id:'glass',name:'Glass Ceiling',text:'God and combo ×Mult bonuses are reduced: ×2 becomes ×1.5, ×3 becomes ×2.'},
  {id:'study',name:'Closed Book',text:'Mult gained from Studies is halved. Base Mult and other bonuses still work.'},
  {id:'tax',name:'The Taxman',text:'God cash rewards are disabled. The ordinary round-clear payout still applies.'},
  {id:'short',name:'Short Notice',text:'Start this round with one fewer scoring hand, minimum one.'},

@@ -1,5 +1,5 @@
-import {createPresenter,resolvePreferences,timingFor} from './presentation.js?v=6';
-import {GODS,ACTIONS,HANDS,newRun,targetFor,effectiveColor,colorDetails,paletteRule,preview,bestHand,reroll,scoreHand,advanceRound,buy,refreshShop,sellGod,useAction,discardAction,burnHand,validSave,migrateSave,bossFor,stakesFor,VOUCHERS,actionSlots,godSellPrice,COLORS,BOSSES,acknowledgeBoss,handLimit} from './engine.js?v=6';
+import {createPresenter,resolvePreferences,timingFor} from './presentation.js?v=7';
+import {GODS,ACTIONS,HANDS,newRun,targetFor,effectiveColor,colorDetails,paletteRule,preview,bestHand,reroll,scoreHand,advanceRound,buy,refreshShop,sellGod,useAction,discardAction,burnHand,validSave,migrateSave,bossFor,stakesFor,VOUCHERS,actionSlots,godSellPrice,COLORS,COMBOS,BOSSES,acknowledgeBoss,handLimit} from './engine.js?v=7';
 const $=id=>document.getElementById(id),KEY='rogue-dice-run-v1';
 const random=()=>{const a=new Uint32Array(1);crypto.getRandomValues(a);return a[0]/4294967296;};
 const fmt=n=>Number(n).toLocaleString('en-US',{maximumFractionDigits:6});
@@ -45,7 +45,7 @@ function renderDice(){
  $('palette-status').setAttribute('aria-label',`Color effects: ${paletteRule(state)}. Tap to inspect original colors and overrides.`);
  const result=preview(state,selected);
  $('hand-label').textContent=result?(result.kind==='high'?'HIGHEST DIE · FALLBACK':result.sameColor?`${effectiveColor(state,state.dice.find(d=>d.id===selected[0])).toUpperCase()} HAND · ${bossFor(state.round,state.mode,state.bossChoices)?.id==='pale'?'COLOR BONUS BLOCKED':'COLOR BONUS'}`:'MIXED COLORS'):`SELECT DICE · ${selected.length}/${handLimit(state)}`;
- $('hand-name').textContent=result?`${result.name}${result.kind==='run'?` of ${selected.length}`:''} · Lv.${state.levels[result.kind]}`:selected.length?'Not a scoring hand':'No hand selected';
+ $('hand-name').textContent=result?`${result.comboName||result.name}${result.kind==='run'?` of ${selected.length}`:''} · Lv.${state.levels[result.kind]}`:selected.length?'Not a scoring hand':'No hand selected';
  $('chips').textContent=result?fmt(result.chips):'0';$('mult').textContent=result?fmt(result.mult):'0';$('points').textContent=result?fmt(result.points):'0';
  $('effects').replaceChildren(...(result?result.effects.map(e=>node('span','effect',e)):[]));
  $('score').disabled=!result||busy||state.phase!=='play';$('score').textContent=result?.kind==='high'?'Score highest die →':'Score hand →';$('reroll').disabled=busy||bossFor(state.round,state.mode,state.bossChoices)?.id==='lock'||state.rerolls<=0||state.dice.every(d=>held.includes(d.id));
@@ -53,7 +53,7 @@ function renderDice(){
  $('score-details').disabled=!result;
  $('hold').disabled=busy||selected.length===0;$('hold').textContent=selected.length&&selected.every(id=>held.includes(id))?'Release selected':'Hold selected';$('best').disabled=busy;$('clear').disabled=busy||selected.length===0;$('burn').disabled=busy;
  $('dice-hint').textContent=state.rerolls===0&&!bestHand(state)?'No regular hand. Score Highest Die, use an action, or burn a hand.':held.length?`${held.length} held · Reroll changes the other dice. Select a group to score.`:`Select up to ${handLimit(state)} dice to score. Hold useful dice before rerolling.`;
- $('last-score').textContent=state.lastScore?`Last hand: ${state.lastScore.name} · ${fmt(state.lastScore.chips)} × ${fmt(state.lastScore.mult)} = ${fmt(state.lastScore.points)}${state.lastScore.money?` · +$${state.lastScore.money}`:''}`:'';
+ $('last-score').textContent=state.lastScore?`Last hand: ${state.lastScore.comboName||state.lastScore.name} · ${fmt(state.lastScore.chips)} × ${fmt(state.lastScore.mult)} = ${fmt(state.lastScore.points)}${state.lastScore.money?` · +$${state.lastScore.money}`:''}`:'';
 }
 $('palette-status').addEventListener('click',()=>showDetails('YOUR COLOR PALETTE',paletteRule(state),[
  'Dice keep their original colors when rolled. New runs start with three distinct colors drawn from red, black, blue, and gold. Older saved trays keep their original colors.',
@@ -120,7 +120,7 @@ save();render();
 
 function showDetails(kicker,title,lines){$('details-kicker').textContent=kicker;$('details-body').replaceChildren(node('h2','',title),...lines.map(line=>node('p','',line)));$('details-dialog').showModal();}
 $('close-details').addEventListener('click',()=>$('details-dialog').close());
-$('score-details').addEventListener('click',()=>{const p=preview(state,selected);if(p)showDetails('SCORING BREAKDOWN',`${p.name} · ${fmt(p.points)} points`,[...p.effects,`${fmt(p.chips)} Chips × ${fmt(p.mult)} Mult = ${fmt(p.points)} points`]);});
+$('score-details').addEventListener('click',()=>{const p=preview(state,selected);if(p)showDetails('SCORING BREAKDOWN',`${p.comboName||p.name} · ${fmt(p.points)} points`,[...p.effects,`${fmt(p.chips)} Chips × ${fmt(p.mult)} Mult = ${fmt(p.points)} points`]);});
 $('show-stakes').addEventListener('click',()=>{$('map-description').textContent=state.mode==='casual'?'CASUAL: targets increase by 100 every round. No bosses.':'HARD: bosses end Antes 3 and 6. The target scale doubles after each boss (×2 from Ante 4, ×4 from Ante 7).';const host=$('stakes-map-body');host.replaceChildren();for(let ante=0;ante<8;ante++){const box=node('section',`ante-map-row ${Math.floor(state.round/3)===ante?'current':''}`);box.append(node('strong','',`ANTE ${ante+1}${state.mode==='hard'&&(ante===2||ante===5)?' · BOSS ANTE':''}`));const rounds=node('div','map-rounds');for(let stage=0;stage<3;stage++){const r=ante*3+stage,st=stakesFor(r,state.mode,state.bossChoices),cell=node('div',`map-round ${st.boss?'boss':''} ${r===state.round?'current':''}`);cell.append(node('span','',`${r<state.round?'✓ ':r===state.round?'▶ ':''}${st.label}`),node('strong','',fmt(st.target)));if(st.boss)cell.append(node('small','',state.bossChoices[r]?st.boss.name:'d20 · 20 possible'));rounds.append(cell);}box.append(rounds);const boss=bossFor(ante*3+2,state.mode,state.bossChoices);if(boss)box.append(node('p','',state.bossChoices[ante*3+2]?boss.text:'A saved d20 roll selects the handicap on entry.'));host.append(box);}$('stakes-map').showModal();});
 $('close-stakes').addEventListener('click',()=>$('stakes-map').close());
 
@@ -132,12 +132,12 @@ function showBossRoll(){
  if(bossRolling||!state.bossRevealPending)return;bossRolling=true;busy=true;
  const boss=bossFor(state.round,state.mode,state.bossChoices),face=BOSSES.findIndex(b=>b.id===boss.id)+1,dialog=$('boss-roll');
  $('boss-result-name').textContent='The house is rolling…';$('boss-result-rule').textContent='One of twenty handicaps. Your result is saved for this run.';$('face-boss').disabled=true;$('boss-roll-die').classList.add('rolling');dialog.showModal();
- const duration=preferences.speed==='instant'?0:preferences.speed==='turbo'?180:preferences.speed==='quick'?650:1400,start=performance.now();
- function tick(){if(performance.now()-start<duration){$('boss-roll-die').textContent=1+Math.floor(Math.random()*20);bossTimer=setTimeout(tick,preferences.speed==='full'?65:35);return;}$('boss-roll-die').textContent=face;$('boss-roll-die').classList.remove('rolling');$('boss-result-name').textContent=boss.name;$('boss-result-rule').textContent=boss.text;$('face-boss').disabled=false;}
+ const duration=preferences.speed==='instant'?0:1800,start=performance.now();
+ function tick(){if(performance.now()-start<duration){$('boss-roll-die').textContent=1+Math.floor(Math.random()*20);bossTimer=setTimeout(tick,65);return;}$('boss-roll-die').textContent=face;$('boss-roll-die').classList.remove('rolling');$('boss-result-name').textContent=boss.name;$('boss-result-rule').textContent=boss.text;$('face-boss').disabled=false;}
  tick();
 }
 $('face-boss').addEventListener('click',()=>{if($('face-boss').disabled||!state.bossRevealPending)return;state=acknowledgeBoss(state);save();bossRolling=false;busy=false;$('boss-roll').close();render();message('Boss round. Make the build count.');});
 $('boss-roll').addEventListener('cancel',event=>event.preventDefault());
-const catalogs={gods:GODS,vouchers:VOUCHERS,actions:ACTIONS,bosses:BOSSES.map(b=>({...b,symbol:'⚄',color:'red'}))};
-function showCollection(type='gods'){$('collection-body').replaceChildren(...catalogs[type].map(item=>{const card=node('article',`collection-card ${item.color}`);card.append(node('span','collection-symbol',item.symbol),node('strong','',item.name),node('small','',item.price===undefined?'BOSS HANDICAP':`${item.rarity||'common'} · $${item.price}`),node('p','',item.text));return card;}));for(const b of document.querySelectorAll('[data-catalog]'))b.setAttribute('aria-pressed',String(b.dataset.catalog===type));}
+const catalogs={combos:COMBOS.map(c=>({...c,symbol:'✦',color:'teal'})),gods:GODS,vouchers:VOUCHERS,actions:ACTIONS,bosses:BOSSES.map(b=>({...b,symbol:'⚄',color:'red'}))};
+function showCollection(type='gods'){$('collection-body').replaceChildren(...catalogs[type].map(item=>{const card=node('article',`collection-card ${item.color}`);card.append(node('span','collection-symbol',item.symbol),node('strong','',item.name),node('small','',item.price===undefined?(type==='combos'?'HAND COMBO':'BOSS HANDICAP'):`${item.rarity||'common'} · $${item.price}`),node('p','',item.text));return card;}));for(const b of document.querySelectorAll('[data-catalog]'))b.setAttribute('aria-pressed',String(b.dataset.catalog===type));}
 $('open-collection').addEventListener('click',()=>{$('rules').close();showCollection();$('collection').showModal();});$('close-collection').addEventListener('click',()=>$('collection').close());for(const b of document.querySelectorAll('[data-catalog]'))b.addEventListener('click',()=>showCollection(b.dataset.catalog));

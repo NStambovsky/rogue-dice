@@ -1,7 +1,7 @@
-import {BOSSES,BOSS_ROUNDS,bossFor,drawBoss} from './bosses.js?v=6';
-export {BOSSES,BOSS_ROUNDS,bossFor} from './bosses.js?v=6';
-import {GODS,ACTIONS,VOUCHERS,weightedPick} from './catalog.js?v=6';
-export {GODS,ACTIONS,VOUCHERS} from './catalog.js?v=6';
+import {BOSSES,BOSS_ROUNDS,bossFor,drawBoss} from './bosses.js?v=7';
+export {BOSSES,BOSS_ROUNDS,bossFor} from './bosses.js?v=7';
+import {GODS,ACTIONS,VOUCHERS,weightedPick} from './catalog.js?v=7';
+export {GODS,ACTIONS,VOUCHERS} from './catalog.js?v=7';
 export const VERSION=6;
 export const COLORS=['red','black','blue','gold'];
 export const HANDS={
@@ -55,6 +55,18 @@ function numericKind(dice){
  if(dice.length===4){const c=new Map();for(const d of dice)c.set(d.value,(c.get(d.value)||0)+1);if(c.size===2&&[...c.values()].every(n=>n===2))return 'twopair';}
  if(dice.length>=3&&dice.length<=6){const v=dice.map(d=>d.value).sort((a,b)=>a-b);if(v.every((n,i)=>i===0||n===v[i-1]+1))return 'run';}return null;
 }
+export const COMBOS=[
+ {id:'pure-run',name:'Pure Run',text:'A Run of 3–4 dice, all the same color: +12 Chips and ×1.5 Mult.',chips:12,mult:0,factor:1.5},
+ {id:'prism-run',name:'Prism Run',text:'A Run of four dice in four different colors: +16 Chips and +3 Mult.',chips:16,mult:3},
+ {id:'twin-pacts',name:'Twin Pacts',text:'Two Pair with each pair matching in color: +12 Chips and +2 Mult. The two pairs may have different colors.',chips:12,mult:2}
+];
+export function comboFor(dice,kind,colorFor=d=>d.color){
+ let id=null;
+ if(kind==='run'&&dice.every(d=>colorFor(d)===colorFor(dice[0])))id='pure-run';
+ else if(kind==='run'&&dice.length===4&&new Set(dice.map(colorFor)).size===4)id='prism-run';
+ else if(kind==='twopair'){const groups=new Map();for(const d of dice){if(!groups.has(d.value))groups.set(d.value,[]);groups.get(d.value).push(d);}if([...groups.values()].every(pair=>colorFor(pair[0])===colorFor(pair[1])))id='twin-pacts';}
+ return COMBOS.find(c=>c.id===id)||null;
+}
 export function classifyAll(dice,colorFor=d=>d.color){const kinds=[],numeric=numericKind(dice);if(numeric)kinds.push(numeric);if(dice.length>=3&&COLORS.includes(colorFor(dice[0]))&&dice.every(d=>colorFor(d)===colorFor(dice[0])))kinds.push('pact');return kinds;}
 export function classify(dice){return classifyAll(dice)[0]||null;}
 export function preview(s,ids,allowFallback=true){
@@ -64,6 +76,7 @@ export function preview(s,ids,allowFallback=true){
 }
 function calculateHand(s,dice,kind){
  const boss=activeBoss(s),level=s.levels[kind],sameColor=dice.length>=2&&dice.every(d=>effectiveColor(s,d)===effectiveColor(s,dice[0]));
+ const combo=comboFor(dice,kind,d=>effectiveColor(s,d));
  let chips=HANDS[kind].chips+(level-1)*(HANDS[kind].chipStep||12)+(kind==='run'?Math.max(0,dice.length-3)*12:0);
  let mult=HANDS[kind].mult+(level-1)*(HANDS[kind].multStep||1)*(boss?.id==='study'?0.5:1)+(kind==='run'?Math.max(0,dice.length-3):0),money=0;
  const steps=[],effects=[];
@@ -76,6 +89,7 @@ function calculateHand(s,dice,kind){
  if(s.vouchers.dichrome||s.vouchers.oceanore)step(`${s.vouchers.dichrome?'Blood & Ink License':'Ocean & Ore License'}: palette applied beneath Gods and Washes`,'voucher');
  for(const die of dice)if(die.roundColor)step(`Round Wash: die ${die.id} counts as ${die.roundColor}`,'action');
  if(sameColor){if(activeBoss(s)?.id==='pale')step('The Pale House: color +2 Mult blocked','boss');else{mult+=2;step('Same color: +2 Mult','color');}}
+ if(combo){chips+=combo.chips;mult+=combo.mult;step(`${combo.name}: +${combo.chips} Chips${combo.mult?' +'+combo.mult+' Mult':''}`,'combo',combo.id);}
  if(s.roundEffects.nextChips){chips+=s.roundEffects.nextChips;step(`Overcharge: +${s.roundEffects.nextChips} Chips`,'action','surge');}
  if(s.roundEffects.nextMult){mult+=s.roundEffects.nextMult;step(`Fortune’s Favor: +${s.roundEffects.nextMult} Mult`,'action','blessing');}
  const count=fn=>dice.filter(fn).length;
@@ -101,11 +115,12 @@ function calculateHand(s,dice,kind){
   ['twins',pairUnits(kind)>0,2],['trinity',kind==='triplet',3],['fortune',s.scoredThisRound===0,2],['moon',sameColor,1.5],
   ['mirror',pairUnits(kind)>0&&sameColor,1.5],['cartographer',kind==='run'&&dice.length>=4,2],['sentinel',s.hands===1,2],['pauper',s.money<=5,2],['hermit',s.dice.length===3,1.75],['chorus',dice.length===s.dice.length,1.5]
  ])if(scoringHas(s,id)&&when){const applied=boss?.id==='glass'?1+(factor-1)/2:factor;mult*=applied;step(`${GODS.find(g=>g.id===id).name}: ×${applied} Mult`,'god',id);}
+ if(combo?.factor){const applied=boss?.id==='glass'?1+(combo.factor-1)/2:combo.factor;mult*=applied;step(`${combo.name}: ×${applied} Mult`,'combo',combo.id);}
  for(const [id,when,amount]of[['midas',sameColor,2],['bounty',kind==='run',3],['rainmaker',kind==='triplet',4]])if(scoringHas(s,id)&&when&&boss?.id!=='tax'){money+=amount;step(`${GODS.find(g=>g.id===id).name}: +$${amount}`,'god',id);}
  if(boss?.id==='silence')step('The Hush: first scoring God silenced','boss');
  if(boss?.id==='pressure'){const factor=Math.max(.5,1-s.scoredThisRound*.1);mult*=factor;step(`Mounting Pressure: ×${factor} final Mult`,'boss');}
  step('Final score','total');
- return {kind,scoringIds:dice.map(d=>d.id),name:HANDS[kind].name,chips,mult,points:Math.floor(chips*mult),sameColor,effects,steps,money};
+ return {kind,scoringIds:dice.map(d=>d.id),name:HANDS[kind].name,chips,mult,points:Math.floor(chips*mult),sameColor,combo:combo?.id||null,comboName:combo?.name||null,effects,steps,money};
 }
 function normalHandExists(s){for(let mask=1;mask<(1<<s.dice.length);mask++){const dice=s.dice.filter((_,i)=>mask&(1<<i));if(dice.length>=2&&dice.length<=handLimit(s)&&classifyAll(dice,d=>effectiveColor(s,d)).length)return true;}return false;}
 export function bestHand(s){let best=null;for(let mask=1;mask<(1<<s.dice.length);mask++){const ids=s.dice.filter((_,i)=>mask&(1<<i)).map(d=>d.id),value=preview(s,ids,false);if(value&&(!best||value.points>best.value.points))best={ids:value.scoringIds,value};}if(!best){const value=preview(s,[]);if(value)best={ids:value.scoringIds,value};}return best;}

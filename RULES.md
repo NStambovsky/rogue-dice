@@ -22,6 +22,18 @@ When a selection qualifies as both a numerical hand and Color Pact, the preview 
 
 **Highest Die** automatically uses the tray’s highest face only if there is no regular hand anywhere in the tray. Its initial score is just that face value ×1, with no single-die color bonus. Ordinary Studies add +12 Chips and +1 Mult; Highest Die Study adds only +2 Chips and +0.25 Mult. It takes many levels to become strong.
 
+## Combo bonuses
+
+Combos reward the colors inside a numerical hand. They keep the original hand’s level and God triggers, with no separate Study to find. Preview and Best Hand include them automatically; see Collection → 3 Combos.
+
+| Combo | Requirement | Extra score effects |
+|---|---|---|
+| Pure Run | Run of 3–4 dice, all one effective color | +12 Chips, then ×1.5 Mult |
+| Prism Run | Run of four dice in four different effective colors | +16 Chips and +3 Mult |
+| Twin Pacts | Two Pair with each equal-value pair matching in color | +12 Chips and +2 Mult |
+
+Twin Pacts allows the two pairs to use different colors; all-four-one-color also qualifies and keeps its ordinary +2 Mult. Pure Run’s multiplier follows God multipliers; all combo additions precede them. Glass Ceiling weakens combo multipliers too (Pure Run becomes ×1.25). Other boss rules apply to the underlying hand normally. Temporary Washes and color-changing Gods affect eligibility. Full House still needs five dice and does not fit the four-die cap.
+
 ## Play a round
 
 Each round starts with three scoring hands and three shared rerolls unless upgraded. Select dice, then **Hold selected** to preserve them on rerolls. Scoring selection and holds are separate. You can hold more than four dice by selecting and holding separate groups.
@@ -32,7 +44,7 @@ Reroll changes unheld dice and spends a reroll. Scoring spends a hand and gives 
 
 Scoring happens on the table. Each die lifts and contributes Chips, Gods light up in the engine’s scoring order, +Mult adds to the counter, and ×Mult effects land with a stronger pulse. The chain builds in intensity, then points move into the round score. Clearing breaks the target and counts the payout into your wallet.
 
-Choose **Full**, **Quick**, **Turbo**, or **Instant** beside the dice controls. Full gives every effect room to land; Quick is the default for new players; Turbo flies through the chain; Instant skips presentation. Tap **Skip scoring** or change to Instant during a sequence to finish immediately. **Sound** is optional and saved separately. Previously saved Score FX on/off preferences migrate to Full/Instant respectively.
+Choose **Full** or **Instant** beside the dice controls. Full is the default and pauses 0.65–0.85 seconds on each step, with another 0.45 seconds for multiplier hits. It no longer rushes long chains. Instant skips presentation. Saved Quick preferences become Full; saved Turbo preferences become Instant. Tap **Skip scoring** or change to Instant during a sequence to finish immediately. **Sound** is optional and saved separately. Previously saved Score FX on/off preferences migrate to Full/Instant respectively.
 
 Your hand commits exactly once when you press Score, before presentation. Reloading, skipping, or switching away from the page cannot duplicate its points or payout. Scoring details remain available through Score breakdown. Reduced-motion preferences suppress flying and shaking.
 
@@ -78,7 +90,7 @@ A d20 roll selects one of twenty handicaps on boss entry. The result is saved im
 4. If no regular group exists, Score Highest Die gives a small fallback instead of forcing a zero-point burn.
 5. Buy from the available market. Build around the Gods and Studies you actually see rather than assuming Pair Study will return.
 6. A Color Pact of blue 1, 3, and 6 scores (16 + 10) ×4 = 104 before upgrades. Quads of mixed-color fours score (48 + 16) ×5 = 320.
-7. Choose Full speed and enable Sound to feel each contribution, or select Turbo/Instant once you know your build. In landscape, tap God/action names and Score breakdown for details without leaving the compact table.
+7. Choose Full speed and enable Sound to feel each contribution, or select Instant once you know your build. In landscape, tap God/action names and Score breakdown for details without leaving the compact table.
 
 Existing saves retain their tray, money, mode, and owned upgrades. New hand levels and voucher fields are added automatically. Existing original dice colors are preserved; start a new run to get the three-die start drawn from the full four-color palette. Gods that force a color still display that effective color.
 
@@ -110,7 +122,7 @@ Existing saves retain their tray, money, mode, and owned upgrades. New hand leve
 11. Broken Covenant — Color Pact base Chips, including Studies, halved.
 12. Crowded House — Triplet/Quads base Chips, including Studies, halved.
 13. The Hush — first equipped scoring God silenced; extra-die/burn-income Gods unaffected.
-14. Glass Ceiling — God multiplier bonuses weakened: ×2 becomes ×1.5, ×3 becomes ×2.
+14. Glass Ceiling — God and combo multiplier bonuses weakened: ×2 becomes ×1.5, ×3 becomes ×2.
 15. Closed Book — Study Mult gains halved.
 16. The Taxman — no God cash rewards; ordinary round payout remains.
 17. Short Notice — one fewer starting scoring hand, minimum one.
