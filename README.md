@@ -49,3 +49,7 @@ Push source to GitHub first. Copy these eight public files to `rogue-dice/` in t
 ## Presentation and boss QA
 
 130 automated checks cover rules, all boss-effect families, saved draws, preference migration and timing presets. Browser QA verifies on-table step order, clear/payout events, sound controls, slower Full/Instant behavior, mid-sequence reload/fast-forward single-commit safety, persistent d20 reveal, and SE viewports down to 568×232. Native Web Audio starts only on a user gesture when sound is enabled. No audio files or copied game assets are used. Reduced-motion preferences suppress flying/shaking effects.
+
+## Original pixel art theme
+
+The table uses original SVG pixel portraits and a locally hosted OFL Pixelify Sans font. Deploy the assets directory alongside the eight public game files; font licensing is included in assets/font-license.txt. Rebuild portraits with `node tools/build-art.mjs`. The visual theme preserves existing saved runs and scoring.
