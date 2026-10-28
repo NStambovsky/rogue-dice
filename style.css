@@ -81,3 +81,5 @@
 #god-detail>.dialog-top{position:sticky;top:0;background:#272127;z-index:5;box-shadow:0 8px 10px #272127}#god-detail #close-god{min-height:44px;padding:8px 0}#god-detail>.dialog-top .eyebrow{margin-top:12px}
 
 .evolution-active{padding:10px;border:1px solid #dfbd6d66;border-radius:4px;color:var(--gold);background:#dfbd6d0a}
+
+.is-scoring .god-card:disabled{opacity:1}.is-scoring .die.proc-active{opacity:1}
