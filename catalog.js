@@ -1,4 +1,8 @@
 export const GODS=[
+ {id:'striker',name:'The Striker',symbol:'⚒',color:'red',price:8,rarity:'uncommon',text:'At this God’s position, retrigger the first scoring die once: repeat its pips and permanent Chip bonus. Does not replay other Gods.'},
+ {id:'resonator',name:'The Resonator',symbol:'◎',color:'violet',price:7,rarity:'uncommon',text:'At this position, gain +2 Mult per die retrigger that has already happened in this hand. Put retrigger Gods to its left.'},
+ {id:'refrain',name:'The Refrain',symbol:'↶',color:'teal',price:10,rarity:'rare',text:'Repeat the preceding active God’s immediate scoring effects once, at this position. Skips paint and inactive Gods. Never duplicates permanent growth or evolution progress.'},
+ {id:'oath',name:'The Oath',symbol:'♜',color:'gold',price:11,rarity:'rare',text:'Score ×2 Mult at this position, but start rounds with one fewer normal reroll while equipped. Selling restores future-round capacity.'},
  {id:'echo',name:'The Echo',symbol:'Ⅱ',color:'violet',price:8,text:'Scoring Pair grows this God’s +Mult by 0.5; Two Pair grows it by 1. Growth resets when sold.'},
  {id:'scarlet',name:'The Red Queen',symbol:'♛',color:'red',price:12,rarity:'rare',text:'All dice count as red while this God is equipped. Original colors return when sold. One color-changing God at a time.'},
  {id:'ladder',name:'The Wayfarer',symbol:'↗',color:'teal',price:7,text:'Runs gain +2 Mult for every die in the Run.'},
@@ -80,3 +84,23 @@ export const VOUCHERS=[
 export function rarityOf(item){return item.rarity||'common';}
 export function weightOf(item){return item.weight??({common:5,uncommon:2.5,rare:1,legendary:.35}[rarityOf(item)]);}
 export function weightedPick(items,r=Math.random){const total=items.reduce((n,item)=>n+weightOf(item),0);let value=r()*total;for(const item of items){value-=weightOf(item);if(value<0)return item;}return items.at(-1);}
+
+
+export const EVOLUTIONS={
+ echo:{goal:5,label:'Pair / Two Pair hands scored',options:[
+  {id:'resonance',name:'Deep Resonance',text:'Future Pair growth doubles to +1 Mult; Two Pair growth becomes +2. Existing growth is retained.'},
+  {id:'harmonics',name:'Rich Harmonics',text:'Keep normal growth. At Echo’s position, Pair adds +6 Chips and Two Pair adds +12 Chips.'}
+ ]},
+ ladder:{goal:5,label:'Runs scored',options:[
+  {id:'footpath',name:'The Footpath',text:'Keep Wayfarer’s normal bonus. Three-die Runs gain another +3 Mult at its position.'},
+  {id:'highroad',name:'The High Road',text:'Keep Wayfarer’s normal bonus. Four-die Runs also gain ×1.5 Mult at its position.'}
+ ]},
+ ember:{goal:5,label:'Hands scored with a red die',options:[
+  {id:'furnace',name:'The Furnace',text:'Keep Ember’s +8 Chips per red die, then retrigger the first red scoring die once. Can feed Resonator and Refrain.'},
+  {id:'whiteheat',name:'White Heat',text:'Ember’s bonus becomes +16 Chips per red scoring die.'}
+ ]},
+ kaleidoscope:{goal:5,label:'Hands scored with 3+ colors',options:[
+  {id:'prismatic',name:'Prismatic Heart',text:'Kaleidoscope’s bonus becomes +2 Mult per distinct scoring color.'},
+  {id:'spectrum',name:'Spectrum Crown',text:'Keep the normal color bonus. Four-color scoring hands also gain ×1.5 Mult at its position.'}
+ ]}
+};

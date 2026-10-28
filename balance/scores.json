@@ -236,11 +236,11 @@
           }
         },
         "pairGods": {
-          "meanBestScore": 193.75925925925927,
+          "meanBestScore": 157.83333333333334,
           "hands": {
             "pair": {
               "chance": 0.7222222222222222,
-              "meanScore": 171.02884615384616
+              "meanScore": 129.40705128205127
             },
             "triplet": {
               "chance": 0.09722222222222222,
@@ -252,7 +252,7 @@
             },
             "twopair": {
               "chance": 0.06944444444444445,
-              "meanScore": 612
+              "meanScore": 408
             },
             "run3": {
               "chance": 0.2777777777777778,

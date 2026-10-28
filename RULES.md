@@ -16,7 +16,7 @@ Start with **four six-sided dice** drawn from four original colors: **red, black
 
 A four-die Run adds +4 base Chips. Runs cannot wrap from 6 to 1. Quints and higher groups cannot be submitted under the four-die limit. A larger tray can still provide a four-die Quad subset.
 
-Selected dice add their pip values and permanent chip bonuses. A same-color Pair adds +1 Mult; other all-one-color hands of at least two dice add +2 Mult. Gods and one-shot boosts then apply; all additive bonuses are counted before Mult multipliers. The final score is floored once.
+Selected dice add their pip values and permanent chip bonuses. A same-color Pair adds +1 Mult; other all-one-color hands of at least two dice add +2 Mult. One-shot boosts and Spectrum Grant resolve before Gods. Active Gods then fire left to right in rack order; +Mult after a ×Mult is not amplified by that earlier multiplier. Paint is resolved upfront, while Pure Run’s multiplier follows all Gods. The final score is floored once.
 
 When a selection qualifies as both a numerical hand and Color Pact, the preview uses whichever scores higher with your current levels, Gods, and boss. Find Best Hand checks all legal subsets up to four dice.
 
@@ -60,7 +60,7 @@ A normal shop has **five offers**: two Gods, one Study, one action, and one vouc
 
 Clearing pays a $6/$7/$8 base reward, $2 per unused hand, and $1 interest per $5 held up to $5. Vouchers can improve payouts, interest limits, prices, action capacity, God selection, resale, or permanent chip polishing. Refreshing costs $2 initially and rises by $1 each time, resetting next round.
 
-The collection has **36 Dice Gods, 15 vouchers, and 21 action cards**. Open Rules → Card collection to inspect them. Gods use slots and work while equipped. Selling The Echo resets all its accumulated Mult; rebuying starts at zero. Selling The Sixth Finger removes its granted die, including modifications on that die.
+The collection has **40 Dice Gods, 15 vouchers, and 21 action cards**. Open Rules → Card collection to inspect them. Gods use slots and work while equipped. Selling The Echo resets all its accumulated Mult; rebuying starts at zero. Selling The Sixth Finger removes its granted die, including modifications on that die.
 
 Extra-die God/voucher offers are legendary and unavailable until Ante 2. The Sixth Finger lists at $16; A Bigger Fist starts at $18 and costs $8 more each repeat. Discounts may lower these prices. New runs can reach eight dice through rare die vouchers and/or The Sixth Finger, but extra dice do not raise the hand limit.
 
@@ -81,6 +81,28 @@ Only one color-changing God can be equipped: **Red Queen** (all red), **Ink King
 Choose at most one permanent palette license per run: **Blood & Ink License** maps gold → red and blue → black; **Ocean & Ore License** maps red → gold and black → blue. Licenses affect future extra dice too without deleting original colors. Gods override a license; a Wash can break its restriction for one die until the next round.
 
 For varied builds, **The Kaleidoscope** adds +1 Mult per distinct effective scoring color, and **Spectrum Grant** adds +0.5 per distinct effective scoring color. They stack before ×Mult effects. The Tide rewards blue dice and The Crown rewards gold dice, complementing The Ember and The Night.
+
+## God order, chains and evolution
+
+Tap an equipped God and use **Move left/right**. Desktop players can also drag cards in the rack. Position numbers show the scoring order. You may arrange Gods during play or the shop without spending resources. The preview updates immediately. A +Mult God before a ×Mult God produces a different result from the reverse. Color-changing Gods set effective colors before hand classification, regardless of slot; actions, color/combos and Spectrum Grant also resolve before active Gods. Pure Run’s multiplier follows all Gods. The Hush silences the first scoring God in your current order. God cash earned earlier in the chain counts toward later Treasurer and Beggar conditions.
+
+- **The Striker** repeats the first selected scoring die’s pips and permanent Chip bonus once at its slot. The animated die repeat uses the same fog/blocked-pip rules as the original die.
+- **The Resonator** adds +2 Mult per die repeat that happened to its left in this hand. It cannot count repeats that have not happened yet.
+- **The Refrain** repeats the last active God’s immediate effects once. Paint rules and inactive Gods are skipped. Copies repeat resolved additions, multipliers, cash or die repeats; they never duplicate permanent growth or evolution progress. A copy does not recursively activate other Gods or become a new copy target. Glass Ceiling weakens each copied raw multiplier once, and Taxman still blocks copied cash.
+- **The Oath** scores ×2 Mult at its slot, with one fewer normal reroll at the start of future rounds while equipped. Selling restores future-round capacity without refunding spent rerolls.
+
+God effects only run a finite number of times per submitted hand. You can compare arrangements safely in the preview; it never grows Gods, earns money or spends resources.
+
+Four existing Gods evolve after **five qualifying committed hands while equipped**:
+
+| God | Goal | First path | Second path |
+|---|---|---|---|
+| Echo | Pair or Two Pair hands | Deep Resonance: future growth doubles to +1 per Pair / +2 per Two Pair | Rich Harmonics: +6 Chips per Pair or +12 per Two Pair at Echo’s slot |
+| Wayfarer | Runs | Footpath: another +3 Mult for three-die Runs | High Road: ×1.5 Mult for four-die Runs after Wayfarer’s normal addition |
+| Ember | Hands scoring a red die | Furnace: repeat the first red scoring die after its normal bonus | White Heat: +16 Chips per red die instead of +8 |
+| Kaleidoscope | Hands scoring at least three distinct colors | Prismatic Heart: +2 Mult per color instead of +1 | Spectrum Crown: four-color hands also gain ×1.5 Mult at this slot |
+
+Their cards show progress and glow **EVOLVE** when ready. Tap to inspect both paths and choose one permanently for this run. The original effect remains unless a path explicitly replaces its amount. Copies, previews, rerolls and silenced Gods do not progress goals; one submitted hand advances a goal at most once. Selling clears that God’s evolution; selling Echo also resets its accumulated Mult. Existing saved runs retain progress, tray, money, upgrades and order; new evolution goals start at zero. Future scoring now follows the visible order, so arrange your existing rack before continuing.
 
 ## Run modes
 

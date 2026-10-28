@@ -23,11 +23,11 @@ export function createPresenter(getPreferences){
     if(getPreferences().speed==='instant'){job.finish();return;}
     const step=result.steps[index],multiply=['god','boss','combo'].includes(step.source)&&step.label.includes('×'),duration=timingFor(getPreferences().speed,index,multiply),strength=intensityFor(step,index);
     const source=step.source==='die'?document.querySelector(`[data-die="${step.id}"]`):step.source==='god'?document.querySelector(`[data-god="${step.id}"]`):$('hand-name');
-    for(const e of document.querySelectorAll('.proc-active'))e.classList.remove('proc-active');pulse(source);$('score-event').textContent=step.label;$('score-event').dataset.kind=multiply?'multiply':step.source==='die'?'chip':'bonus';$('score-event').style.setProperty('--intensity',strength);
+    for(const e of document.querySelectorAll('.proc-active'))e.classList.remove('proc-active');pulse(source);if(step.retrigger&&step.dieId)pulse(document.querySelector(`[data-die="${step.dieId}"]`));$('score-event').textContent=step.label;$('score-event').dataset.kind=multiply?'multiply':step.retrigger?'retrigger':step.source==='die'?'chip':'bonus';$('score-event').style.setProperty('--intensity',strength);
     if(step.chips!==previous.chips){pulse($('chips'),'counter-hit');fly(`+${fmt(step.chips-previous.chips)}`,source,$('chips'),'chip',duration);}
     if(step.mult!==previous.mult){pulse($('mult'),multiply?'mult-hit':'counter-hit');fly(multiply?`×${fmt(step.mult/Math.max(.0001,previous.mult))}`:`${step.mult>=previous.mult?'+':'−'}${fmt(Math.abs(step.mult-previous.mult))}`,source,$('mult'),multiply?'multiply':'bonus',duration);}
     if(multiply&&!reduced()&&getPreferences().speed==='full')pulse(document.querySelector('.felt'),'score-impact');
-    $('chips').textContent=fmt(step.chips);$('mult').textContent=fmt(step.mult);$('points').textContent=fmt(step.points);sound(index,multiply?'multiply':step.source==='total'?'win':'chip',strength);previous=step;await sleep(duration);
+    $('chips').textContent=fmt(step.chips);$('mult').textContent=fmt(step.mult);$('points').textContent=fmt(step.points);sound(index,multiply?'multiply':step.retrigger?'retrigger':step.source==='total'?'win':'chip',strength);previous=step;await sleep(duration);
    }
    if(job.done)return;
    $('score-event').textContent=`+${fmt(result.points)} POINTS`;$('score-event').dataset.kind='total';pulse($('points'),'mult-hit');const scoreTarget=document.querySelector('.score-cell strong');fly(`+${fmt(result.points)}`,$('points'),scoreTarget,'total',380);

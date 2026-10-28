@@ -69,3 +69,15 @@
  body[data-phase=play] .palette-counts i{width:4px;height:4px}
 }
 @media(orientation:landscape) and (max-height:290px) and (max-width:1000px){body[data-phase=play] .felt{grid-template-rows:10px minmax(24px,1fr) 22px 28px 12px 28px 14px}}
+
+/* Ordered patrons and earned evolution, with touch-sized controls in the inspect dialog. */
+.god-position{position:absolute;top:6px;right:7px;font:8px 'Space Mono',monospace;color:var(--muted)}.god-progress{position:absolute;bottom:5px;right:7px;font:8px 'Space Mono',monospace;color:var(--gold);background:#19151acc;padding:1px 3px;border-radius:3px}.god-card.evolution-ready{border-color:var(--gold);box-shadow:0 0 14px #dfbd6d50}.god-order-tools{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0 16px}.god-order-tools .button{justify-content:center;min-height:44px}.order-note{color:var(--muted);border-left:2px solid var(--gold);padding-left:10px}.evolution-status{color:var(--gold);margin-bottom:4px}.evolution-meter{width:100%;accent-color:var(--gold);height:9px;margin-bottom:12px}.evolution-option{border:1px solid var(--line);border-radius:5px;padding:12px;margin-bottom:12px;background:#1d191e}.evolution-option p{margin:5px 0 10px!important}.evolution-option .button{width:100%;min-height:44px}.evolution-option:has(button:disabled){opacity:.8}#sell-god{margin-top:12px}
+@media(orientation:landscape) and (max-height:500px) and (max-width:1000px){body[data-phase=play] .god-position{top:1px;right:2px;font-size:5px}body[data-phase=play] .god-progress{bottom:0;right:1px;font-size:5px;line-height:1.2;padding:0 1px}body[data-phase=play] .god-card{padding-bottom:8px}.god-order-tools .button{font-size:10px;min-height:44px}.evolution-option{padding:9px}.evolution-option .button{min-height:44px;font-size:10px}#god-detail-body .god-symbol{font-size:30px}#god-detail-body h2{font-size:28px;margin:4px 0 10px}#god-detail-body p{font-size:10px;margin-bottom:10px}}
+
+.table-score-event[data-kind=retrigger]{background:var(--gold);color:#241c18;border-color:#ffdf92}
+
+.evolution-ready .god-progress{background:var(--gold);color:#251c18;font-weight:800}
+
+#god-detail>.dialog-top{position:sticky;top:0;background:#272127;z-index:5;box-shadow:0 8px 10px #272127}#god-detail #close-god{min-height:44px;padding:8px 0}#god-detail>.dialog-top .eyebrow{margin-top:12px}
+
+.evolution-active{padding:10px;border:1px solid #dfbd6d66;border-radius:4px;color:var(--gold);background:#dfbd6d0a}

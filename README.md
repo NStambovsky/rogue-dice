@@ -14,12 +14,15 @@ See [RULES.md](RULES.md) for the complete rulebook, examples, tutorial, and Casu
 - Highest Die fallback if no other legal hand exists, with intentionally weak +2 Chips / +0.25 Mult Studies.
 - Pure Run, Prism Run, and Twin Pacts combo bonuses, using existing Run/Two Pair Studies and Gods.
 - Automatic selection of the strongest qualifying hand and legal subset search.
-- 36 Dice Gods, 15 functional vouchers, and 21 functional action cards.
+- 40 Dice Gods, 15 functional vouchers, and 21 functional action cards.
 - Smaller five-offer markets with one randomized Study and recent-offer cooldowns. Foresight can add one God option.
 - Weighted legendary extra-die offers, first available after Ante 1, with higher and escalating costs.
 - Exact numerical odds for trays of 4–8, optimal-hold odds for 0–3 dedicated rerolls, fixed-color combo odds, and exact three-hand shared-reroll opening-round checks underpin scores. See [BALANCE.md](BALANCE.md); reproduce with `npm run balance`.
 - Pair has 8 base Chips ×2 Mult, +6 Chips / +0.5 Mult Studies, +1 same-color Mult, smaller Pair multipliers, and slower Echo growth. The Hermit supports a four-die tray.
 - Echo growth resets on sale and on rebuy.
+- Active Gods fire in configurable left-to-right rack order. Touch controls and desktop drag reorder the rack; the preview follows the same rules.
+- Striker/Refrain/Resonator enable bounded die-repeat chains; Oath trades a reroll for ×2 Mult. Replayed effects never duplicate permanent growth.
+- Echo, Wayfarer, Ember and Kaleidoscope earn visible progress toward two-choice evolutions after five relevant hands. Sale resets evolution; schema-7 migration retains saved runs and rack order.
 - On-table scoring driven by exact engine steps: lifting dice, glowing Gods, distinct +Mult/×Mult effects, rising optional native audio, round-score transfer, target break, and payout count. Full/Instant speed and separate sound preferences persist. A hand commits once before the visual sequence; skipping, fast-forwarding, hiding the tab, and reloading cannot score twice.
 - Casual linear targets without bosses; Hard escalating targets with bosses on Antes 3 and 6 and post-boss scale jumps. A saved d20 draw selects one of 20 handicaps on entry, avoiding repeats; resources and reveal acknowledgement apply once.
 - Inspectable color counts and provenance; four monochrome Gods plus The Divide, mutually exclusive palette licenses, varied-color rewards, four permanent Seals, and four round-long Washes. Temporary paint overrides Gods and licenses without erasing originals.
@@ -45,4 +48,4 @@ Push source to GitHub first. Copy these eight public files to `rogue-dice/` in t
 
 ## Presentation and boss QA
 
-110 automated checks cover rules, all boss-effect families, saved draws, preference migration and timing presets. Browser QA verifies on-table step order, clear/payout events, sound controls, slower Full/Instant behavior, mid-sequence reload/fast-forward single-commit safety, persistent d20 reveal, and SE viewports down to 568×232. Native Web Audio starts only on a user gesture when sound is enabled. No audio files or copied game assets are used. Reduced-motion preferences suppress flying/shaking effects.
+130 automated checks cover rules, all boss-effect families, saved draws, preference migration and timing presets. Browser QA verifies on-table step order, clear/payout events, sound controls, slower Full/Instant behavior, mid-sequence reload/fast-forward single-commit safety, persistent d20 reveal, and SE viewports down to 568×232. Native Web Audio starts only on a user gesture when sound is enabled. No audio files or copied game assets are used. Reduced-motion preferences suppress flying/shaking effects.

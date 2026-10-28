@@ -1,5 +1,5 @@
-import {createPresenter,resolvePreferences,timingFor} from './presentation.js?v=9';
-import {GODS,ACTIONS,HANDS,newRun,targetFor,effectiveColor,colorDetails,paletteRule,preview,bestHand,reroll,scoreHand,advanceRound,buy,refreshShop,sellGod,useAction,discardAction,burnHand,validSave,migrateSave,bossFor,stakesFor,VOUCHERS,actionSlots,godSellPrice,COLORS,COMBOS,BOSSES,acknowledgeBoss,handLimit} from './engine.js?v=9';
+import {createPresenter,resolvePreferences,timingFor} from './presentation.js?v=10';
+import {GODS,ACTIONS,HANDS,newRun,targetFor,effectiveColor,colorDetails,paletteRule,preview,bestHand,reroll,scoreHand,advanceRound,buy,refreshShop,sellGod,useAction,discardAction,burnHand,validSave,migrateSave,bossFor,stakesFor,VOUCHERS,actionSlots,godSellPrice,COLORS,COMBOS,EVOLUTIONS,moveGod,reorderGods,evolveGod,pendingEvolutions,BOSSES,acknowledgeBoss,handLimit} from './engine.js?v=10';
 const $=id=>document.getElementById(id),KEY='rogue-dice-run-v1';
 const random=()=>{const a=new Uint32Array(1);crypto.getRandomValues(a);return a[0]/4294967296;};
 const fmt=n=>Number(n).toLocaleString('en-US',{maximumFractionDigits:6});
@@ -31,7 +31,18 @@ function header(){
 }
 function renderGods(){
  $('god-count').textContent=`${state.gods.length} / ${4+state.vouchers.slots}`;$('gods').replaceChildren();
- for(const id of state.gods){const g=GODS.find(g=>g.id===id);const b=button('',`god-card ${g.color}`,()=>openGod(id));b.append(node('span','god-symbol',g.symbol),node('strong','',g.name),node('small','',id==='echo'?`+${state.pairGrowth} MULT`:id==='relic'?`+${(state.totalScored+1)*5} NEXT CHIPS`:'TAP TO INSPECT'));b.dataset.god=id;b.setAttribute('aria-label',`${g.name}. ${g.text}`);$('gods').append(b);}
+ for(const [index,id] of state.gods.entries()){
+  const g=GODS.find(g=>g.id===id),rule=EVOLUTIONS[id],progress=state.godStates[id]||{progress:0,path:null},ready=rule&&progress.progress>=rule.goal&&!progress.path,path=rule?.options.find(o=>o.id===progress.path);
+  const b=button('',`god-card ${g.color}${ready?' evolution-ready':''}`,()=>openGod(id));b.append(node('span','god-symbol',g.symbol),node('strong','',g.name),node('small','',id==='echo'?`+${fmt(state.pairGrowth)} MULT`:path?path.name:rule?`${progress.progress}/${rule.goal} · ${ready?'EVOLVE ✦':rule.label}`:id==='relic'?`+${(state.totalScored+1)*5} NEXT CHIPS`:'TAP TO ARRANGE'));
+  b.append(node('span','god-position',String(index+1)));
+  if(rule)b.append(node('span','god-progress',path?'✦':ready?'EVOLVE':`${progress.progress}/${rule.goal}`));
+  b.dataset.god=id;b.setAttribute('aria-label',`${g.name}. Position ${index+1}. ${g.text}${path?' Evolved: '+path.name+'. '+path.text:''}${rule?` Evolution ${progress.progress}/${rule.goal}.${ready?' Ready to evolve.':''}`:''}`);b.disabled=busy;
+  b.draggable=!busy;
+  b.addEventListener('dragstart',e=>{if(busy){e.preventDefault();return;}e.dataTransfer.setData('text/plain',id);e.dataTransfer.effectAllowed='move';});
+  b.addEventListener('dragover',e=>{if(!busy)e.preventDefault();});
+  b.addEventListener('drop',e=>{e.preventDefault();if(busy)return;const source=e.dataTransfer.getData('text/plain');if(!state.gods.includes(source)||source===id)return;const order=state.gods.filter(g=>g!==source);order.splice(index,0,source);commit(()=>reorderGods(state,order),{notice:'God order updated. Effects fire left to right.'});});
+  $('gods').append(b);
+ }
  for(let i=state.gods.length;i<4+state.vouchers.slots;i++){const e=node('div','god-slot','✧');e.setAttribute('aria-label','Empty Dice God slot');$('gods').append(e);}
  $('gods').style.gridTemplateColumns=`repeat(${Math.min(5,4+state.vouchers.slots)},minmax(0,1fr))`;
 }
@@ -94,13 +105,28 @@ function render(){
  if(state.bossRevealPending&&!$('boss-roll').open)queueMicrotask(showBossRoll);
  if(focus)document.querySelector(`[data-die="${Number(focus)}"]`)?.focus({preventScroll:true});
 }
-function openGod(id){if(busy)return;inspected=id;const g=GODS.find(g=>g.id===id);$('god-detail-body').replaceChildren(node('div','god-symbol',g.symbol),node('h2','',g.name),node('p','',g.text));if(id==='echo')$('god-detail-body').append(node('p','',`Current growth: +${state.pairGrowth} Mult. Score Pair for +0.5 growth or Two Pair for +1 growth.`));if(id==='relic')$('god-detail-body').append(node('p','',`Next scoring hand: +${(state.totalScored+1)*5} Chips.`));$('sell-god').hidden=state.phase!=='shop';$('sell-god').textContent=`Sell for $${godSellPrice(state,id)}${id==='finger'?' · removes its extra die':''}`;$('god-detail').showModal();}
+function openGod(id){
+ if(busy||!state.gods.includes(id))return;inspected=id;const g=GODS.find(g=>g.id===id),index=state.gods.indexOf(id),rule=EVOLUTIONS[id],progress=state.godStates[id]||{progress:0,path:null},path=rule?.options.find(o=>o.id===progress.path);
+ $('god-detail-body').replaceChildren(node('div','god-symbol',g.symbol),node('h2','',g.name),node('p','',g.text),...(path?[node('p','evolution-active',`${path.name}: ${path.text}`)]:[]),node('p','order-note',`Position ${index+1} of ${state.gods.length}. Active God effects fire left → right. Add Mult before ×Mult to amplify it. Paint rules apply upfront. On desktop, you can also drag God cards.`));
+ if(id==='echo')$('god-detail-body').append(node('p','',`Current growth: +${fmt(state.pairGrowth)} Mult. Future Pair growth: +${progress.path==='resonance'?'1':'0.5'}; Two Pair: +${progress.path==='resonance'?'2':'1'}.`));
+ if(id==='relic')$('god-detail-body').append(node('p','',`Next scoring hand: +${(state.totalScored+1)*5} Chips.`));
+ $('god-evolutions').replaceChildren();
+ if(rule){
+  const meter=node('progress','evolution-meter');meter.max=rule.goal;meter.value=progress.progress;meter.setAttribute('aria-label',`${rule.label}: ${progress.progress} of ${rule.goal}`);
+  $('god-evolutions').append(node('p','evolution-status',`${rule.label}: ${progress.progress}/${rule.goal}${progress.path?' · EVOLVED':progress.progress>=rule.goal?' · CHOOSE YOUR EVOLUTION':''}`),meter);
+  for(const choice of rule.options){const box=node('article','evolution-option');box.append(node('strong','',choice.name),node('p','',choice.text));const choose=button(progress.path===choice.id?'Chosen ✦':progress.path?'Other path':progress.progress<rule.goal?'Keep scoring to unlock':`Evolve: ${choice.name} →`,'button cream-button',()=>{commit(()=>evolveGod(state,id,choice.id),{notice:`${g.name} evolved into ${choice.name}.`});openGod(id);});choose.disabled=!!progress.path||progress.progress<rule.goal||!['play','shop'].includes(state.phase);box.append(choose);$('god-evolutions').append(box);}
+ }
+ $('god-left').disabled=index===0||!['play','shop'].includes(state.phase);$('god-right').disabled=index===state.gods.length-1||!['play','shop'].includes(state.phase);
+ $('sell-god').hidden=state.phase!=='shop';$('sell-god').textContent=`Sell for $${godSellPrice(state,id)}${id==='finger'?' · removes its extra die':''}`;
+ if(!$('god-detail').open)$('god-detail').showModal();
+}
+for(const [buttonId,direction]of [['god-left',-1],['god-right',1]])$(buttonId).addEventListener('click',()=>{commit(()=>moveGod(state,inspected,direction),{notice:'God order updated. Compare your score preview.'});openGod(inspected);});
 $('close-god').addEventListener('click',()=>$('god-detail').close());$('sell-god').addEventListener('click',()=>{commit(()=>sellGod(state,inspected),{reset:true,notice:'God sold.'});$('god-detail').close();});
 function startScoring(){
  if(busy){presenter.skip();return;}const result=preview(state,selected);if(!result)return;
  let next;try{next=scoreHand(state,result.scoringIds,random);}catch(error){message(error.message);return;}
  const before=state;busy=true;render();state=next;selected=[];held=[];save();
- const finish=()=>{busy=false;render();if(['shop','won','lost'].includes(state.phase)){window.scrollTo({top:0,behavior:'smooth'});message(state.phase==='shop'?'Round cleared. Your winnings are in.':state.phase==='won'?'You beat the house.':'Run over. A new build awaits.');}};
+ const finish=()=>{busy=false;render();if(pendingEvolutions(state).length&&['play','shop'].includes(state.phase))message('A God can evolve! Tap its glowing EVOLVE badge to choose a path.');if(['shop','won','lost'].includes(state.phase)){window.scrollTo({top:0,behavior:'smooth'});message(state.phase==='shop'?'Round cleared. Your winnings are in.'+(pendingEvolutions(state).length?' A God is ready to evolve!':''):state.phase==='won'?'You beat the house.':'Run over. A new build awaits.');}};
  if(preferences.speed==='instant'){finish();return;}
  presenter.score({before,next,result,onFinish:finish});
 }
@@ -139,5 +165,5 @@ function showBossRoll(){
 $('face-boss').addEventListener('click',()=>{if($('face-boss').disabled||!state.bossRevealPending)return;state=acknowledgeBoss(state);save();bossRolling=false;busy=false;$('boss-roll').close();render();message('Boss round. Make the build count.');});
 $('boss-roll').addEventListener('cancel',event=>event.preventDefault());
 const catalogs={combos:COMBOS.map(c=>({...c,symbol:'✦',color:'teal'})),gods:GODS,vouchers:VOUCHERS,actions:ACTIONS,bosses:BOSSES.map(b=>({...b,symbol:'⚄',color:'red'}))};
-function showCollection(type='gods'){$('collection-body').replaceChildren(...catalogs[type].map(item=>{const card=node('article',`collection-card ${item.color}`);card.append(node('span','collection-symbol',item.symbol),node('strong','',item.name),node('small','',item.price===undefined?(type==='combos'?'HAND COMBO':'BOSS HANDICAP'):`${item.rarity||'common'} · $${item.price}`),node('p','',item.text));return card;}));for(const b of document.querySelectorAll('[data-catalog]'))b.setAttribute('aria-pressed',String(b.dataset.catalog===type));}
+function showCollection(type='gods'){$('collection-body').replaceChildren(...catalogs[type].map(item=>{const card=node('article',`collection-card ${item.color}`);card.append(node('span','collection-symbol',item.symbol),node('strong','',item.name),node('small','',item.price===undefined?(type==='combos'?'HAND COMBO':'BOSS HANDICAP'):`${item.rarity||'common'} · $${item.price}`),node('p','',item.text));if(type==='gods'&&EVOLUTIONS[item.id]){const e=EVOLUTIONS[item.id];card.append(node('p','',`Evolution: ${e.goal} ${e.label.toLowerCase()}. Choose ${e.options.map(o=>o.name).join(' or ')}.`));}return card;}));for(const b of document.querySelectorAll('[data-catalog]'))b.setAttribute('aria-pressed',String(b.dataset.catalog===type));}
 $('open-collection').addEventListener('click',()=>{$('rules').close();showCollection();$('collection').showModal();});$('close-collection').addEventListener('click',()=>$('collection').close());for(const b of document.querySelectorAll('[data-catalog]'))b.addEventListener('click',()=>showCollection(b.dataset.catalog));

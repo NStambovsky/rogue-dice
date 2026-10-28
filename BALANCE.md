@@ -33,7 +33,7 @@ The game gives three rerolls **shared across the whole round**, not three per ha
 | Run of 4 / Prism Run | 115.5 | 420 | 112 |
 | Quads | 434.02 | 310 | 430 |
 
-Means select the highest-scoring eligible subset for that named hand, conditional on it being present. A Run of 3+ in the odds table includes rolls containing a four-die Run; the run3 score column measures the best three-die Run subset. These are average final hand scores, **not** base Chips × Mult. No Gods, Studies, die modifications, vouchers or bosses are included in this table.
+Means select the highest-scoring eligible subset for that named hand, conditional on it being present. A Run of 3+ in the odds table includes rolls containing a four-die Run; the run3 score column measures the best three-die Run subset. These are average final hand scores, **not** base Chips × Mult. No Gods, Studies, die modifications, vouchers or bosses are included in this table. These probability-calibrated bases remain unchanged by the ordered-chain edition.
 
 The previous four-color Run averaged 420 despite being easier to chase than Two Pair after enough rerolls. Its automatic Prism bonus was charging rarity twice: the starting tray already has four different colors. The new four-color Run averages 112 versus Two Pair’s 102. Quads rise from 310 to 430. Pair stays at its already-reduced baseline.
 
@@ -68,14 +68,18 @@ Exact identity-aware fixed-paint checks:
 
 Kaleidoscope is reduced to +1 Mult per distinct scored color, and Spectrum Grant to +0.5 per color. The four-color start otherwise made those bonuses unusually large for almost every ordinary hand. Color-changing Gods and paint still preserve their setup utility and opportunity costs.
 
+## Ordered chains and evolution
+
+The current edition adds left-to-right God order, Striker/Refrain/Resonator die-repeat chains, Oath’s reroll tradeoff, and earned two-choice evolutions on Echo, Wayfarer, Ember and Kaleidoscope. Order and player choices now affect build payoffs; the unbuilt probability and whole-round tables still apply. The spot checks below use the listed rack order and no evolution, rather than optimizing all permutations. Copies replay immediate effects only, not growth, and are finite. New evolutions provide earned payoff beyond this base-score calibration; their full run-level balance is not claimed to be solved by these tables.
+
 ## God interaction spot checks
 
-The following are means of the best available hand across all 1,296 initial rolls. They are useful stress checks, not equal-cost or full-run comparisons. pairGods has Twins and Echo with +5 already earned growth; runGod has Wayfarer; tripletGod has Three Fates; fourColors has Kaleidoscope; monochrome has Red Queen. Other profiles have no Gods. Numbers do not include future Echo growth or rerolls.
+The following are means of the best available hand across all 1,296 initial rolls. They are useful stress checks, not equal-cost or full-run comparisons. pairGods has Twins followed by Echo with +5 already earned growth; runGod has Wayfarer; tripletGod has Three Fates; fourColors has Kaleidoscope; monochrome has Red Queen. Other profiles have no Gods. Numbers do not include future Echo growth or rerolls.
 
 | Profile | Before | After |
 |---|---:|---:|
 | bare | 75.25 | 48.19 |
-| pairGods | 245.37 | 193.76 |
+| pairGods | 245.37 | 157.83 |
 | runGod | 139.92 | 82.64 |
 | tripletGod | 94.44 | 64.03 |
 | fourColors | 210.45 | 98.35 |
