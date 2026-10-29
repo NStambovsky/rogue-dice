@@ -53,3 +53,7 @@ Push source to GitHub first. Copy these eight public files to `rogue-dice/` in t
 ## Original pixel art theme
 
 The table uses original SVG pixel portraits and a locally hosted OFL Pixelify Sans font. Deploy the assets directory alongside the eight public game files; font licensing is included in assets/font-license.txt. Rebuild portraits with `node tools/build-art.mjs`. The visual theme preserves existing saved runs and scoring.
+
+## Rolling colors and active vouchers
+
+Fresh dice roll values and colors independently. Held dice preserve both; Seals and Blood & Ink lock a die’s color for the run. Washes/Gods/licenses mask underlying paint in the usual order. Vouchers beside Stakes map lists only owned vouchers and purchased levels. Eight Gods now have two evolution paths each. Save schema 8 migrates older dice to locked colors to preserve prior permanent paint; begin a new run to try the rolling palette.

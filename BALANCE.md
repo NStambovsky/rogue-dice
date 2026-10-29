@@ -1,5 +1,12 @@
 # Rogue Dice: probability and balance
 
+## Rolling-color update — October 29, 2026
+
+Fresh runs now sample four colors independently, including on unheld rerolls and full-tray rolls. Holds keep value and color. Permanent paint locks color; Gods, palette licenses and round Washes retain their existing precedence. Across all 256 four-color starting trays, 52 contain at least three matching colors: **20.3125% Color Pact availability**. Numeric hand odds below remain exact, but fixed-color payout and color-chase tables below describe the historical calibration, not the new joint value/color reroll strategy. Rerolling to chase values can now lose an unlocked color combo. No base rewards changed in this test release.
+
+Existing saves retain their prior colors as locked, preserving permanent paint that older saves did not track separately. New evolution branches exist for Tide, Crown, Prism and Trinity; each needs five relevant committed hands.
+
+
 This edition calibrates rewards against exact fair-d6 probabilities, then adjusts for fixed-color setup, shared rerolls, and build synergies. It is a reproducible baseline, not a claim that every future build has identical value.
 
 ## Odds of finding a hand

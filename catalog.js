@@ -43,21 +43,21 @@ export const GODS=[
 export const ACTIONS=[
  {id:'six',name:'Six Appeal',symbol:'⚅',color:'violet',price:3,text:'One use: set one selected die to 6 for this roll.'},
  {id:'reroll',name:'Second Wind',symbol:'↻',color:'teal',price:3,text:'One use: reroll all unheld dice without spending a reroll.'},
- {id:'dye',name:'Blood & Ink',symbol:'◐',color:'red',price:3,text:'Permanently cycle one selected die’s original color: red → black → blue → gold.'},
+ {id:'dye',name:'Blood & Ink',symbol:'◐',color:'red',price:3,text:'Permanently recolor and lock one selected die’s original color: red → black → blue → gold.'},
  {id:'gild',name:'Gold Leaf',symbol:'✦',color:'gold',price:4,text:'Permanently add +6 Chips to one selected die whenever it scores.'},
  {id:'load',name:'Loaded',symbol:'＋',color:'gold',price:5,text:'Permanently add +1 to one selected die’s future rolls, capped at 6. Maximum +2 per die.'},
  {id:'one',name:'Snake Eyes',symbol:'⚀',color:'violet',price:3,text:'Set one selected die to 1 for the current roll.'},
  {id:'nudge',name:'Gentle Push',symbol:'↑',color:'teal',price:3,text:'Increase one selected die by 1 for this roll, capped at 6.'},
  {id:'invert',name:'Turnabout',symbol:'⇄',color:'violet',price:3,text:'Flip one selected die: 1↔6, 2↔5, 3↔4 for this roll.'},
  {id:'copy',name:'Carbon Copy',symbol:'❖',color:'violet',price:4,rarity:'uncommon',text:'Select two dice in order. Copy the first die’s value onto the second for this roll.'},
- {id:'red',name:'Red Seal',symbol:'●',color:'red',price:3,text:'Permanently make one selected die’s original color red.'},
- {id:'black',name:'Black Seal',symbol:'●',color:'teal',price:3,text:'Permanently make one selected die’s original color black.'},
- {id:'blue',name:'Blue Seal',symbol:'●',color:'teal',price:3,text:'Permanently make one selected die’s original color blue. Temporary paint and color-changing Gods can still mask it.'},
- {id:'gold',name:'Gold Seal',symbol:'●',color:'gold',price:3,text:'Permanently make one selected die’s original color gold. Temporary paint and color-changing Gods can still mask it.'},
- {id:'veil-red',name:'Red Wash',symbol:'◌',color:'red',price:2,text:'Make one selected die count as red until the round ends, including rerolls and later hands. Overrides Gods and palette vouchers. Original color stays intact.'},
- {id:'veil-black',name:'Black Wash',symbol:'◌',color:'violet',price:2,text:'Make one selected die count as black until the round ends, including rerolls and later hands. Overrides Gods and palette vouchers. Original color stays intact.'},
- {id:'veil-blue',name:'Blue Wash',symbol:'◌',color:'teal',price:2,text:'Make one selected die count as blue until the round ends, including rerolls and later hands. Overrides Gods and palette vouchers. Original color stays intact.'},
- {id:'veil-gold',name:'Gold Wash',symbol:'◌',color:'gold',price:2,text:'Make one selected die count as gold until the round ends, including rerolls and later hands. Overrides Gods and palette vouchers. Original color stays intact.'},
+ {id:'red',name:'Red Seal',symbol:'●',color:'red',price:3,text:'Permanently lock one selected die’s color to red.'},
+ {id:'black',name:'Black Seal',symbol:'●',color:'teal',price:3,text:'Permanently lock one selected die’s color to black.'},
+ {id:'blue',name:'Blue Seal',symbol:'●',color:'teal',price:3,text:'Permanently lock one selected die’s color to blue. Temporary paint and color-changing Gods can still mask it.'},
+ {id:'gold',name:'Gold Seal',symbol:'●',color:'gold',price:3,text:'Permanently lock one selected die’s color to gold. Temporary paint and color-changing Gods can still mask it.'},
+ {id:'veil-red',name:'Red Wash',symbol:'◌',color:'red',price:2,text:'Make one selected die count as red until the round ends, including rerolls and later hands. Overrides Gods and palette vouchers. Underlying rolled or locked color stays intact.'},
+ {id:'veil-black',name:'Black Wash',symbol:'◌',color:'violet',price:2,text:'Make one selected die count as black until the round ends, including rerolls and later hands. Overrides Gods and palette vouchers. Underlying rolled or locked color stays intact.'},
+ {id:'veil-blue',name:'Blue Wash',symbol:'◌',color:'teal',price:2,text:'Make one selected die count as blue until the round ends, including rerolls and later hands. Overrides Gods and palette vouchers. Underlying rolled or locked color stays intact.'},
+ {id:'veil-gold',name:'Gold Wash',symbol:'◌',color:'gold',price:2,text:'Make one selected die count as gold until the round ends, including rerolls and later hands. Overrides Gods and palette vouchers. Underlying rolled or locked color stays intact.'},
  {id:'rally',name:'Extra Breath',symbol:'↻',color:'teal',price:4,text:'Gain one normal reroll this round. Cannot be used while rerolls are locked.'},
  {id:'hand',name:'Last Chance',symbol:'＋',color:'red',price:5,rarity:'rare',text:'Gain one scoring hand for this round.'},
  {id:'surge',name:'Overcharge',symbol:'ϟ',color:'gold',price:4,text:'Your next scoring hand gains +30 Chips. Persists through burns until scored.'},
@@ -87,6 +87,10 @@ export function weightedPick(items,r=Math.random){const total=items.reduce((n,it
 
 
 export const EVOLUTIONS={
+ tide:{goal:5,label:'Hands scored with a blue die',options:[{id:'deepwater',name:'Deep Water',text:'Tide adds +14 Chips per blue scoring die instead of +8.'},{id:'undertide',name:'Undertide',text:'Keep +8 Chips per blue die, then retrigger the first blue scoring die once.'}]},
+ crown:{goal:5,label:'Hands scored with a gold die',options:[{id:'radiance',name:'Radiance',text:'Crown adds +2 Mult per gold scoring die instead of +1.'},{id:'treasury',name:'Royal Treasury',text:'Keep the normal bonus. Hands scoring any gold die also earn $2.'}]},
+ prism:{goal:5,label:'Hands scored with 3+ matching colors',options:[{id:'facet',name:'Perfect Facet',text:'Same-color scoring hands gain +16 Chips per die instead of +10.'},{id:'unity',name:'Unity',text:'Keep the normal bonus. Same-color scoring hands of three or more dice also gain ×1.5 Mult.'}]},
+ trinity:{goal:5,label:'Triplets scored',options:[{id:'ascension',name:'Ascension',text:'Triplet Mult becomes ×4 instead of ×3.'},{id:'tithe',name:'The Tithe',text:'Keep Triplet ×3 Mult and also earn $4 whenever a Triplet scores.'}]},
  echo:{goal:5,label:'Pair / Two Pair hands scored',options:[
   {id:'resonance',name:'Deep Resonance',text:'Future Pair growth doubles to +1 Mult; Two Pair growth becomes +2. Existing growth is retained.'},
   {id:'harmonics',name:'Rich Harmonics',text:'Keep normal growth. At Echo’s position, Pair adds +6 Chips and Two Pair adds +12 Chips.'}
