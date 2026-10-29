@@ -44,6 +44,18 @@ for(const [index,g]of GODS.entries()){
  if(g.id==='rainmaker'){for(const [x,y,r]of [[9,12,5],[15,8,6],[23,12,5]])disk(x,y,r,'#a4c5d0');face(11,15,10,10);for(const x of [5,26]){rect(x,23,1,3,light);rect(x-1,26,2,1,light);}}
  if(g.id==='scavenger'){rect(10,11,13,13,ink);rect(19,16,9,4,light);rect(19,18,6,4,mid);rect(14,15,2,2,light);rect(6,27,20,11,mid);}
  if(g.id==='tide'){rect(8,8,16,5,mid);for(const x of [8,15,23]){rect(x,5,1,6,light);rect(x-1,10,3,2,light);}for(let y=29;y<38;y+=3)rect(7+(y%2)*2,y,16,1,light);}
+ if(g.id==='quartet'){rect(3,6,26,27,ink);for(const x of [4,11,18,25]){rect(x,10,3,23,light);rect(x-1,8,5,3,mid);}rect(3,33,26,3,light);}
+ if(g.id==='pactkeeper'){disk(16,18,11,light);disk(16,18,9,ink);rect(8,17,16,3,mid);rect(12,12,3,12,light);rect(18,12,3,12,light);rect(10,20,13,4,mid);}
+ if(g.id==='anchor'){rect(15,8,2,25,light);disk(16,8,3,light);disk(16,8,1,ink);rect(8,17,16,2,light);line(5,26,16,35,light);line(27,26,16,35,light);rect(4,25,3,6,light);rect(25,25,3,6,light);}
+ if(g.id==='wildling'){line(8,14,4,4,light);line(24,14,28,4,light);line(5,8,2,6,light);line(27,8,30,6,light);rect(11,9,10,4,mid);rect(12,30,8,3,ink);}
+ if(g.id==='duelist'){line(3,7,26,33,light);line(29,7,6,33,light);rect(3,27,9,2,mid);rect(21,27,9,2,mid);rect(7,32,3,5,light);rect(22,32,3,5,light);}
+ if(g.id==='outcast'){rect(6,7,20,8,ink);rect(7,14,18,2,mid);rect(11,16,5,3,ink);rect(20,27,5,5,light);rect(21,28,3,3,dark);}
+ if(g.id==='crossroads'){rect(12,5,8,31,ink);rect(3,17,26,8,ink);for(let y=5;y<36;y+=5)rect(15,y,2,3,light);for(let x=3;x<29;x+=5)rect(x,20,3,2,light);}
+ if(g.id==='chromatic'){rect(3,8,13,24,'#b85563');rect(16,8,13,24,'#377c9c');disk(10,16,4,'#ffd080');disk(23,24,4,'#d5c9ed');rect(3,31,26,3,ink);}
+ if(g.id==='frugal'){rect(11,16,4,1,ink);rect(18,16,4,1,ink);rect(13,24,6,6,light);rect(15,25,2,4,mid);rect(6,6,20,3,light);}
+ if(g.id==='craftsman'){rect(4,8,24,6,light);rect(6,10,20,2,ink);rect(8,26,16,12,ink);rect(11,29,10,3,light);rect(14,26,4,10,light);}
+ if(g.id==='harvester'){rect(6,5,2,31,light);line(7,5,25,10,light);line(25,10,28,17,light);rect(23,9,4,3,mid);rect(10,31,13,2,light);}
+ if(g.id==='comet'){rect(3,6,26,28,ink);line(4,7,20,23,mid);line(10,5,23,20,light);line(3,13,16,26,light);disk(22,26,7,mid);disk(22,26,5,light);disk(23,27,2,ink);}
  const grouped=new Map();for(let y=0;y<40;y++){let x=0;while(x<32){const c=grid[y][x];let end=x+1;while(end<32&&grid[y][end]===c)end++;grouped.set(c,(grouped.get(c)||'')+`M${x} ${y}h${end-x}v1H${x}z`);x=end;}}
  symbols.push(`<symbol id="${g.id}" viewBox="0 0 32 40">${[...grouped].map(([c,d])=>`<path fill="${c}" d="${d}"/>`).join('')}</symbol>`);
 }

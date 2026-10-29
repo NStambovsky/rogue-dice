@@ -57,3 +57,7 @@ The table uses original SVG pixel portraits and a locally hosted OFL Pixelify Sa
 ## Rolling colors and active vouchers
 
 Fresh dice roll values and colors independently. Held dice preserve both; Seals and Blood & Ink lock a die’s color for the run. Washes/Gods/licenses mask underlying paint in the usual order. Vouchers beside Stakes map lists only owned vouchers and purchased levels. Eight Gods now have two evolution paths each. Save schema 8 migrates older dice to locked colors to preserve prior permanent paint; begin a new run to try the rolling palette.
+
+## Build variety expansion — October 29, 2026
+
+52 Gods, 29 actions, 21 vouchers. New strategies support Quads, Color Pacts, locked versus rolling colors, crafted dice, small hands, and conditional retriggers. Four Pillars and Pactkeeper add two evolution branches each (ten evolving Gods total). Markets still normally show five offers, with one Study; extra dice retain their legendary weights and existing caps. Use Card collection for all effects and Vouchers for purchased upgrades. Schema 9 fills new voucher fields with zero while preserving schema-8 rolling/locked colors, money and evolution paths.

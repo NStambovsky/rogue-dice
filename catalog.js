@@ -38,7 +38,19 @@ export const GODS=[
  {id:'aurum',name:'The Golden Sovereign',symbol:'♛',color:'gold',price:12,rarity:'rare',text:'All dice count as gold while equipped. Original colors return when sold. One color-changing God at a time.'},
  {id:'divide',name:'The Divide',symbol:'◐',color:'red',price:9,rarity:'uncommon',text:'Restrict the tray to red and black: gold → red, blue → black. One color-changing God at a time. Original colors return when sold.'},
  {id:'kaleidoscope',name:'The Kaleidoscope',symbol:'❖',color:'violet',price:8,rarity:'uncommon',text:'Each distinct effective color in your scoring hand adds +1 Mult. Four different colors add +4 Mult.'},
- {id:'crown',name:'The Crown',symbol:'♕',color:'gold',price:7,text:'Every gold die in your scored hand adds +1 Mult.'}
+ {id:'crown',name:'The Crown',symbol:'♕',color:'gold',price:7,text:'Every gold die in your scored hand adds +1 Mult.'},
+ {id:'quartet',name:'The Four Pillars',symbol:'Ⅳ',color:'violet',price:10,rarity:'rare',text:'Quads score ×3 Mult.'},
+ {id:'pactkeeper',name:'The Pactkeeper',symbol:'◇',color:'teal',price:8,rarity:'uncommon',text:'Color Pacts score ×1.75 Mult. Requires a hand classified as Color Pact, not just a same-color numeric hand.'},
+ {id:'anchor',name:'The Anchor',symbol:'⚓',color:'teal',price:7,rarity:'uncommon',text:'Each permanently color-locked scoring die adds +6 Chips and +0.5 Mult. Temporary Washes do not count as locks.'},
+ {id:'wildling',name:'The Wildling',symbol:'✺',color:'red',price:7,text:'Each scoring die without a permanent color lock adds +5 Chips and +0.5 Mult, even under a palette override.'},
+ {id:'duelist',name:'The Duelist',symbol:'Ⅱ',color:'red',price:6,text:'Scoring exactly two dice adds +12 Chips.'},
+ {id:'outcast',name:'The Outcast',symbol:'Ⅰ',color:'violet',price:6,text:'Highest Die gains +10 Chips and ×3 Mult. Still only usable when the whole tray has no regular hand.'},
+ {id:'crossroads',name:'The Crossroads',symbol:'↗',color:'teal',price:7,text:'Three-die Runs gain +2 Mult. Four-die Runs gain +12 Chips.'},
+ {id:'chromatic',name:'The Two Horizons',symbol:'◐',color:'gold',price:8,rarity:'uncommon',text:'Hands with exactly two distinct effective colors score ×1.5 Mult.'},
+ {id:'frugal',name:'The Still Hand',symbol:'☷',color:'gold',price:6,text:'Gain +3 Mult if you have used no rerolls this round. Free rerolls also break the condition.'},
+ {id:'craftsman',name:'The Artisan',symbol:'⚒',color:'gold',price:7,text:'Each scoring die with a permanent Chip bonus adds +1 Mult.'},
+ {id:'harvester',name:'The Harvester',symbol:'♧',color:'gold',price:6,text:'Earn $3 whenever a Color Pact scores.'},
+ {id:'comet',name:'The Comet',symbol:'✦',color:'red',price:8,rarity:'uncommon',text:'If the last selected scoring die is a 6, retrigger that die once at this position. Selection order matters.'}
 ];
 export const ACTIONS=[
  {id:'six',name:'Six Appeal',symbol:'⚅',color:'violet',price:3,text:'One use: set one selected die to 6 for this roll.'},
@@ -61,7 +73,15 @@ export const ACTIONS=[
  {id:'rally',name:'Extra Breath',symbol:'↻',color:'teal',price:4,text:'Gain one normal reroll this round. Cannot be used while rerolls are locked.'},
  {id:'hand',name:'Last Chance',symbol:'＋',color:'red',price:5,rarity:'rare',text:'Gain one scoring hand for this round.'},
  {id:'surge',name:'Overcharge',symbol:'ϟ',color:'gold',price:4,text:'Your next scoring hand gains +30 Chips. Persists through burns until scored.'},
- {id:'blessing',name:'Fortune’s Favor',symbol:'✧',color:'violet',price:4,text:'Your next scoring hand gains +3 Mult. Persists through burns until scored.'}
+ {id:'blessing',name:'Fortune’s Favor',symbol:'✧',color:'violet',price:4,text:'Your next scoring hand gains +3 Mult. Persists through burns until scored.'},
+ {id:'unseal',name:'Break the Seal',symbol:'◌',color:'teal',price:2,text:'Remove one selected die’s permanent color lock. Its current color stays until rolled. Gods, licenses and Washes still apply.'},
+ {id:'rinse',name:'Clean Slate',symbol:'≈',color:'teal',price:2,text:'Remove the temporary round Wash from one selected die. Reveals any God, license or underlying color; permanent locks stay.'},
+ {id:'colorcopy',name:'Borrowed Hue',symbol:'◐',color:'violet',price:3,text:'Select two dice in order. Wash the second to the first’s current effective color until the round ends. Values do not change.'},
+ {id:'swap',name:'Trading Places',symbol:'⇄',color:'violet',price:3,text:'Select two dice. Swap their current face values without changing paint, loading or permanent bonuses.'},
+ {id:'down',name:'Step Back',symbol:'↓',color:'teal',price:2,text:'Lower one selected die by 1 for this roll, minimum 1.'},
+ {id:'recolor',name:'Wild Pigment',symbol:'✺',color:'red',price:2,text:'Reroll only one selected unlocked die’s color from all four colors. Value stays. May roll the same color; palette overrides still apply.'},
+ {id:'focus',name:'Measured Risk',symbol:'✧',color:'gold',price:4,text:'Your next scoring hand gains +15 Chips and +1 Mult. Persists through burns until scored.'},
+ {id:'spotroll',name:'Spot Roll',symbol:'⚄',color:'teal',price:3,text:'Roll one selected die again for free, even if held. Its permanent color lock still applies. Counts as a reroll for Gods.'}
 ];
 
 export const VOUCHERS=[
@@ -79,7 +99,13 @@ export const VOUCHERS=[
  {id:'dichrome',name:'Blood & Ink License',symbol:'◐',color:'red',price:10,max:1,rarity:'uncommon',text:'For this run, gold counts as red and blue counts as black. Restricts natural colors to red/black. Mutually exclusive with Ocean & Ore. Gods and round Washes override it.'},
  {id:'oceanore',name:'Ocean & Ore License',symbol:'◐',color:'teal',price:10,max:1,rarity:'uncommon',text:'For this run, red counts as gold and black counts as blue. Restricts natural colors to blue/gold. Mutually exclusive with Blood & Ink License. Gods and round Washes override it.'},
  {id:'spectrum',name:'Spectrum Grant',symbol:'❖',color:'violet',price:11,max:1,rarity:'uncommon',text:'Each distinct effective color in your scored hand adds +0.5 Mult. Rewards keeping a varied palette.'},
- {id:'polish',name:'Polishing Cloth',symbol:'✦',color:'teal',price:10,max:1,text:'At each new Ante, permanently add +1 scoring Chip to every die currently in your tray.'}
+ {id:'polish',name:'Polishing Cloth',symbol:'✦',color:'teal',price:10,max:1,text:'At each new Ante, permanently add +1 scoring Chip to every die currently in your tray.'},
+ {id:'pactprimer',name:'Pact Primer',symbol:'◇',color:'teal',price:9,max:1,rarity:'uncommon',text:'Every Color Pact gains +8 Chips before Gods fire.'},
+ {id:'quadmanual',name:'Fourfold Charter',symbol:'Ⅳ',color:'violet',price:10,max:1,rarity:'uncommon',text:'Every Quad gains +16 Chips before Gods fire.'},
+ {id:'runmanual',name:'Trail Permit',symbol:'↗',color:'teal',price:9,max:1,rarity:'uncommon',text:'Every Run gains +4 Chips before Gods fire.'},
+ {id:'sealgrant',name:'Seal Commission',symbol:'●',color:'gold',price:9,max:1,rarity:'uncommon',text:'Each permanently color-locked scoring die adds +3 Chips before Gods. Washes alone do not count.'},
+ {id:'wildgrant',name:'Wildlife Grant',symbol:'✺',color:'red',price:9,max:1,rarity:'uncommon',text:'Each scoring die without a permanent color lock adds +2 Chips before Gods, even under palette overrides.'},
+ {id:'bargainrefresh',name:'Market Pass',symbol:'↻',color:'gold',price:10,max:1,rarity:'uncommon',text:'Shop refreshes cost $1 less, minimum $1. Refresh prices still rise by $1 per use and reset each market.'}
 ];
 export function rarityOf(item){return item.rarity||'common';}
 export function weightOf(item){return item.weight??({common:5,uncommon:2.5,rare:1,legendary:.35}[rarityOf(item)]);}
@@ -87,6 +113,8 @@ export function weightedPick(items,r=Math.random){const total=items.reduce((n,it
 
 
 export const EVOLUTIONS={
+ quartet:{goal:5,label:'Quads scored',options:[{id:'monolith',name:'The Monolith',text:'Quad Mult becomes ×4 instead of ×3.'},{id:'cornerstone',name:'Cornerstone',text:'Keep Quad ×3 Mult. Quads also gain +40 Chips before that multiplier.'}]},
+ pactkeeper:{goal:5,label:'Color Pacts scored',options:[{id:'covenant',name:'The Covenant',text:'Color Pact Mult becomes ×2.25 instead of ×1.75.'},{id:'communion',name:'Communion',text:'Keep Color Pact ×1.75 Mult. Pacts also earn $3.'}]},
  tide:{goal:5,label:'Hands scored with a blue die',options:[{id:'deepwater',name:'Deep Water',text:'Tide adds +14 Chips per blue scoring die instead of +8.'},{id:'undertide',name:'Undertide',text:'Keep +8 Chips per blue die, then retrigger the first blue scoring die once.'}]},
  crown:{goal:5,label:'Hands scored with a gold die',options:[{id:'radiance',name:'Radiance',text:'Crown adds +2 Mult per gold scoring die instead of +1.'},{id:'treasury',name:'Royal Treasury',text:'Keep the normal bonus. Hands scoring any gold die also earn $2.'}]},
  prism:{goal:5,label:'Hands scored with 3+ matching colors',options:[{id:'facet',name:'Perfect Facet',text:'Same-color scoring hands gain +16 Chips per die instead of +10.'},{id:'unity',name:'Unity',text:'Keep the normal bonus. Same-color scoring hands of three or more dice also gain ×1.5 Mult.'}]},
