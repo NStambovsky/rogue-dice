@@ -73,3 +73,7 @@ Hard Ante bases are 100, 220, 450, 900, 1800, 3600, 7200, 14000 with stage facto
 `npm test` includes real, earned Hard victories alongside unit/regression checks. Reproduce the full 760-run audit with `node balance/full-runs.mjs 20 '' hard,casual`. The shop policy uses counterfactual estimates from a separate random source, never future game rolls or offers. Actual purchases use earned funds; actual play never injects dice results, Gods, or upgrades. `balance/full-run-results.json` records every set/mode summary and up to three full winning traces per combination. These are small-sample automated-policy results, not player win rates.
 
 Deploy **sets.js** as well as the original public modules and assets directory.
+
+## Selected-die inspector
+
+Selecting a die shows its current face/color, held status and permanent enhancements. A Crowned callout appears whenever the selection contains a Crowned die and identifies which dice qualify. Crowned means the top two natural faces (5–6 on d6, 3–4 on d4); it has no innate score bonus. Full details lists each selected die’s color overrides, loading, Haunted/Radiant effects and exact underlying weights. On portrait phones the summary appears beneath the dice; landscape and desktop use the side panel. Selection, holding and clearing update the details immediately.
