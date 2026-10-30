@@ -144,3 +144,6 @@ dialog{background:#2d424b;border:4px solid #a0b0aa;border-bottom-color:#263b43;b
 
 .die-inspector{display:flex;flex-direction:column}.die-inspector>strong,.die-inspector .crowned-callout,.die-inspector>#inspect-selected{flex-shrink:0}.die-inspector>#inspect-selected{align-self:flex-start}#die-inspector-summary{min-height:0;overflow:auto}
 @media(orientation:landscape) and (max-height:500px) and (max-width:1000px){body[data-phase=play] .die-inspector{overflow:hidden}body[data-phase=play] #die-inspector-summary{flex:1;margin:3px 0}body[data-phase=play] .die-inspector .crowned-callout{margin:4px 0}body[data-phase=play] .die-inspector>#inspect-selected{min-height:20px}}
+
+.die-face-badge{position:absolute;bottom:0;left:0;z-index:2;pointer-events:none;font:700 10px/1.1 system-ui,sans-serif;color:#fff4d6;background:#15343e;border:1px solid #94ada1;border-radius:3px;padding:1px 3px;letter-spacing:0}.die-wrap:has(.die-face-badge) .hold-badge{padding-left:12px}
+@media(orientation:landscape) and (max-height:500px) and (max-width:1000px){body[data-phase=play] .die-face-badge{font-size:7px;line-height:1;padding:1px 2px;border-radius:2px}body[data-phase=play] .die-wrap:has(.die-face-badge) .hold-badge{padding-left:9px}}
