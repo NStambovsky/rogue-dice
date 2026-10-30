@@ -56,6 +56,10 @@ for(const [index,g]of GODS.entries()){
  if(g.id==='craftsman'){rect(4,8,24,6,light);rect(6,10,20,2,ink);rect(8,26,16,12,ink);rect(11,29,10,3,light);rect(14,26,4,10,light);}
  if(g.id==='harvester'){rect(6,5,2,31,light);line(7,5,25,10,light);line(25,10,28,17,light);rect(23,9,4,3,mid);rect(10,31,13,2,light);}
  if(g.id==='comet'){rect(3,6,26,28,ink);line(4,7,20,23,mid);line(10,5,23,20,light);line(3,13,16,26,light);disk(22,26,7,mid);disk(22,26,5,light);disk(23,27,2,ink);}
+ if(g.id==='portrait'){rect(5,7,22,26,light);rect(7,9,18,22,ink);face(11,14,10,12);rect(11,10,10,3,mid);rect(10,27,12,3,mid);}
+ if(g.id==='beacon'){rect(13,9,6,28,light);rect(9,8,14,3,light);rect(13,3,6,5,mid);for(const x of [3,25])line(x,5,x===3?9:23,10,light);rect(15,14,2,3,ink);}
+ if(g.id==='tribune'){crown();rect(7,25,18,12,ink);for(const x of [9,15,21])rect(x,28,2,6,light);}
+ if(g.id==='conductor'){line(6,32,25,8,light);rect(23,5,4,4,light);rect(7,26,6,7,skin);rect(20,25,4,10,light);}
  const grouped=new Map();for(let y=0;y<40;y++){let x=0;while(x<32){const c=grid[y][x];let end=x+1;while(end<32&&grid[y][end]===c)end++;grouped.set(c,(grouped.get(c)||'')+`M${x} ${y}h${end-x}v1H${x}z`);x=end;}}
  symbols.push(`<symbol id="${g.id}" viewBox="0 0 32 40">${[...grouped].map(([c,d])=>`<path fill="${c}" d="${d}"/>`).join('')}</symbol>`);
 }

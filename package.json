@@ -1,1 +1,12 @@
-{"name":"rogue-dice","version":"1.0.0","private":true,"type":"module","scripts":{"test":"node --test test/*.test.mjs","start":"python3 -m http.server 8767","balance":"node balance/audit.mjs && node balance/evaluate.mjs && node balance/write-report.mjs"}}
+{
+  "name": "rogue-dice",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test test/*.test.mjs",
+    "start": "python3 -m http.server 8767",
+    "balance": "node balance/audit.mjs && node balance/evaluate.mjs && node balance/write-report.mjs",
+    "audit:runs": "node balance/full-runs.mjs"
+  }
+}

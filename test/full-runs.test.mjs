@@ -1,0 +1,2 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {play} from '../balance/full-runs.mjs';
+for(const [id,seed]of [['guiding-star',707920],['deep-reserves',715839],['deep-reserves',707920]])test(`earned Hard victory: ${id}, seed ${seed}`,()=>{const result=play(seed,id,'hard');assert.equal(result.won,true);assert.equal(result.round,23);assert.ok(result.purchases.length>0);assert.ok(result.scores.length>=24);assert.ok(result.scores.every(s=>s.money>=0));});

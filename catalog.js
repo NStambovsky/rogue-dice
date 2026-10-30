@@ -1,11 +1,11 @@
 export const GODS=[
- {id:'striker',name:'The Striker',symbol:'⚒',color:'red',price:8,rarity:'uncommon',text:'At this God’s position, retrigger the first scoring die once: repeat its pips and permanent Chip bonus. Does not replay other Gods.'},
+ {id:'striker',name:'The Striker',symbol:'⚒',color:'red',price:6,text:'At this God’s position, retrigger the first scoring die twice. Repeats pips, permanent enhancements and eligible die-scoring Gods. Does not recursively trigger retrigger Gods.'},
  {id:'resonator',name:'The Resonator',symbol:'◎',color:'violet',price:7,rarity:'uncommon',text:'At this position, gain +2 Mult per die retrigger that has already happened in this hand. Put retrigger Gods to its left.'},
  {id:'refrain',name:'The Refrain',symbol:'↶',color:'teal',price:10,rarity:'rare',text:'Repeat the preceding active God’s immediate scoring effects once, at this position. Skips paint and inactive Gods. Never duplicates permanent growth or evolution progress.'},
  {id:'oath',name:'The Oath',symbol:'♜',color:'gold',price:11,rarity:'rare',text:'Score ×2 Mult at this position, but start rounds with one fewer normal reroll while equipped. Selling restores future-round capacity.'},
  {id:'echo',name:'The Echo',symbol:'Ⅱ',color:'violet',price:8,text:'Scoring Pair grows this God’s +Mult by 0.5; Two Pair grows it by 1. Growth resets when sold.'},
  {id:'scarlet',name:'The Red Queen',symbol:'♛',color:'red',price:12,rarity:'rare',text:'All dice count as red while this God is equipped. Original colors return when sold. One color-changing God at a time.'},
- {id:'ladder',name:'The Wayfarer',symbol:'↗',color:'teal',price:7,text:'Runs gain +2 Mult for every die in the Run.'},
+ {id:'ladder',name:'The Wayfarer',symbol:'↗',color:'teal',price:7,text:'Runs gain +2 Mult per die, plus this God’s growing bonus: +0.5 Mult per Run scored while equipped. Growth resets on sale.'},
  {id:'trinity',name:'Three Fates',symbol:'Ⅲ',color:'violet',price:8,text:'Triplets score ×3 Mult.'},
  {id:'twins',name:'The Twins',symbol:'Ⅱ',color:'gold',price:7,text:'Pair scores ×1.5 Mult; Two Pair scores ×2 Mult.'},
  {id:'midas',name:'The Alchemist',symbol:'✦',color:'gold',price:6,text:'Earn $2 whenever you score a hand with all dice the same color.'},
@@ -18,7 +18,7 @@ export const GODS=[
  {id:'moon',name:'Blood Moon',symbol:'◉',color:'red',price:8,text:'Hands with all dice the same color score ×1.5 Mult, on top of the color bonus.'},
  {id:'inkking',name:'The Ink King',symbol:'♚',color:'teal',price:12,rarity:'rare',text:'All dice count as black while equipped. Original colors return when sold. One color-changing God at a time.'},
  {id:'smallfortune',name:'Small Mercies',symbol:'Ⅰ',color:'gold',price:6,text:'Each scored 1 or 2 adds +2 Mult.'},
- {id:'giant',name:'The Colossus',symbol:'Ⅵ',color:'violet',price:7,text:'Each scored 6 adds +18 Chips.'},
+ {id:'giant',name:'The Colossus',symbol:'Ⅵ',color:'violet',price:7,text:'Each die scoring its maximum natural face adds +18 Chips: 6 on d6, 4 on d4.'},
  {id:'odd',name:'The Odd Saint',symbol:'Ⅲ',color:'red',price:7,text:'Each odd-valued scoring die adds +5 Chips and +1 Mult.'},
  {id:'even',name:'The Even Judge',symbol:'Ⅱ',color:'teal',price:7,text:'Each even-valued scoring die adds +5 Chips and +1 Mult.'},
  {id:'balance',name:'The Bridge',symbol:'◐',color:'teal',price:7,text:'Mixed-color hands gain +4 Mult.'},
@@ -40,7 +40,7 @@ export const GODS=[
  {id:'kaleidoscope',name:'The Kaleidoscope',symbol:'❖',color:'violet',price:8,rarity:'uncommon',text:'Each distinct effective color in your scoring hand adds +1 Mult. Four different colors add +4 Mult.'},
  {id:'crown',name:'The Crown',symbol:'♕',color:'gold',price:7,text:'Every gold die in your scored hand adds +1 Mult.'},
  {id:'quartet',name:'The Four Pillars',symbol:'Ⅳ',color:'violet',price:10,rarity:'rare',text:'Quads score ×3 Mult.'},
- {id:'pactkeeper',name:'The Pactkeeper',symbol:'◇',color:'teal',price:8,rarity:'uncommon',text:'Color Pacts score ×1.75 Mult. Requires a hand classified as Color Pact, not just a same-color numeric hand.'},
+ {id:'pactkeeper',name:'The Pactkeeper',symbol:'◇',color:'teal',price:8,rarity:'uncommon',text:'Color Pacts gain a growing +0.5 Mult per Pact scored while equipped, then ×1.75 Mult. Growth resets on sale. Requires a hand classified as Color Pact, not just a same-color numeric hand.'},
  {id:'anchor',name:'The Anchor',symbol:'⚓',color:'teal',price:7,rarity:'uncommon',text:'Each permanently color-locked scoring die adds +6 Chips and +0.5 Mult. Temporary Washes do not count as locks.'},
  {id:'wildling',name:'The Wildling',symbol:'✺',color:'red',price:7,text:'Each scoring die without a permanent color lock adds +5 Chips and +0.5 Mult, even under a palette override.'},
  {id:'duelist',name:'The Duelist',symbol:'Ⅱ',color:'red',price:6,text:'Scoring exactly two dice adds +12 Chips.'},
@@ -50,10 +50,14 @@ export const GODS=[
  {id:'frugal',name:'The Still Hand',symbol:'☷',color:'gold',price:6,text:'Gain +3 Mult if you have used no rerolls this round. Free rerolls also break the condition.'},
  {id:'craftsman',name:'The Artisan',symbol:'⚒',color:'gold',price:7,text:'Each scoring die with a permanent Chip bonus adds +1 Mult.'},
  {id:'harvester',name:'The Harvester',symbol:'♧',color:'gold',price:6,text:'Earn $3 whenever a Color Pact scores.'},
- {id:'comet',name:'The Comet',symbol:'✦',color:'red',price:8,rarity:'uncommon',text:'If the last selected scoring die is a 6, retrigger that die once at this position. Selection order matters.'}
+ {id:'comet',name:'The Comet',symbol:'✦',color:'red',price:8,rarity:'uncommon',text:'If the last selected scoring die shows its maximum natural face (6 on d6, 4 on d4), retrigger that die once at this position. Selection order matters.'},
+ {id:'portrait',name:'The Portrait',symbol:'♕',color:'gold',price:6,text:'The first Crowned scoring die gives ×2 Mult every time it scores, including retriggers. Crowned means the top two natural faces: 5–6 on d6, 3–4 on d4.'},
+ {id:'beacon',name:'The Beacon',symbol:'✦',color:'teal',price:5,text:'The first selected scoring die adds +2 Mult every time it scores, including retriggers. Die-scoring Gods fire in rack order.'},
+ {id:'tribune',name:'The Tribune',symbol:'Ⅲ',color:'violet',price:10,rarity:'rare',text:'Every Crowned scoring die gives ×1.5 Mult each time it scores, including retriggers.'},
+ {id:'conductor',name:'The Conductor',symbol:'≋',color:'red',price:11,rarity:'rare',text:'At this position, retrigger every Crowned scoring die once, replaying its eligible scoring effects. No recursive retrigger chains.'}
 ];
 export const ACTIONS=[
- {id:'six',name:'Six Appeal',symbol:'⚅',color:'violet',price:3,text:'One use: set one selected die to 6 for this roll.'},
+ {id:'six',name:'Six Appeal',symbol:'⚅',color:'violet',price:3,text:'One use: set one selected die to its maximum natural face for this roll: 6 on d6, 4 on d4.'},
  {id:'reroll',name:'Second Wind',symbol:'↻',color:'teal',price:3,text:'One use: reroll all unheld dice without spending a reroll.'},
  {id:'dye',name:'Blood & Ink',symbol:'◐',color:'red',price:3,text:'Permanently recolor and lock one selected die’s original color: red → black → blue → gold.'},
  {id:'gild',name:'Gold Leaf',symbol:'✦',color:'gold',price:4,text:'Permanently add +6 Chips to one selected die whenever it scores.'},
@@ -81,7 +85,10 @@ export const ACTIONS=[
  {id:'down',name:'Step Back',symbol:'↓',color:'teal',price:2,text:'Lower one selected die by 1 for this roll, minimum 1.'},
  {id:'recolor',name:'Wild Pigment',symbol:'✺',color:'red',price:2,text:'Reroll only one selected unlocked die’s color from all four colors. Value stays. May roll the same color; palette overrides still apply.'},
  {id:'focus',name:'Measured Risk',symbol:'✧',color:'gold',price:4,text:'Your next scoring hand gains +15 Chips and +1 Mult. Persists through burns until scored.'},
- {id:'spotroll',name:'Spot Roll',symbol:'⚄',color:'teal',price:3,text:'Roll one selected die again for free, even if held. Its permanent color lock still applies. Counts as a reroll for Gods.'}
+ {id:'spotroll',name:'Spot Roll',symbol:'⚄',color:'teal',price:3,text:'Roll one selected die again for free, even if held. Its permanent color lock still applies. Counts as a reroll for Gods.'},
+ {id:'haunt',name:'Haunt',symbol:'☽',color:'violet',price:4,ritual:true,rarity:'uncommon',text:'Ritual: permanently multiply one selected die’s pip and permanent bonus Chips by 1.5, rounded down each trigger. Cannot Haunt the same die twice. Haunted Bones shops only.'},
+ {id:'radiance',name:'Radiance',symbol:'✦',color:'gold',price:4,ritual:true,rarity:'uncommon',text:'Ritual: pay an additional $4 when used. One selected die permanently adds +2 Mult each time it scores, including retriggers. Haunted Bones shops only.'},
+ {id:'severance',name:'Severance',symbol:'✂',color:'red',price:5,ritual:true,rarity:'rare',text:'Ritual: sacrifice your rightmost God without sale income. Every remaining die permanently gains +12 Chips. No die selection needed. Haunted Bones shops only.'}
 ];
 
 export const VOUCHERS=[
@@ -113,7 +120,7 @@ export function weightedPick(items,r=Math.random){const total=items.reduce((n,it
 
 
 export const EVOLUTIONS={
- quartet:{goal:5,label:'Quads scored',options:[{id:'monolith',name:'The Monolith',text:'Quad Mult becomes ×4 instead of ×3.'},{id:'cornerstone',name:'Cornerstone',text:'Keep Quad ×3 Mult. Quads also gain +40 Chips before that multiplier.'}]},
+ quartet:{goal:3,label:'Quads scored',options:[{id:'monolith',name:'The Monolith',text:'Quad Mult becomes ×4 instead of ×3.'},{id:'cornerstone',name:'Cornerstone',text:'Keep Quad ×3 Mult. Quads also gain +40 Chips before that multiplier.'}]},
  pactkeeper:{goal:5,label:'Color Pacts scored',options:[{id:'covenant',name:'The Covenant',text:'Color Pact Mult becomes ×2.25 instead of ×1.75.'},{id:'communion',name:'Communion',text:'Keep Color Pact ×1.75 Mult. Pacts also earn $3.'}]},
  tide:{goal:5,label:'Hands scored with a blue die',options:[{id:'deepwater',name:'Deep Water',text:'Tide adds +14 Chips per blue scoring die instead of +8.'},{id:'undertide',name:'Undertide',text:'Keep +8 Chips per blue die, then retrigger the first blue scoring die once.'}]},
  crown:{goal:5,label:'Hands scored with a gold die',options:[{id:'radiance',name:'Radiance',text:'Crown adds +2 Mult per gold scoring die instead of +1.'},{id:'treasury',name:'Royal Treasury',text:'Keep the normal bonus. Hands scoring any gold die also earn $2.'}]},

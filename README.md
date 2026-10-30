@@ -61,3 +61,15 @@ Fresh dice roll values and colors independently. Held dice preserve both; Seals 
 ## Build variety expansion — October 29, 2026
 
 52 Gods, 29 actions, 21 vouchers. New strategies support Quads, Color Pacts, locked versus rolling colors, crafted dice, small hands, and conditional retriggers. Four Pillars and Pactkeeper add two evolution branches each (ten evolving Gods total). Markets still normally show five offers, with one Study; extra dice retain their legendary weights and existing caps. Use Card collection for all effects and Vouchers for purchased upgrades. Schema 9 fills new voucher fields with zero while preserving schema-8 rolling/locked colors, money and evolution paths.
+
+## Unlocked Dice Sets and Hard rebalance — October 30, 2026
+
+New run offers all 19 dice sets immediately, in either mode. Inspect exact per-die face/color weights before starting and through Set during play. Sealed Fate lets you choose two starting Seals; Echo Chamber adds optional shop duplication tokens; Haunted Bones adds three Ritual actions. Set metadata, weighted profiles and enhancements save in schema 10; prior runs migrate to Standard and retain their dice, purchases and evolution paths.
+
+Portrait, Beacon, Tribune and Conductor bring the catalog to 56 Gods. Striker is common and gives two additional first-die triggers. Crowned dice use their top two natural faces. Retriggers replay eligible die effects, including Portrait, permanent Radiance and Haunted Chips, without recursively firing other retrigger Gods. Wayfarer and Pactkeeper grow with qualifying committed hands. Four Pillars evolves after three Quads; prior progress is clamped safely while retaining chosen paths.
+
+Hard Ante bases are 100, 220, 450, 900, 1800, 3600, 7200, 14000 with stage factors 1/1.3/1.65 and boss factor 1.8; the extra post-boss doubling is gone. Equilibrium doubles targets. First/second boss targets are 810/6480; final target is 23100. Iron Hand costs one starting reroll; Hush and Three’s Company restrict only the first scoring hand. Glass Ceiling reduces multiplier bonuses by 25%.
+
+`npm test` includes real, earned Hard victories alongside unit/regression checks. Reproduce the full 760-run audit with `node balance/full-runs.mjs 20 '' hard,casual`. The shop policy uses counterfactual estimates from a separate random source, never future game rolls or offers. Actual purchases use earned funds; actual play never injects dice results, Gods, or upgrades. `balance/full-run-results.json` records every set/mode summary and up to three full winning traces per combination. These are small-sample automated-policy results, not player win rates.
+
+Deploy **sets.js** as well as the original public modules and assets directory.

@@ -1,5 +1,48 @@
 # Rogue Dice: probability and balance
 
+## Live balance update — October 30, 2026
+
+All 19 Dice Sets are unlocked immediately. Crowned faces are the top two natural faces of each die. Common Striker gives two extra first-die triggers; common Portrait doubles Mult on every score of the first Crowned die. Eligible die-scoring effects replay on retriggers, with no recursive retrigger Gods. Beacon, Tribune, Conductor and Haunted/Radiant enhancements add further paths. Run/Pact growth belongs to its God and resets on sale. God shop rolls choose rarity first: 65% common, 25% uncommon, 9% rare, 1% legendary, redistributed when a tier is unavailable.
+
+Hard Ante bases: 100, 220, 450, 900, 1800, 3600, 7200, 14000. Normal stage factors: 1 / 1.3 / 1.65; boss factor: 1.8. There is no extra post-boss doubling. First boss: 810; second boss: 6480; final: 23100. Equilibrium doubles every target and balances final Chips and Mult. Casual retains linear +100 targets without bosses. Iron Hand costs one starting reroll; Hush and Three’s Company affect only the first scoring hand; Glass Ceiling reduces multiplier bonuses by 25%.
+
+### Complete-run audit
+
+760 complete runs: 20 fixed seeds for each of 19 sets in both modes. Every set produced wins in both modes. Purchases use earned money and actual shop offers; dice are rolled through the game engine. No God, upgrade, cash or die result is injected into the played state. Shop utility probes use a separate random source and do not read future game rolls or shop offers. The policy chooses legal actions, holds and God orders and checks state validity throughout.
+
+**These are small-sample automated-policy results, not human win rates or a claim that sets are equally difficult.** Wide Cast was particularly strong in this sample. The goal of this test release is viable, varied wins; player feedback should guide the next difficulty pass. The old level-1000 victory test is explicitly labeled as state integration, not balance evidence.
+
+| Dice set | Hard wins | Casual wins |
+|---|---:|---:|
+| second-chances | 14/20 | 14/20 |
+| deep-reserves | 18/20 | 16/20 |
+| gilded-purse | 13/20 | 16/20 |
+| working-fortune | 16/20 | 10/20 |
+| forbidden-altar | 7/20 | 9/20 |
+| trickster | 15/20 | 17/20 |
+| guiding-star | 14/20 | 12/20 |
+| haunted-bones | 13/20 | 9/20 |
+| small-bones | 17/20 | 17/20 |
+| blood-ink | 16/20 | 18/20 |
+| grand-bazaar | 10/20 | 7/20 |
+| wide-cast | 20/20 | 20/20 |
+| echo-chamber | 13/20 | 11/20 |
+| equilibrium | 11/20 | 9/20 |
+| crooked-dice | 12/20 | 18/20 |
+| prismatic | 15/20 | 13/20 |
+| ember-bag | 14/20 | 12/20 |
+| sealed-fate | 15/20 | 14/20 |
+| shifting-sands | 14/20 | 10/20 |
+
+Among 57 retained Hard winning traces, 42 finished without the Portrait + Striker pair. Examples include Echo/Old Bones builds, Pactkeeper builds, and mixed Run builds. Results include full purchase/score histories for up to three wins per set and mode, plus aggregate losing Antes.
+
+Reproduce: `node balance/full-runs.mjs 20 '' hard,casual`. Inspect `balance/full-run-results.json`. Targeted regression tests replay three naturally earned Hard wins.
+
+## Historical probability calibration
+
+The following tables describe the older fixed-color calibration. Numeric fair-d6 odds remain useful; its fixed-color payouts and earlier target assumptions are not measurements of the current sets or trigger system.
+
+
 ## Rolling-color update — October 29, 2026
 
 Fresh runs now sample four colors independently, including on unheld rerolls and full-tray rolls. Holds keep value and color. Permanent paint locks color; Gods, palette licenses and round Washes retain their existing precedence. Across all 256 four-color starting trays, 52 contain at least three matching colors: **20.3125% Color Pact availability**. Numeric hand odds below remain exact, but fixed-color payout and color-chase tables below describe the historical calibration, not the new joint value/color reroll strategy. Rerolling to chase values can now lose an unlocked color combo. No base rewards changed in this test release.
