@@ -77,3 +77,13 @@ Deploy **sets.js** as well as the original public modules and assets directory.
 ## Selected-die inspector
 
 Selecting a die shows its current face/color, held status and permanent enhancements. A Crowned callout appears whenever the selection contains a Crowned die and identifies which dice qualify. Crowned means the top two natural faces (5–6 on d6, 3–4 on d4); it has no innate score bonus. Full details lists each selected die’s color overrides, loading, Haunted/Radiant effects and exact underlying weights. On portrait phones the summary appears beneath the dice; landscape and desktop use the side panel. Selection, holding and clearing update the details immediately.
+
+## Readable type and guided practice — October 31, 2026
+
+Numbers and explanatory copy use bundled Atkinson Hyperlegible regular/bold fonts, with system sans fallbacks. No installed Apple/Arial font is required; the OFL license is in assets/readable-font-license.txt. Pixel portraits and the arcade identity remain.
+
+Help opens a concise Pick → Preview → Play guide, hand table and optional advanced sections. Play hand replaces Score hand, Reroll has a separate remaining counter, the main controls and action-card area have question-mark help, and detailed scoring steps are hidden until requested. Selecting dice is explicitly labeled as a preview.
+
+First-time visitors can choose a guided practice or play independently. Help → Learn to play opens tutorial.html, a separate two-round, 13-step practice sequence using the real engine with explicit preset rolls and shop offers. It teaches previews, playing, holding, rerolling values/colors, Studies, Gods and Crowned retriggers. Practice never reads/writes the saved-run key; only onboarding/completion flags are stored separately. Returning resumes the original run. The practice model has regression checks for 32 + 81 points, earned shop purchases and the final 760-point combo.
+
+Public files now also include tutorial.html, tutorial.css, tutorial.js and tutorial-model.js plus the three readable-font assets. No engine, balance or save-schema change.
