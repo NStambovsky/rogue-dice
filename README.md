@@ -101,3 +101,7 @@ Public files now also include tutorial.html, tutorial.css, tutorial.js and tutor
 ## Animation speeds
 
 Full keeps the slow, readable step-by-step sequence. Fast retains every engine scoring event with rapid pulses, multiplier hits, optional audio and final payout; its shared 1.8-second chain budget plus short finish stays around 2.6 seconds, with a 2.8-second completion guard. Instant skips animation. The preference persists; practice also supports all three speeds. Scores commit once before any presentation.
+
+## Optional hand-finding assist
+
+Best hand is hidden by default, including existing runs without an explicit opt-in. New run has an unchecked “Enable Best hand assist for this run” checkbox. The choice is stored alongside the local run and survives reload; canceling setup does not change the current run. Every new run defaults to off. Highest Die retains its existing whole-tray fallback rule; selecting one die while a regular hand exists now explains why it is unavailable.
