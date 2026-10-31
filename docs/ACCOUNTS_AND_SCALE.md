@@ -14,7 +14,7 @@ Keep **Play as guest** as the default. Offer optional sign-in to back up/resume 
 
 Use a separate account API Worker plus D1, leaving the game and assets static. Route only API requests through server code; never put authentication middleware over the entire game. Account-service outages/quota exhaustion should show a pending-sync status while play and local saving continue.
 
-First version can use Google sign-in (OAuth/OIDC authorization code flow with PKCE/state/nonce, strict configured redirect URI). It needs a Google OAuth application/client configuration before activation. An email-link alternative also needs an email delivery provider. Provider selection is pending; no account service or database has been provisioned.
+First version can use Google sign-in (OAuth/OIDC authorization code flow with PKCE/state/nonce, strict configured redirect URI). It needs a Google OAuth application/client configuration before activation. An email-link alternative also needs an email delivery provider. Noah selected Google sign-in for planning only on October 31, 2026. Keep implementation deferred; no account service or database has been provisioned.
 
 Session cookies should be Secure, HttpOnly and same-site, with explicit expiration/logout, origin/CSRF checks on writes and per-user ownership checks. Validate saves on the server using the versioned engine schema and bounded JSON size. Use conditional revision updates: concurrent devices must choose which run to continue rather than silently overwrite. Never replace a local run with a cloud copy without a clear user choice. Keep a local backup before importing a save; provide account/data deletion.
 
