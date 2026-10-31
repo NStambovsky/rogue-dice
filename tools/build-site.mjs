@@ -2,7 +2,7 @@ import {cpSync,mkdirSync,readFileSync,rmSync,writeFileSync} from 'node:fs';
 import {fileURLToPath} from 'node:url';
 import {join} from 'node:path';
 const root=fileURLToPath(new URL('../',import.meta.url)),dist=join(root,'dist');
-const files=['index.html','style.css','app.js','engine.js','catalog.js','bosses.js','presentation.js','sets.js','icon.svg','tutorial.html','tutorial.css','tutorial.js','tutorial-model.js'];
+const files=['index.html','style.css','theme.css','app.js','engine.js','catalog.js','bosses.js','presentation.js','sets.js','icon.svg','tutorial.html','tutorial.css','tutorial.js','tutorial-model.js'];
 const home=process.env.ROGUE_HOME_URL||'https://www.noahstambovsky.com/projects';
 if(!/^https?:\/\//.test(home)&&!/^\/(?!\/)/.test(home))throw new Error('ROGUE_HOME_URL must be an http(s) URL or a root-relative path.');
 const parsed=new URL(home,'https://example.invalid');if(!['http:','https:'].includes(parsed.protocol))throw new Error('Unsupported home link.');

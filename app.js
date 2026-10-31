@@ -25,7 +25,7 @@ function header(){
  document.body.dataset.phase=state.phase;document.body.dataset.boss=stakes.boss?.id||'';
  $('hud').replaceChildren();
  for(const [label,value,cls,sub] of [['ANTE',`${ante} / 8`,'',`Round ${round+1} / 3`],['ROUND SCORE',fmt(state.score),'score-cell',''],['TARGET',fmt(target),'target-cell',''],['MONEY',`$${state.money}`,'money',''],['HANDS',`${state.hands}`,'hands',`of ${state.maxHands+state.roundEffects.hands}`],['REROLLS',`${state.rerolls}`,'rerolls',`of ${state.maxRerolls+state.roundEffects.rerolls}`]]){
-  const cell=node('div',`hud-cell ${cls}`);cell.append(node('span','',label),node('strong','',value));if(sub)cell.append(node('small','',` ${sub}`));if(cls==='target-cell'){const bar=node('div','progress');bar.style.width=`${Math.min(100,state.score/target*100)}%`;cell.append(bar);}$('hud').append(cell);
+  const cell=node('div',`hud-cell ${cls}${String(value).length>7?' long-value':''}`);cell.append(node('span','',label),node('strong','',value));if(sub)cell.append(node('small','',` ${sub}`));if(cls==='target-cell'){const bar=node('div','progress');bar.style.width=`${Math.min(100,state.score/target*100)}%`;cell.append(bar);}$('hud').append(cell);
  }
  $('stake-title').textContent=`ANTE ${ante} · ${stakes.label}${stakes.boss?' · '+stakes.boss.name:stakes.scale>1?' · STAKES ×'+stakes.scale:''}`;
  $('stake-change').textContent=stakes.previous?`${fmt(stakes.previous)} → ${fmt(target)} · ${state.mode==='casual'?'+100 / round':'+'+stakes.increase+'%'}`:`Target ${fmt(target)} · Opening table`;

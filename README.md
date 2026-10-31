@@ -54,7 +54,7 @@ Run `npm run build` to create a clean standalone `dist` site with the game, prac
 
 ## Deploy
 
-Push source to GitHub first. Generate `dist` with `npm run build`; for the existing personal site, copy the thirteen game/practice files and assets into `rogue-dice/` inside the complete current website bundle. Keep the personal site’s own headers and redirects. Commit the integration and deploy the complete bundle to Pages project `noahstambovsky`, branch `main`. Never deploy the standalone folder alone over the personal site. See the hosting guide above.
+Push source to GitHub first. Generate `dist` with `npm run build`; for the existing personal site, copy the fourteen game/practice files and assets into `rogue-dice/` inside the complete current website bundle. Keep the personal site’s own headers and redirects. Commit the integration and deploy the complete bundle to Pages project `noahstambovsky`, branch `main`. Never deploy the standalone folder alone over the personal site. See the hosting guide above.
 
 ## Presentation and boss QA
 
@@ -62,7 +62,7 @@ Push source to GitHub first. Generate `dist` with `npm run build`; for the exist
 
 ## Original pixel art theme
 
-The table uses original SVG pixel portraits and a locally hosted OFL Pixelify Sans font. Deploy the assets directory alongside the eight public game files; font licensing is included in assets/font-license.txt. Rebuild portraits with `node tools/build-art.mjs`. The visual theme preserves existing saved runs and scoring.
+The table uses original SVG pixel portraits and a locally hosted OFL Pixelify Sans font. Deploy the assets directory alongside the public game files; font licensing is included in assets/font-license.txt. Rebuild portraits with `node tools/build-art.mjs`. The visual theme preserves existing saved runs and scoring.
 
 ## Rolling colors and active vouchers
 
@@ -105,3 +105,7 @@ Full keeps the slow, readable step-by-step sequence. Fast retains every engine s
 ## Optional hand-finding assist
 
 Best hand is hidden by default, including existing runs without an explicit opt-in. New run has an unchecked “Enable Best hand assist for this run” checkbox. The choice is stored alongside the local run and survives reload; canceling setup does not change the current run. Every new run defaults to off. Highest Die retains its existing whole-tray fallback rule; selecting one die while a regular hand exists now explains why it is unavailable.
+
+## Crimson Vault visual redesign — October 31, 2026
+
+Minimal black/red casino-and-dungeon styling is in `theme.css`, loaded after the legacy behavioral/layout foundation. Readable bundled type, flat crimson actions, etched monochrome God art and quiet borders replace green felt, scanlines and embossed text. Four mechanical die colors remain distinct. Desktop uses a horizontal status strip, horizontal God rack, central table and right inventory. Compact landscape keeps the table controls onscreen with scrollable side inventories; portrait follows a vertical flow. Primary Play/Reroll actions precede secondary tray tools. Practice, shop, setup, inspection and collections share the new materials. Include **theme.css** in every public build; the standalone builder includes it automatically. No rules, economy or save-schema changes.
