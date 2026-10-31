@@ -1,5 +1,23 @@
 # Rogue Dice — rules & tutorial
 
+## Permanent die buffs (October 31 update)
+
+Buy a buff action in the shop, select one die, then use the card. The die keeps its buff through rolls and rounds. It has one enhancement slot: applying another replaces that slot, while Gold Leaf, loading, paint, Haunt and Radiance remain separate.
+
+| Buff | Every scoring trigger | Risk |
+|---|---|---|
+| Bonus | +12 Chips | None |
+| Mult | +2 Mult | None |
+| Lucky | 20% chance of +10 Mult and independently 10% chance of $3 | Preview is an estimate; actual rolls happen when played |
+| Glass | ×2 Mult | 25% shatter chance after playing, once per played die |
+
+Retriggers repeat all four effects; Lucky rolls fresh chances each trigger. Taxman blocks Lucky cash. Glass Ceiling softens Glass multipliers. A shattered die is replaced by a plain die from the same set/source, keeping tray size but losing every investment in that die. Unplayed Glass, rerolls and burns do not risk shattering. Reloading or skipping scoring never rolls these outcomes again.
+
+Eight supporting Gods are in the collection: Engraver (+6 Chips per enhanced die), Collector (+2 Mult per different buff), Foundry (+8 more Chips per Bonus trigger), Cantor (+1 more Mult per Mult trigger), Clover (Lucky chances 40% / 20%), Glasswarden (12.5% shatter chance), Glazier (Glass triggers ×1.5 extra Mult) and Reliquary (retrigger first enhanced die once at its rack position).
+
+Select a die to read its buff, or open Help → Card collection → Enhancements. All 64 Gods and 36 actions can be inspected in the collection.
+
+
 Start with **four six-sided dice** drawn from four original colors: **red, black, blue, and gold**. Your tray may eventually grow to eight dice, but you may submit **at most four dice per scoring hand**. Extra dice improve your choices, not the submission limit.
 
 ## Scoring hands

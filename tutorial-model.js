@@ -1,5 +1,5 @@
 // Scripted practice only. This module never reads or writes the saved run.
-import {newRun,scoreHand,reroll,advanceRound,buy,GODS,validSave} from './engine.js?v=15';
+import {newRun,scoreHand,reroll,advanceRound,buy,GODS,validSave} from './engine.js?v=19';
 const colors=['red','black','blue','gold'];
 function preset(state,values){const next=structuredClone(state);next.dice.forEach((d,i)=>{d.value=values[i];d.color=colors[i];});return next;}
 export function createPractice(){return preset(newRun(()=>.4,'casual','standard'),[4,4,1,6]);}

@@ -1,4 +1,19 @@
+export const ENHANCEMENTS={
+ bonus:{name:'Bonus',text:'+12 Chips every time this die scores, including retriggers.'},
+ mult:{name:'Mult',text:'+2 Mult every time this die scores, including retriggers.'},
+ lucky:{name:'Lucky',text:'Each scoring trigger independently has a 20% chance of +10 Mult and a 10% chance of $3. Retriggers roll again. Preview is an estimate.'},
+ glass:{name:'Glass',text:'×2 Mult every time this die scores. After a played hand, a 25% chance to shatter once per played Glass die. A plain replacement keeps your tray size; all investments in the broken die are lost.'}
+};
 export const GODS=[
+ {"id": "engraver", "name": "The Engraver", "symbol": "✦", "color": "gold", "price": 6, "text": "+6 Chips for each enhanced die in the scored hand."},
+ {"id": "foundry", "name": "The Foundry", "symbol": "✦", "color": "red", "price": 7, "rarity": "uncommon", "text": "Bonus dice add another +8 Chips on every scoring trigger."},
+ {"id": "cantor", "name": "The Cantor", "symbol": "✦", "color": "teal", "price": 7, "rarity": "uncommon", "text": "Mult dice add another +1 Mult on every scoring trigger."},
+ {"id": "clover", "name": "The Clover", "symbol": "✦", "color": "teal", "price": 7, "rarity": "uncommon", "text": "Lucky dice have a 40% chance of +10 Mult and a 20% chance of $3 on each trigger."},
+ {"id": "glasswarden", "name": "The Glasswarden", "symbol": "✦", "color": "blue", "price": 8, "rarity": "uncommon", "text": "Played Glass dice have a 12.5% shatter chance instead of 25%."},
+ {"id": "glazier", "name": "The Glazier", "symbol": "✦", "color": "blue", "price": 10, "rarity": "rare", "text": "Each Glass scoring die gives an additional ×1.5 Mult on every trigger, in God order."},
+ {"id": "collector", "name": "The Collector", "symbol": "✦", "color": "violet", "price": 7, "text": "+2 Mult per different enhancement type in the scored hand."},
+ {"id": "reliquary", "name": "The Reliquary", "symbol": "✦", "color": "gold", "price": 10, "rarity": "rare", "text": "At this position, retrigger the first enhanced scoring die once."},
+
  {id:'striker',name:'The Striker',symbol:'⚒',color:'red',price:6,text:'At this God’s position, retrigger the first scoring die twice. Repeats pips, permanent enhancements and eligible die-scoring Gods. Does not recursively trigger retrigger Gods.'},
  {id:'resonator',name:'The Resonator',symbol:'◎',color:'violet',price:7,rarity:'uncommon',text:'At this position, gain +2 Mult per die retrigger that has already happened in this hand. Put retrigger Gods to its left.'},
  {id:'refrain',name:'The Refrain',symbol:'↶',color:'teal',price:10,rarity:'rare',text:'Repeat the preceding active God’s immediate scoring effects once, at this position. Skips paint and inactive Gods. Never duplicates permanent growth or evolution progress.'},
@@ -57,6 +72,11 @@ export const GODS=[
  {id:'conductor',name:'The Conductor',symbol:'≋',color:'red',price:11,rarity:'rare',text:'At this position, retrigger every Crowned scoring die once, replaying its eligible scoring effects. No recursive retrigger chains.'}
 ];
 export const ACTIONS=[
+ {"id": "enhance-bonus", "name": "Bonus Engraving", "symbol": "✦", "color": "gold", "price": 4, "text": "Permanently give one selected die the Bonus Engraving enhancement. Replaces its current enhancement. +12 Chips per trigger."},
+ {"id": "enhance-mult", "name": "Mult Mark", "symbol": "✦", "color": "red", "price": 4, "text": "Permanently give one selected die the Mult Mark enhancement. Replaces its current enhancement. +2 Mult per trigger."},
+ {"id": "enhance-lucky", "name": "Lucky Charm", "symbol": "✦", "color": "teal", "price": 4, "text": "Permanently give one selected die the Lucky Charm enhancement. Replaces its current enhancement. Each trigger: 20% +10 Mult; independently 10% $3."},
+ {"id": "enhance-glass", "name": "Glass Coat", "symbol": "✦", "color": "blue", "price": 5, "rarity": "uncommon", "text": "Permanently give one selected die the Glass Coat enhancement. Replaces its current enhancement. ×2 Mult per trigger; 25% shatter chance after playing. Plain replacement loses all investments."},
+
  {id:'six',name:'Six Appeal',symbol:'⚅',color:'violet',price:3,text:'One use: set one selected die to its maximum natural face for this roll: 6 on d6, 4 on d4.'},
  {id:'reroll',name:'Second Wind',symbol:'↻',color:'teal',price:3,text:'One use: reroll all unheld dice without spending a reroll.'},
  {id:'dye',name:'Blood & Ink',symbol:'◐',color:'red',price:3,text:'Permanently recolor and lock one selected die’s original color: red → black → blue → gold.'},

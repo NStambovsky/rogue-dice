@@ -2,7 +2,7 @@ export const SPEEDS=['full','instant'];
 export function resolvePreferences(raw){return {speed:SPEEDS.includes(raw?.speed)?raw.speed:raw?.speed==='turbo'||raw?.scoringAnimation===false?'instant':'full',sound:raw?.sound===true};}
 // Full stays readable even with a long chain; multiplier hits get their own pause.
 export function timingFor(speed,index=0,multiplier=false){if(speed==='instant')return 0;return Math.max(650,850-index*8)+(multiplier?450:0);}
-export function intensityFor(step,index){return Math.min(1,.15+index*.055+(step.label.includes('×')&&['god','combo'].includes(step.source)?.3:0)+Math.log10(Math.max(1,step.points))*.035);}
+export function intensityFor(step,index){return Math.min(1,.15+index*.055+(step.label.includes('×')&&['god','combo','enhancement'].includes(step.source)?.3:0)+Math.log10(Math.max(1,step.points))*.035);}
 export function createPresenter(getPreferences){
  let active=null,audio=null;const $=id=>document.getElementById(id),fmt=n=>Number(n).toLocaleString('en-US',{maximumFractionDigits:6});
  const reduced=()=>matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -21,8 +21,8 @@ export function createPresenter(getPreferences){
    let previous={chips:0,mult:0,money:0,points:0};
    for(let index=0;index<result.steps.length&&!job.done;index++){
     if(getPreferences().speed==='instant'){job.finish();return;}
-    const step=result.steps[index],multiply=['god','boss','combo'].includes(step.source)&&step.label.includes('×'),duration=timingFor(getPreferences().speed,index,multiply),strength=intensityFor(step,index);
-    const source=step.source==='die'?document.querySelector(`[data-die="${step.id}"]`):step.source==='god'?document.querySelector(`[data-god="${step.id}"]`):$('hand-name');
+    const step=result.steps[index],multiply=['god','boss','combo','enhancement'].includes(step.source)&&step.label.includes('×'),duration=timingFor(getPreferences().speed,index,multiply),strength=intensityFor(step,index);
+    const source=['die','enhancement'].includes(step.source)?document.querySelector(`[data-die="${step.id}"]`):step.source==='god'?document.querySelector(`[data-god="${step.id}"]`):$('hand-name');
     for(const e of document.querySelectorAll('.proc-active'))e.classList.remove('proc-active');pulse(source);if(step.retrigger&&step.dieId)pulse(document.querySelector(`[data-die="${step.dieId}"]`));$('score-event').textContent=(step.phase==='die'?'DIE TRIGGER · ':step.source==='god'?'GOD CHAIN · ':step.source==='set'?'DICE SET · ':'')+step.label;$('score-event').dataset.kind=multiply?'multiply':step.retrigger?'retrigger':step.source==='die'?'chip':'bonus';$('score-event').style.setProperty('--intensity',strength);
     if(step.chips!==previous.chips){pulse($('chips'),'counter-hit');fly(`${step.chips>=previous.chips?'+':''}${fmt(step.chips-previous.chips)}`,source,$('chips'),'chip',duration);}
     if(step.mult!==previous.mult){pulse($('mult'),multiply?'mult-hit':'counter-hit');fly(multiply?`×${fmt(step.mult/Math.max(.0001,previous.mult))}`:`${step.mult>=previous.mult?'+':'−'}${fmt(Math.abs(step.mult-previous.mult))}`,source,$('mult'),multiply?'multiply':'bonus',duration);}

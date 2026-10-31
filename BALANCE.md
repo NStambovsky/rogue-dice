@@ -1,6 +1,17 @@
 # Rogue Dice: probability and balance
 
-## Live balance update — October 30, 2026
+## Enhancement release — October 31, 2026
+
+Eight new Gods and four exclusive die enhancements expand the catalog to 64 Gods / 36 actions / 21 vouchers. Score targets and plain-die hand bases are unchanged. Bonus gives +12 Chips, Mult +2 Mult, Lucky independently rolls 20% +10 Mult and 10% $3 on each trigger, and Glass gives ×2 Mult with one 25% shatter check per played die. Clover doubles Lucky chances; Glasswarden halves break risk. Shattered dice become plain replacements and lose investments. Buffs replay on retriggers; Lucky previews use expected contributions and lock the hand classification before commit. The actual trace and risk result save before animation.
+
+Release audit: **190 natural runs**, five fixed seeds for every set in both modes. All 19 sets produced at least one victory in each mode. Hard won 61/95; Casual won 50/95. These are small automated-policy samples, not player win rates or evidence of equal difficulty. The policy now buys/uses enhancement actions and still spends earned money, legal rolls, actual offers and legal God swaps. Full traces are in `balance/full-run-results.json`; reproduce with `node balance/full-runs.mjs 5 '' hard,casual`.
+
+221 automated tests pass, including 12 dedicated enhancement cases, pre-luck classification, copied retriggers, shatter replacement profiles/source, boss interactions, schema-10 migration and three naturally earned Hard wins. Browser checks cover 320×568 portrait and 568×320 landscape, four buff badges, eight-die trays, actual Lucky traces, reload stability and Full-animation skipping.
+
+The following 760-run table is historical evidence from the previous catalog, retained for comparison.
+
+
+## Previous balance update — October 30, 2026
 
 All 19 Dice Sets are unlocked immediately. Crowned faces are the top two natural faces of each die. Common Striker gives two extra first-die triggers; common Portrait doubles Mult on every score of the first Crowned die. Eligible die-scoring effects replay on retriggers, with no recursive retrigger Gods. Beacon, Tribune, Conductor and Haunted/Radiant enhancements add further paths. Run/Pact growth belongs to its God and resets on sale. God shop rolls choose rarity first: 65% common, 25% uncommon, 9% rare, 1% legendary, redistributed when a tier is unavailable.
 

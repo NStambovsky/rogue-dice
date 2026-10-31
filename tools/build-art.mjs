@@ -60,6 +60,14 @@ for(const [index,g]of GODS.entries()){
  if(g.id==='beacon'){rect(13,9,6,28,light);rect(9,8,14,3,light);rect(13,3,6,5,mid);for(const x of [3,25])line(x,5,x===3?9:23,10,light);rect(15,14,2,3,ink);}
  if(g.id==='tribune'){crown();rect(7,25,18,12,ink);for(const x of [9,15,21])rect(x,28,2,6,light);}
  if(g.id==='conductor'){line(6,32,25,8,light);rect(23,5,4,4,light);rect(7,26,6,7,skin);rect(20,25,4,10,light);}
+ if(g.id==='engraver'){rect(5,22,22,11,mid);line(10,9,21,26,light);rect(17,8,8,5,light);rect(8,28,13,2,ink);}
+ if(g.id==='foundry'){rect(5,14,22,23,mid);rect(9,20,14,14,ink);disk(16,29,5,'#ffbb65');line(16,16,13,25,'#fff0ad');rect(11,5,10,10,light);}
+ if(g.id==='cantor'){rect(6,17,20,20,mid);disk(16,12,7,skin);rect(13,15,6,3,ink);line(23,9,27,5,light);rect(25,4,3,9,light);disk(24,14,2,light);}
+ if(g.id==='clover'){for(const [x,y]of [[11,12],[21,12],[11,22],[21,22]])disk(x,y,6,light);line(16,20,20,35,mid);rect(15,17,3,4,ink);}
+ if(g.id==='glasswarden'){rect(5,11,22,19,light);rect(8,14,16,14,mid);line(8,28,16,36,light);line(24,28,16,36,light);rect(14,17,4,12,ink);rect(11,20,10,4,ink);}
+ if(g.id==='glazier'){rect(5,6,22,29,light);rect(8,9,16,23,mid);line(9,10,22,29,'#d8f8ff');line(21,10,10,27,'#d8f8ff');rect(14,8,3,25,ink);}
+ if(g.id==='collector'){rect(3,6,26,30,mid);for(const [x,y,c]of [[6,9,'#f4c76f'],[17,9,'#f48b91'],[6,22,'#8cdfaa'],[17,22,'#9ddbf3']]){rect(x,y,9,10,c);rect(x+3,y+3,3,3,ink);}}
+ if(g.id==='reliquary'){rect(6,15,20,20,light);rect(9,18,14,14,ink);disk(16,25,5,mid);rect(14,22,4,6,light);line(6,15,16,5,light);line(26,15,16,5,light);}
  const grouped=new Map();for(let y=0;y<40;y++){let x=0;while(x<32){const c=grid[y][x];let end=x+1;while(end<32&&grid[y][end]===c)end++;grouped.set(c,(grouped.get(c)||'')+`M${x} ${y}h${end-x}v1H${x}z`);x=end;}}
  symbols.push(`<symbol id="${g.id}" viewBox="0 0 32 40">${[...grouped].map(([c,d])=>`<path fill="${c}" d="${d}"/>`).join('')}</symbol>`);
 }
