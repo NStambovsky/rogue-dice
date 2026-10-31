@@ -68,7 +68,7 @@ Reroll changes unheld dice and spends a reroll. Scoring spends a hand and gives 
 
 Scoring happens on the table. Each die lifts and contributes Chips, Gods light up in the engine’s scoring order, +Mult adds to the counter, and ×Mult effects land with a stronger pulse. The chain builds in intensity, then points move into the round score. Clearing breaks the target and counts the payout into your wallet.
 
-Choose **Full** or **Instant** beside the dice controls. Full is the default and pauses 0.65–0.85 seconds on each step, with another 0.45 seconds for multiplier hits. It no longer rushes long chains. Instant skips presentation. Saved Quick preferences become Full; saved Turbo preferences become Instant. Tap **Skip scoring** or change to Instant during a sequence to finish immediately. **Sound** is optional and saved separately. Previously saved Score FX on/off preferences migrate to Full/Instant respectively.
+Choose **Full** or **Instant** beside the dice controls. Full is the default and pauses 0.65–0.85 seconds on each step, with another 0.45 seconds for multiplier hits. It no longer rushes long chains. Instant skips presentation. Saved Quick preferences become Full; saved Turbo preferences become Instant. Tap **Skip scoring** or change to Instant during a sequence to finish immediately. **Sound** is optional and saved separately. Previously saved Score FX on/off preferences migrate to Full/Fast/Instant respectively.
 
 Your hand commits exactly once when you press Score, before presentation. Reloading, skipping, or switching away from the page cannot duplicate its points or payout. Scoring details remain available through Score breakdown. Reduced-motion preferences suppress flying and shaking.
 

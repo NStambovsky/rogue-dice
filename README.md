@@ -29,7 +29,7 @@ Eight new Gods: Engraver, Foundry, Cantor, Clover, Glasswarden, Glazier, Collect
 - Active Gods fire in configurable left-to-right rack order. Touch controls and desktop drag reorder the rack; the preview follows the same rules.
 - Striker/Refrain/Resonator enable bounded die-repeat chains; Oath trades a reroll for ×2 Mult. Replayed effects never duplicate permanent growth.
 - Echo, Wayfarer, Ember and Kaleidoscope earn visible progress toward two-choice evolutions after five relevant hands. Sale resets evolution; schema-7 migration retains saved runs and rack order.
-- On-table scoring driven by exact engine steps: lifting dice, glowing Gods, distinct +Mult/×Mult effects, rising optional native audio, round-score transfer, target break, and payout count. Full/Instant speed and separate sound preferences persist. A hand commits once before the visual sequence; skipping, fast-forwarding, hiding the tab, and reloading cannot score twice.
+- On-table scoring driven by exact engine steps: lifting dice, glowing Gods, distinct +Mult/×Mult effects, rising optional native audio, round-score transfer, target break, and payout count. Full/Fast/Instant speed and separate sound preferences persist. A hand commits once before the visual sequence; skipping, fast-forwarding, hiding the tab, and reloading cannot score twice.
 - Casual linear targets without bosses; Hard escalating targets with bosses on Antes 3 and 6 and smooth target growth. A saved d20 draw selects one of 20 handicaps on entry, avoiding repeats; resources and reveal acknowledgement apply once.
 - Inspectable color counts and provenance; four monochrome Gods plus The Divide, mutually exclusive palette licenses, varied-color rewards, four permanent Seals, and four round-long Washes. Temporary paint overrides Gods and licenses without erasing originals.
 - Saved-run migration preserves existing trays and builds. Existing trays retain their three or four base dice; new runs start with four. Ghost Echo growth is cleared if the God is no longer owned.
@@ -54,7 +54,7 @@ Push source to GitHub first. Copy these eight public files to `rogue-dice/` in t
 
 ## Presentation and boss QA
 
-130 automated checks cover rules, all boss-effect families, saved draws, preference migration and timing presets. Browser QA verifies on-table step order, clear/payout events, sound controls, slower Full/Instant behavior, mid-sequence reload/fast-forward single-commit safety, persistent d20 reveal, and SE viewports down to 568×232. Native Web Audio starts only on a user gesture when sound is enabled. No audio files or copied game assets are used. Reduced-motion preferences suppress flying/shaking effects.
+130 automated checks cover rules, all boss-effect families, saved draws, preference migration and timing presets. Browser QA verifies on-table step order, clear/payout events, sound controls, slower Full/Fast/Instant behavior, mid-sequence reload/fast-forward single-commit safety, persistent d20 reveal, and SE viewports down to 568×232. Native Web Audio starts only on a user gesture when sound is enabled. No audio files or copied game assets are used. Reduced-motion preferences suppress flying/shaking effects.
 
 ## Original pixel art theme
 
@@ -93,3 +93,7 @@ Help opens a concise Pick → Preview → Play guide, hand table and optional ad
 First-time visitors can choose a guided practice or play independently. Help → Learn to play opens tutorial.html, a separate two-round, 13-step practice sequence using the real engine with explicit preset rolls and shop offers. It teaches previews, playing, holding, rerolling values/colors, Studies, Gods and Crowned retriggers. Practice never reads/writes the saved-run key; only onboarding/completion flags are stored separately. Returning resumes the original run. The practice model has regression checks for 32 + 81 points, earned shop purchases and the final 760-point combo.
 
 Public files now also include tutorial.html, tutorial.css, tutorial.js and tutorial-model.js plus the three readable-font assets. No engine, balance or save-schema change.
+
+## Animation speeds
+
+Full keeps the slow, readable step-by-step sequence. Fast retains every engine scoring event with rapid pulses, multiplier hits, optional audio and final payout; its shared 1.8-second chain budget plus short finish stays around 2.6 seconds, with a 2.8-second completion guard. Instant skips animation. The preference persists; practice also supports all three speeds. Scores commit once before any presentation.

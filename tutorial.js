@@ -1,5 +1,5 @@
 import {preview,targetForState,GODS,crowned} from './engine.js?v=19';
-import {createPresenter} from './presentation.js?v=19';
+import {createPresenter} from './presentation.js?v=20';
 import {createPractice,playPracticePair,rerollPractice,playPracticeTriplet,buyPractice,nextPracticeRound,playPracticeCombo} from './tutorial-model.js?v=19';
 const $=id=>document.getElementById(id),node=(tag,cls,text)=>{const e=document.createElement(tag);if(cls)e.className=cls;if(text!==undefined)e.textContent=text;return e;};
 const pips={1:[4],2:[0,8],3:[0,4,8],4:[0,2,6,8],5:[0,2,4,6,8],6:[0,2,3,5,6,8]};

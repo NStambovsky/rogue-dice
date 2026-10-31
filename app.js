@@ -1,5 +1,5 @@
 import {distribution} from './sets.js?v=15';
-import {createPresenter,resolvePreferences,timingFor} from './presentation.js?v=19';
+import {createPresenter,resolvePreferences,timingFor} from './presentation.js?v=20';
 import {ENHANCEMENTS,GODS,ACTIONS,HANDS,newRun,targetFor,effectiveColor,colorDetails,paletteRule,preview,bestHand,reroll,scoreHand,advanceRound,buy,refreshShop,sellGod,useAction,discardAction,burnHand,validSave,migrateSave,bossFor,stakesFor,VOUCHERS,actionSlots,godSlots,crowned,SETS,setConfig,targetForState,godSellPrice,refreshCost,COLORS,COMBOS,EVOLUTIONS,moveGod,reorderGods,evolveGod,pendingEvolutions,BOSSES,acknowledgeBoss,handLimit} from './engine.js?v=19';
 const $=id=>document.getElementById(id),KEY='rogue-dice-run-v1';
 const random=()=>{const a=new Uint32Array(1);crypto.getRandomValues(a);return a[0]/4294967296;};
