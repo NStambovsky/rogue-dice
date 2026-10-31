@@ -14,7 +14,7 @@ Eight new Gods: Engraver, Foundry, Cantor, Clover, Glasswarden, Glazier, Collect
 
 ## Current edition
 
-- Four starting dice in most sets; 19 unlocked sets change faces, color weights, resources and strategy. Unlocked colors reroll with values; held dice retain both.
+- Four starting dice in most sets; 20 unlocked sets change faces, color weights, resources and strategy. Unlocked colors reroll with values; held dice retain both.
 - A separate fixed four-dice submission cap, regardless of tray size.
 - Pair, Two Pair, Triplet, Quads, Runs of 3–4, and Color Pacts of 3–4.
 - Highest Die fallback if no other legal hand exists, with intentionally weak +2 Chips / +0.25 Mult Studies.
@@ -80,7 +80,7 @@ Portrait, Beacon, Tribune and Conductor bring the catalog to 56 Gods. Striker is
 
 Hard Ante bases are 100, 220, 450, 900, 1800, 3600, 7200, 14000 with stage factors 1/1.3/1.65 and boss factor 1.8; the extra post-boss doubling is gone. Equilibrium doubles targets. First/second boss targets are 810/6480; final target is 23100. Iron Hand costs one starting reroll; Hush and Three’s Company restrict only the first scoring hand. Glass Ceiling reduces multiplier bonuses by 25%.
 
-`npm test` includes real, earned Hard victories alongside unit/regression checks. Reproduce the full 760-run audit with `node balance/full-runs.mjs 20 '' hard,casual`. The shop policy uses counterfactual estimates from a separate random source, never future game rolls or offers. Actual purchases use earned funds; actual play never injects dice results, Gods, or upgrades. `balance/full-run-results.json` records every set/mode summary and up to three full winning traces per combination. These are small-sample automated-policy results, not player win rates.
+`npm test` includes real, earned Hard victories alongside unit/regression checks. The historical 760-run audit covered the original 19 variants. The same command now includes Standard (800 runs). Run `node balance/full-runs.mjs 20 '' hard,casual`. The shop policy uses counterfactual estimates from a separate random source, never future game rolls or offers. Actual purchases use earned funds; actual play never injects dice results, Gods, or upgrades. `balance/full-run-results.json` records every set/mode summary and up to three full winning traces per combination. These are small-sample automated-policy results, not player win rates.
 
 Deploy **sets.js** as well as the original public modules and assets directory.
 
@@ -109,3 +109,7 @@ Best hand is hidden by default, including existing runs without an explicit opt-
 ## Crimson Vault visual redesign — October 31, 2026
 
 Minimal black/red casino-and-dungeon styling is in `theme.css`, loaded after the legacy behavioral/layout foundation. Readable bundled type, flat crimson actions, etched monochrome God art and quiet borders replace green felt, scanlines and embossed text. Four mechanical die colors remain distinct. Desktop uses a horizontal status strip, horizontal God rack, central table and right inventory. Compact landscape keeps the table controls onscreen with scrollable side inventories; portrait follows a vertical flow. Primary Play/Reroll actions precede secondary tray tools. Practice, shop, setup, inspection and collections share the new materials. Include **theme.css** in every public build; the standalone builder includes it automatically. No rules, economy or save-schema changes.
+
+## Neutral Standard set
+
+Standard is the first selectable set and the default for fresh visitors: four ordinary d6 dice, equal face/color weights, three hands, three rerolls, four God slots, three action slots and $8. No starting Gods, actions, vouchers, enhancements or special rules. Returning saves are retained, and their current set is still selected when opening New run. All twenty sets remain unlocked.

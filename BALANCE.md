@@ -177,3 +177,8 @@ Extra dice intentionally improve hand availability as a purchased advantage. Sco
 Run `npm run balance` to regenerate `balance/odds.json`, `balance/scores.json`, and this file. The scripts need no npm packages; the scoring comparison requires Git and local history containing the baseline commit. Numerical odds use exact multinomial enumeration and optimal-hold Bellman dynamic programming; color checks use a separate identity-aware solver. The round solver optimizes over the actual shared resources. Before/after scoring compares the current engine with source commit `ba6539e` from local Git history.
 
 Run `npm test` for closed-form probability cross-checks, ordered-roll engine enumeration, agreement between independent identity/multiset solvers, reward bands, shared-resource invariants, save compatibility and gameplay regressions. Existing run progress and levels are retained; future scores use this balance edition.
+
+
+## Standard picker entry — October 31, 2026
+
+The neutral engine baseline is now selectable as Standard and is the default for fresh visitors. Its existing four d6 / three hands / three rerolls / four God slots / three action slots / $8 rules and equal face/color weights are unchanged. No starting actions, Gods, vouchers or enhancements. All prior calibration tests already exercised this baseline; adding it to SETS changes the picker count to 20, not its scoring or RNG. Historical 19-variant full-run samples above retain their original sample sizes; rerunning the audit without an explicit set list now includes 20 sets.

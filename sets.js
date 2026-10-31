@@ -1,6 +1,7 @@
-// All sets are available immediately; Standard is retained for legacy saves and audits.
+// All sets are available immediately, including the neutral Standard baseline.
 const base={dice:4,hands:3,rerolls:3,godSlots:4,actionSlots:3,faces:[1,2,3,4,5,6],colors:[1,1,1,1]};
 export const SETS=[
+ {id:'standard',name:'Standard',text:'Four ordinary d6 dice. Equal odds for all six faces and all four colors. Three hands, three rerolls, four God slots, three action slots and $8. No starting cards, vouchers, buffs or drawbacks.'},
  {id:'second-chances',name:'Second Chances',text:'Four rerolls each round. Four equally likely colors.',rerolls:4},
  {id:'deep-reserves',name:'Deep Reserves',text:'Four scoring hands each round.',hands:4},
  {id:'gilded-purse',name:'Gilded Purse',text:'Start with $18 instead of $8.',money:18},

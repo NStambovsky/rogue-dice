@@ -1,5 +1,5 @@
-import {SETS,setConfig,weightedIndex} from './sets.js?v=15';
-export {SETS,setConfig} from './sets.js?v=15';
+import {SETS,setConfig,weightedIndex} from './sets.js?v=23';
+export {SETS,setConfig} from './sets.js?v=23';
 import {BOSSES,BOSS_ROUNDS,bossFor,drawBoss} from './bosses.js?v=15';
 export {BOSSES,BOSS_ROUNDS,bossFor} from './bosses.js?v=15';
 import {GODS,ACTIONS,VOUCHERS,EVOLUTIONS,ENHANCEMENTS,weightedPick} from './catalog.js?v=19';

@@ -1,6 +1,6 @@
-import {distribution} from './sets.js?v=15';
+import {distribution} from './sets.js?v=23';
 import {createPresenter,resolvePreferences,timingFor} from './presentation.js?v=20';
-import {ENHANCEMENTS,GODS,ACTIONS,HANDS,newRun,targetFor,effectiveColor,colorDetails,paletteRule,preview,bestHand,reroll,scoreHand,advanceRound,buy,refreshShop,sellGod,useAction,discardAction,burnHand,validSave,migrateSave,bossFor,stakesFor,VOUCHERS,actionSlots,godSlots,crowned,SETS,setConfig,targetForState,godSellPrice,refreshCost,COLORS,COMBOS,EVOLUTIONS,moveGod,reorderGods,evolveGod,pendingEvolutions,BOSSES,acknowledgeBoss,handLimit} from './engine.js?v=19';
+import {ENHANCEMENTS,GODS,ACTIONS,HANDS,newRun,targetFor,effectiveColor,colorDetails,paletteRule,preview,bestHand,reroll,scoreHand,advanceRound,buy,refreshShop,sellGod,useAction,discardAction,burnHand,validSave,migrateSave,bossFor,stakesFor,VOUCHERS,actionSlots,godSlots,crowned,SETS,setConfig,targetForState,godSellPrice,refreshCost,COLORS,COMBOS,EVOLUTIONS,moveGod,reorderGods,evolveGod,pendingEvolutions,BOSSES,acknowledgeBoss,handLimit} from './engine.js?v=23';
 const $=id=>document.getElementById(id),KEY='rogue-dice-run-v1';
 const random=()=>{const a=new Uint32Array(1);crypto.getRandomValues(a);return a[0]/4294967296;};
 const fmt=n=>Number(n).toLocaleString('en-US',{maximumFractionDigits:6});
@@ -11,7 +11,7 @@ let preferences=resolvePreferences(null);try{preferences=resolvePreferences(JSON
 const presenter=createPresenter(()=>preferences);
 function savePreferences(){try{localStorage.setItem('rogue-dice-preferences-v1',JSON.stringify(preferences));}catch{}}
 let restoredRun=false,bestHandAssist=false;
-let state=newRun(random,'casual','second-chances'),selected=[],held=[],busy=false,generation=0,inspected=null;
+let state=newRun(random,'casual','standard'),selected=[],held=[],busy=false,generation=0,inspected=null;
 try{const data=JSON.parse(localStorage.getItem(KEY));const migrated=data?migrateSave(data.state):null;if(migrated){restoredRun=true;bestHandAssist=data.bestHandAssist===true;state=migrated;selected=Array.isArray(data.selected)?data.selected.filter(id=>state.dice.some(d=>d.id===id)).slice(0,state.maxHandSize):[];held=Array.isArray(data.held)?data.held.filter(id=>state.dice.some(d=>d.id===id)):[];}}catch{/* A missing or invalid save starts a fresh run. */}
 function save(){try{localStorage.setItem(KEY,JSON.stringify({state,selected,held,bestHandAssist}));$('save-label').textContent='Run saved on this device.';}catch{$('save-label').textContent='Saving unavailable. Keep this tab open.';}}
 function message(text){const e=$('message');e.textContent=text;e.style.animation='none';void e.offsetWidth;e.style.animation='';}
@@ -176,7 +176,7 @@ function setLines(s){const cfg=setConfig(s.setId);return [cfg.text||'Legacy base
 function updateSetPreview(){const mode=document.querySelector('input[name=run-mode]:checked').value,setId=$('set-picker').value;pendingRun=newRun(random,mode,setId,{seals:[$('seal-one').value,$('seal-two').value]});$('seal-choices').hidden=setId!=='sealed-fate';$('set-preview').replaceChildren(...setLines(pendingRun).map(line=>node('p','',line)));}
 for(const id of ['set-picker','seal-one','seal-two','mode-casual','mode-hard'])$(id).addEventListener('change',updateSetPreview);
 $('reroll-set-preview').addEventListener('click',updateSetPreview);
-function chooseMode(){if(busy)return;$('best-hand-assist').checked=false;$('mode-casual').checked=state.mode==='casual';$('mode-hard').checked=state.mode==='hard';$('set-picker').value=state.setId==='standard'?'second-chances':state.setId;updateSetPreview();$('confirm-new').showModal();}
+function chooseMode(){if(busy)return;$('best-hand-assist').checked=false;$('mode-casual').checked=state.mode==='casual';$('mode-hard').checked=state.mode==='hard';$('set-picker').value=state.setId;updateSetPreview();$('confirm-new').showModal();}
 $('new').addEventListener('click',chooseMode);$('mode-picker').addEventListener('click',chooseMode);$('again').addEventListener('click',chooseMode);$('cancel-new').addEventListener('click',()=>$('confirm-new').close());$('start-new').addEventListener('click',()=>{$('confirm-new').close();restart(pendingRun.mode,pendingRun.setId,pendingRun,$('best-hand-assist').checked);});
 $('show-set').addEventListener('click',()=>{presenter.skip();showDetails('YOUR DICE SET',setConfig(state.setId).name,setLines(state));});
 save();render();
