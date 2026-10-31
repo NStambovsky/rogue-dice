@@ -7,6 +7,7 @@
     "test": "node --test test/*.test.mjs",
     "start": "python3 -m http.server 8767",
     "balance": "node balance/audit.mjs && node balance/evaluate.mjs && node balance/write-report.mjs",
-    "audit:runs": "node balance/full-runs.mjs"
+    "audit:runs": "node balance/full-runs.mjs",
+    "build": "node tools/build-site.mjs"
   }
 }

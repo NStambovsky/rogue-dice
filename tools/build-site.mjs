@@ -1,0 +1,15 @@
+import {cpSync,mkdirSync,readFileSync,rmSync,writeFileSync} from 'node:fs';
+import {fileURLToPath} from 'node:url';
+import {join} from 'node:path';
+const root=fileURLToPath(new URL('../',import.meta.url)),dist=join(root,'dist');
+const files=['index.html','style.css','app.js','engine.js','catalog.js','bosses.js','presentation.js','sets.js','icon.svg','tutorial.html','tutorial.css','tutorial.js','tutorial-model.js'];
+const home=process.env.ROGUE_HOME_URL||'https://www.noahstambovsky.com/projects';
+if(!/^https?:\/\//.test(home)&&!/^\/(?!\/)/.test(home))throw new Error('ROGUE_HOME_URL must be an http(s) URL or a root-relative path.');
+const parsed=new URL(home,'https://example.invalid');if(!['http:','https:'].includes(parsed.protocol))throw new Error('Unsupported home link.');
+const escape=s=>s.replaceAll('&','&amp;').replaceAll('"','&quot;').replaceAll('<','&lt;').replaceAll('>','&gt;');
+rmSync(dist,{recursive:true,force:true});mkdirSync(dist,{recursive:true});
+for(const file of files)cpSync(join(root,file),join(dist,file));
+cpSync(join(root,'assets'),join(dist,'assets'),{recursive:true});
+const index=join(dist,'index.html');writeFileSync(index,readFileSync(index,'utf8').replace('href="/projects" class="back"',`href="${escape(home)}" class="back"`));
+writeFileSync(join(dist,'_headers'),'/*\n  X-Content-Type-Options: nosniff\n  Referrer-Policy: strict-origin-when-cross-origin\n  X-Frame-Options: DENY\n/\n  Cache-Control: no-cache\n/*.html\n  Cache-Control: no-cache\n');
+console.log(`Standalone site ready in dist/: ${files.length} public files, all assets and hosting headers. No account keys or backend required.`);

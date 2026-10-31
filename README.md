@@ -44,13 +44,17 @@ npm test
 npm start
 ```
 
-Open http://localhost:8767. `engine.js` owns rules, transactions, weighted markets, save migration, and scoring traces. `bosses.js` defines twenty handicaps and saved-draw selection; `presentation.js` handles table effects, Web Audio, two speed modes, and cancellation. `catalog.js` contains all card definitions and rarity weights. `app.js` handles the interface, preferences, and automatic local saving. System font fallbacks work if Google Fonts is unavailable.
+Open http://localhost:8767. `engine.js` owns rules, transactions, weighted markets, save migration, and scoring traces. `bosses.js` defines twenty handicaps and saved-draw selection; `presentation.js` handles table effects, Web Audio, three speed modes, and cancellation. `catalog.js` contains all card definitions and rarity weights. `app.js` handles the interface, preferences, and automatic local saving. System font fallbacks work if Google Fonts is unavailable.
 
 Tests cover rules, cap enforcement, scoring, Highest Die, all effect families, shop economics and cooldowns, sampled rarity, Echo resale, save migration, modes/bosses, and complete runs. Browser QA checks scoring animations and skip safety, shop transactions, colors, cap enforcement, collection browsing, and small-screen layouts.
 
+## Own instance and launch readiness
+
+Run `npm run build` to create a clean standalone `dist` site with the game, practice, fonts and original art. Fork-and-deploy instructions: [SELF_HOST.md](docs/SELF_HOST.md). Current capacity and proposed optional accounts/cloud saves: [ACCOUNTS_AND_SCALE.md](docs/ACCOUNTS_AND_SCALE.md). Accounts are not enabled yet.
+
 ## Deploy
 
-Push source to GitHub first. Copy these eight public files to `rogue-dice/` in the complete current website bundle: `index.html`, `style.css`, `engine.js`, `catalog.js`, `bosses.js`, `presentation.js`, `app.js`, `icon.svg`. Commit the site integration, then deploy the complete public bundle to Cloudflare Pages project `noahstambovsky`, production branch `main`. Preserve all other site pages and apps. Do not upload tests, source docs, dependencies, or `.git`.
+Push source to GitHub first. Generate `dist` with `npm run build`; for the existing personal site, copy the thirteen game/practice files and assets into `rogue-dice/` inside the complete current website bundle. Keep the personal site’s own headers and redirects. Commit the integration and deploy the complete bundle to Pages project `noahstambovsky`, branch `main`. Never deploy the standalone folder alone over the personal site. See the hosting guide above.
 
 ## Presentation and boss QA
 
