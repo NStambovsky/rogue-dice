@@ -113,3 +113,6 @@ Minimal black/red casino-and-dungeon styling is in `theme.css`, loaded after the
 ## Neutral Standard set
 
 Standard is the first selectable set and the default for fresh visitors: four ordinary d6 dice, equal face/color weights, three hands, three rerolls, four God slots, three action slots and $8. No starting Gods, actions, vouchers, enhancements or special rules. Returning saves are retained, and their current set is still selected when opening New run. All twenty sets remain unlocked.
+
+## Hard Endless
+Hard victories can continue through a shop into Ante 9 without losing the build or collecting the final reward twice. Existing saved Hard wins qualify. Every Endless ante ends with a saved boss draw; the pool recycles after all twenty, avoiding immediate repeats. Ante bases after 8 use `14000 * 2^(n + n*(n-1)/16)`, where n=ante-8. Stage factors are 1/1.3/1.8. Original 24-round targets and Casual remain unchanged. Targets saturate at 1e300 for numerical safety. The rolling Stakes map shows nearby future antes; scores >=1e9 use scientific notation.

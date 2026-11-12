@@ -1,7 +1,7 @@
 import {SETS,setConfig,weightedIndex} from './sets.js?v=23';
 export {SETS,setConfig} from './sets.js?v=23';
-import {BOSSES,BOSS_ROUNDS,bossFor,drawBoss} from './bosses.js?v=15';
-export {BOSSES,BOSS_ROUNDS,bossFor} from './bosses.js?v=15';
+import {BOSSES,BOSS_ROUNDS,isBossRound,bossFor,drawBoss} from './bosses.js?v=24';
+export {BOSSES,BOSS_ROUNDS,bossFor} from './bosses.js?v=24';
 import {GODS,ACTIONS,VOUCHERS,EVOLUTIONS,ENHANCEMENTS,weightedPick} from './catalog.js?v=19';
 export {GODS,ACTIONS,VOUCHERS,EVOLUTIONS,ENHANCEMENTS} from './catalog.js?v=19';
 export const VERSION=11;
@@ -24,8 +24,9 @@ export const targetForState=(s,round=s.round)=>targetFor(round,s.mode,s.setId);
 export const refreshCost=s=>Math.max(1,2+s.shopRerolls-(s.vouchers.bargainrefresh||0));
 export const godSellPrice=(s,id)=>Math.floor(GODS.find(g=>g.id===id).price*(s.vouchers.salvage ? 0.65 : 0.5));
 export const ANTE_BASES=[100,220,450,900,1800,3600,7200,14000];
-export function targetFor(round,mode='hard',setId='standard'){const scale=setId==='equilibrium'?2:1;return scale*(mode==='casual'?100+100*round:Math.round(ANTE_BASES[Math.min(7,Math.floor(round/3))]*(bossFor(round,mode)?1.8:[1,1.3,1.65][round%3])));}
-export function stakesFor(round,mode='hard',choices=null,setId='standard'){const ante=Math.floor(round/3)+1,stage=round%3,boss=bossFor(round,mode,choices),target=targetFor(round,mode,setId),previous=round>0?targetFor(round-1,mode,setId):null;return {ante,stage,boss,target,previous,mode,increase:previous?Math.round((target/previous-1)*100):0,scale:setId==='equilibrium'?2:1,label:boss?'BOSS':round===23?'FINAL WAGER':mode==='casual'?'CASUAL':['OPENING','HIGH STAKES','HOUSE WAGER'][stage],next:round<23?targetFor(round+1,mode,setId):null};}
+// After Ante 8, double the base first, then increase the growth rate each ante.
+export function targetFor(round,mode='hard',setId='standard'){const scale=setId==='equilibrium'?2:1,ante=Math.floor(round/3),extra=Math.max(0,ante-7),base=ante<8?ANTE_BASES[ante]:14000*2**(extra+extra*(extra-1)/16);return Math.min(1e300,scale*(mode==='casual'?100+100*round:Math.round(base*(bossFor(round,mode)?1.8:[1,1.3,1.65][round%3]))));}
+export function stakesFor(round,mode='hard',choices=null,setId='standard'){const ante=Math.floor(round/3)+1,stage=round%3,boss=bossFor(round,mode,choices),target=targetFor(round,mode,setId),previous=round>0?targetFor(round-1,mode,setId):null;return {ante,stage,boss,target,previous,mode,increase:previous?Math.round((target/previous-1)*100):0,scale:setId==='equilibrium'?2:1,label:boss?'BOSS':round===23?'FINAL WAGER':mode==='casual'?'CASUAL':['OPENING','HIGH STAKES','HOUSE WAGER'][stage],next:(round<23||mode==='hard')?targetFor(round+1,mode,setId):null};}
 export function activeBoss(s){return s.phase==='play'?bossFor(s.round,s.mode,s.bossChoices):null;}
 export const handLimit=s=>activeBoss(s)?.id==='three'&&s.scoredThisRound===0?3:s.maxHandSize;
 const scoringHas=(s,id)=>has(s,id)&&!(activeBoss(s)?.id==='silence'&&s.scoredThisRound===0&&s.gods.find(g=>!['finger','scavenger'].includes(g))===id);
@@ -228,16 +229,20 @@ export function scoreHand(s,ids,r=Math.random){
  result.shattered=[];for(const die of dice)if(die.enhancement==='glass'&&r()<(scoringHas(s,'glasswarden') ? .125 : .25)){const replacement=makeDie(n,r,die.source);n.dice[n.dice.findIndex(d=>d.id===die.id)]=replacement;result.shattered.push({oldId:die.id,newId:replacement.id});const label=`Glass die ${die.id} shattered → plain die ${replacement.id}; all investments lost`;result.effects.splice(-1,0,label);result.steps.splice(-1,0,{label,source:'enhancement',id:die.id,dieId:die.id,chips:result.chips,mult:result.mult,money:result.money,points:result.points});}
  if(n.score>=targetForState(n)){
   const interest=n.setId==='working-fortune'?0:Math.min(5+n.vouchers.interest*2,Math.floor(n.money/5)),base=6+n.round%3+n.vouchers.rewards*2,unused=n.hands*(n.setId==='working-fortune'?3:2)+(n.setId==='working-fortune'?n.rerolls:0);
-  if(n.setId==='echo-chamber'&&[8,17].includes(n.round))n.echoTokens++;
+  if(n.setId==='echo-chamber'&&isBossRound(n.round))n.echoTokens++;
   n.receipt={base,interest,unused,earned:base+interest+unused};n.money+=n.receipt.earned;
   if(n.round===23)n.phase='won';else{n.phase='shop';n.shopRerolls=0;n.offers=shopOffers(n,r);recordOffers(n,n.offers);}
  }else if(n.hands===0)n.phase='lost';else for(const d of n.dice)rollDie(d,r);return n;
+}
+export function continueEndless(s,r=Math.random){
+ if(s.mode!=='hard'||s.phase!=='won'||s.round!==23)throw new Error('Win Hard mode before continuing into Endless.');
+ const n=copy(s);n.phase='shop';n.shopRerolls=0;n.offers=shopOffers(n,r);recordOffers(n,n.offers);return n;
 }
 export function advanceRound(s,r=Math.random){
  if(s.phase!=='shop')throw new Error('Visit the shop between rounds.');const n=copy(s);n.round++;n.phase='play';n.score=0;n.hands=n.maxHands;n.rerolls=n.maxRerolls;n.rerollsThisRound=0;n.scoredThisRound=0;n.roundEffects=emptyEffects();n.lastScore=null;n.receipt=null;n.offers=[];
  for(const die of n.dice)delete die.roundColor;
  if(n.round%3===0&&n.vouchers.polish)for(const d of n.dice)d.bonus+=n.vouchers.polish;
- if(n.mode==='hard'&&BOSS_ROUNDS.includes(n.round)){if(!n.bossChoices[n.round])n.bossChoices[n.round]=drawBoss(n.bossChoices,n.round,r);n.bossRevealPending=true;const boss=activeBoss(n);if(boss.id==='short')n.hands=Math.max(1,n.hands-1);if(boss.id==='thin')n.rerolls=Math.max(0,n.rerolls-2);if(boss.id==='lock')n.rerolls=Math.max(0,n.rerolls-1);}
+ if(n.mode==='hard'&&isBossRound(n.round)){if(!n.bossChoices[n.round])n.bossChoices[n.round]=drawBoss(n.bossChoices,n.round,r);n.bossRevealPending=true;const boss=activeBoss(n);if(boss.id==='short')n.hands=Math.max(1,n.hands-1);if(boss.id==='thin')n.rerolls=Math.max(0,n.rerolls-2);if(boss.id==='lock')n.rerolls=Math.max(0,n.rerolls-1);}
  for(const d of n.dice)rollDie(d,r);return n;
 }
 export function buy(s,id,r=Math.random,useEcho=false){
@@ -294,9 +299,9 @@ export function useAction(s,id,selected=[],held=[],r=Math.random){
 export function burnHand(s,r=Math.random){requirePlay(s);if(s.hands<=0)throw new Error('No hands left.');const n=copy(s);n.hands--;n.lastScore=null;if(has(n,'scavenger')&&activeBoss(n)?.id!=='tax')n.money++;if(n.hands===0)n.phase='lost';else for(const d of n.dice)rollDie(d,r);return n;}
 export function validSave(s){
  if(!s||s.version!==VERSION||!['casual','hard'].includes(s.mode)||!['play','shop','lost','won'].includes(s.phase))return false;
- if(!Number.isInteger(s.round)||s.round<0||s.round>23||!Number.isFinite(s.money)||s.money<0||!Number.isFinite(s.score)||s.score<0||!(s.setId==='standard'?[3,4].includes(s.baseDice):s.baseDice===setConfig(s.setId).dice)||s.maxHandSize!==4)return false;
+ if(!Number.isInteger(s.round)||s.round<0||(s.round>23&&s.mode!=='hard')||s.round>1000000||!Number.isFinite(s.money)||s.money<0||!Number.isFinite(s.score)||s.score<0||!(s.setId==='standard'?[3,4].includes(s.baseDice):s.baseDice===setConfig(s.setId).dice)||s.maxHandSize!==4)return false;
  if(s.setId!=='standard'&&!SETS.some(d=>d.id===s.setId))return false;if(!Number.isInteger(s.echoTokens)||s.echoTokens<0||!s.handCounts||!Object.keys(HANDS).every(k=>Number.isInteger(s.handCounts[k])&&s.handCounts[k]>=0))return false;
- if(!s.bossChoices||typeof s.bossChoices!=='object'||Array.isArray(s.bossChoices)||!Object.entries(s.bossChoices).every(([round,id])=>BOSS_ROUNDS.includes(Number(round))&&BOSSES.some(b=>b.id===id))||typeof s.bossRevealPending!=='boolean')return false;
+ if(!s.bossChoices||typeof s.bossChoices!=='object'||Array.isArray(s.bossChoices)||!Object.entries(s.bossChoices).every(([round,id])=>isBossRound(Number(round))&&BOSSES.some(b=>b.id===id))||typeof s.bossRevealPending!=='boolean')return false;
  if(!s.shopHistory||!['gods','studies','actions','vouchers'].every(k=>Array.isArray(s.shopHistory[k])&&s.shopHistory[k].every(id=>typeof id==='string')))return false;
  if(!s.vouchers||!VOUCHERS.every(v=>Number.isInteger(s.vouchers[v.id])&&s.vouchers[v.id]>=0&&s.vouchers[v.id]<=v.max))return false;
  if(s.vouchers.dichrome&&s.vouchers.oceanore)return false;

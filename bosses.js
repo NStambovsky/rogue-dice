@@ -1,4 +1,5 @@
 export const BOSS_ROUNDS=[8,17];
+export const isBossRound=round=>BOSS_ROUNDS.includes(round)||(Number.isInteger(round)&&round>=24&&round%3===2);
 export const BOSSES=[
  {id:'pale',name:'The Pale House',text:'Matching-color Mult is disabled: Pair loses +1; other hands lose +2.'},
  {id:'lock',name:'The Iron Hand',text:'Start this round with one fewer reroll. Normal and free rerolls still work.'},
@@ -21,5 +22,5 @@ export const BOSSES=[
  {id:'three',name:'Three’s Company',text:'On your first scoring hand only, submit at most three dice. Later hands may submit four. Tray size is unchanged.'},
  {id:'pressure',name:'Mounting Pressure',text:'Each previously scored hand reduces this hand’s final Mult by 10%, down to 50%.'}
 ];
-export function bossFor(round,mode='hard',choices=null){if(mode==='casual'||!BOSS_ROUNDS.includes(round))return null;const id=choices?.[round]||(round===8?'pale':'lock');return {...BOSSES.find(b=>b.id===id),round};}
-export function drawBoss(choices,round,r=Math.random){const used=new Set(Object.values(choices)),pool=BOSSES.filter(b=>!used.has(b.id));return pool[Math.min(pool.length-1,Math.floor(r()*pool.length))].id;}
+export function bossFor(round,mode='hard',choices=null){if(mode==='casual'||!isBossRound(round))return null;const id=choices?.[round]||(round===8?'pale':'lock');return {...BOSSES.find(b=>b.id===id),round};}
+export function drawBoss(choices,round,r=Math.random){const used=new Set(Object.values(choices)),unused=BOSSES.filter(b=>!used.has(b.id)),previous=choices[Math.max(-1,...Object.keys(choices).map(Number).filter(n=>n<round))],pool=unused.length?unused:BOSSES.filter(b=>b.id!==previous);return pool[Math.min(pool.length-1,Math.floor(r()*pool.length))].id;}
